@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/webgl/Utils", "flash/rendering/core/BaseObject"], function (require, exports, Utils_1, BaseObject_1) {
+define(["require", "exports", "flash/rendering/webgl/Utils", "flash/rendering/core/BaseObject", "flash/rendering/core/types/DataTypes"], function (require, exports, Utils_1, BaseObject_1, DataTypes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GLShader extends BaseObject_1.BaseObject {
@@ -25,6 +25,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/rendering/co
             }
             if (this.gl) {
                 this.attributes = this.extractAttributes(gl, this.program);
+                this.reveal(this.attributes);
                 this.uniformData = this.extractUniforms(gl, this.program);
                 this.uniforms = this.generateUniformAccessObject(gl, this.uniformData);
             }
@@ -93,12 +94,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/rendering/co
             for (var i = 0; i < totalAttributes; i++) {
                 var attribData = gl.getActiveAttrib(program, i);
                 var type = this.mapType(gl, attribData.type);
-                attributes[attribData.name] = {
-                    type: type,
-                    size: this.mapSize(type),
-                    location: gl.getAttribLocation(program, attribData.name),
-                    pointer: this.pointer
-                };
+                attributes[attribData.name] = new DataTypes_1.GLAttributeData(type, this.mapSize(type), gl.getAttribLocation(program, attribData.name), this.pointer);
             }
             return attributes;
         }

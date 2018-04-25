@@ -204,6 +204,7 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
                 if (this.vaoMax <= this.vertexCount) {
                     this.vaoMax++;
                     const attrs = this.shader.attributes;
+                    this.reveal(attrs);
                     const vertexBuffer = this.vertexBuffers[this.vertexCount] = GLBuffer_1.GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
                     const vao = this.stageContext.createVao()
                         .addIndex(this.indexBuffer)
@@ -231,6 +232,8 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
                 for (let j = 0; j < groupTextureCount; j++) {
                     currentTexture = group.textures[j];
                     if (rendererBoundTextures[group.ids[j]] !== currentTexture) {
+                        var bindedtex = currentTexture;
+                        this.show('binding texture: ' + bindedtex.uid + " at id: " + group.ids[j]);
                         this.stageContext.bindTexture(currentTexture, group.ids[j], true);
                     }
                     currentTexture._virtalBoundId = -1;

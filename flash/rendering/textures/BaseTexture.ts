@@ -43,9 +43,6 @@ class BaseTexture extends EventDispatcher
     {
         super();
         this.uid = Utils.uid();
-
-        this.show('got new texture id: ' + this.uid)
-
         this.touched = 0;
         this._resolution = resolution;
         this.width = 100;

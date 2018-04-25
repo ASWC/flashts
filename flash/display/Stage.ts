@@ -241,13 +241,14 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         if (!glTexture || !glTexture.texture)
         {
             this.textureManager.updateTexture(texture, location);
+            this.show('updating texture with location: ' + location)
         }
         else
         {
+            this.show('binding texture with location: ' + location)
             this._boundTextures[location] = texture;
             this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + location);
-            this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, glTexture.texture);
-            
+            this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, glTexture.texture);            
         }
         return location;
     }

@@ -11,6 +11,7 @@ import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { BaseObject } from "flash/rendering/core/BaseObject";
 import { StageSettings } from "flash/rendering/core/StageSettings";
 import { Event } from "flash/events/Event";
+import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
 
 export class SpriteRenderer extends ObjectRenderer
 {
@@ -280,7 +281,11 @@ export class SpriteRenderer extends ObjectRenderer
             if (this.vaoMax <= this.vertexCount)
             {
                 this.vaoMax++;
-                const attrs = this.shader.attributes;
+                const attrs:AttributeDataDictionary = this.shader.attributes;
+
+                this.reveal(attrs)
+
+
                 const vertexBuffer = this.vertexBuffers[this.vertexCount] = GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
                 const vao = this.stageContext.createVao()
                     .addIndex(this.indexBuffer)
@@ -314,6 +319,11 @@ export class SpriteRenderer extends ObjectRenderer
                 currentTexture = group.textures[j];
                 if (rendererBoundTextures[group.ids[j]] !== currentTexture)
                 {
+                    
+                    var bindedtex:BaseTexture = currentTexture;
+
+                    this.show('binding texture: ' + bindedtex.uid + " at id: " + group.ids[j])
+
                     this.stageContext.bindTexture(currentTexture, group.ids[j], true);
                 }
                 currentTexture._virtalBoundId = -1;

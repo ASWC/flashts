@@ -1,5 +1,7 @@
 import { Utils } from "flash/rendering/webgl/Utils";
 import { BaseObject } from "flash/rendering/core/BaseObject";
+import { GLAttributeData } from "flash/rendering/core/types/DataTypes";
+import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
 
 export class GLShader extends BaseObject
 {
@@ -79,7 +81,7 @@ export class GLShader extends BaseObject
 
     public gl:WebGLRenderingContext;
     public program:WebGLProgram;
-    public attributes:any;
+    public attributes:AttributeDataDictionary;
     public attributesuniforms:any;
     public uniformData:any;    
     public uniforms:any;    
@@ -111,6 +113,9 @@ export class GLShader extends BaseObject
         if(this.gl)
         {
             this.attributes = this.extractAttributes(gl, this.program);
+
+            this.reveal(this.attributes)
+
             this.uniformData = this.extractUniforms(gl, this.program);
             this.uniforms = this.generateUniformAccessObject(gl, this.uniformData);
         }        
@@ -192,48 +197,40 @@ export class GLShader extends BaseObject
         return uniforms;
     };
 
-    public extractAttributes(gl:WebGLRenderingContext, program:WebGLProgram):any
+    public extractAttributes(gl:WebGLRenderingContext, program:WebGLProgram):AttributeDataDictionary
     {
-        var attributes:any = {};    
-        var totalAttributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);    
+        var attributes:AttributeDataDictionary = {};    
+        var totalAttributes:number = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);    
         for (var i = 0; i < totalAttributes; i++)
         {
-            var attribData = gl.getActiveAttrib(program, i);
-            var type = this.mapType(gl, attribData.type);    
-            attributes[attribData.name] = {
-                type:type,
-                size:this.mapSize(type),
-                location:gl.getAttribLocation(program, attribData.name),
-                pointer: this.pointer
-            };
+            var attribData:WebGLActiveInfo = gl.getActiveAttrib(program, i);
+            var type:string = this.mapType(gl, attribData.type);    
+            attributes[attribData.name] = new GLAttributeData(type, this.mapSize(type), gl.getAttribLocation(program, attribData.name), this.pointer)            
         }    
         return attributes;
     };
 
-    public pointer(type, normalized, stride, start)
+    public pointer(type:number, normalized:boolean, stride:number, start:number):void
     {
         this.gl.vertexAttribPointer(this.location, this.size, type || this.gl.FLOAT, normalized || false, stride || 0, start || 0);
     };
 
-    public mapType(gl, type) 
+    public mapType(gl:WebGLRenderingContext, type:number):string
     {
         if(!GLShader.GL_TABLE) 
         {
-            var typeNames = Object.keys(GLShader.GL_TO_GLSL_TYPES);
-    
-            GLShader.GL_TABLE = {};
-    
+            var typeNames = Object.keys(GLShader.GL_TO_GLSL_TYPES);    
+            GLShader.GL_TABLE = {};    
             for(var i = 0; i < typeNames.length; ++i) 
             {
                 var tn = typeNames[i];
                 GLShader.GL_TABLE[ gl[tn] ] = GLShader.GL_TO_GLSL_TYPES[tn];
             }
-        }
-    
-      return GLShader.GL_TABLE[type];
+        }    
+        return GLShader.GL_TABLE[type];
     };
 
-    public mapSize(type) 
+    public mapSize(type:string):number
     { 
         return GLShader.GLSL_TO_SIZE[type];
     };
