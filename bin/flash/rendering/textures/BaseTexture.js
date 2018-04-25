@@ -5,6 +5,7 @@ define(["require", "exports", "../webgl/Utils", "../core/BaseObject", "flash/eve
         constructor(source = null, scaleMode = StageSettings_1.StageSettings.SCALE_MODE, resolution = StageSettings_1.StageSettings.RESOLUTION) {
             super();
             this.uid = Utils_1.Utils.uid();
+            this.show('got new texture id: ' + this.uid);
             this.touched = 0;
             this._resolution = resolution;
             this.width = 100;
