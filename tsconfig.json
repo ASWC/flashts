@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "baseUrl": "",
+        "target": "es6",
+        "module": "amd",
+        "allowUnreachableCode": true,
+        "outDir": "bin/",
+        "watch": true,   
+        "sourceMap": false            
+    }
+}
