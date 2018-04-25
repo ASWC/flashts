@@ -9,6 +9,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/rendering/co
                     return this.data[name].value;
                 };
             };
+            this.size = 0;
             this.precisionType = "mediump";
             if (precision == 2) {
                 this.precisionType = "mediump";

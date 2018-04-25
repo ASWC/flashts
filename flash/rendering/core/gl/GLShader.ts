@@ -2,47 +2,49 @@ import { Utils } from "flash/rendering/webgl/Utils";
 import { BaseObject } from "flash/rendering/core/BaseObject";
 import { GLAttributeData } from "flash/rendering/core/types/DataTypes";
 import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
+import { StringNumberDictionary } from "flash/rendering/core/types/DataDictionaries";
+import { StringStringDictionary } from "flash/rendering/core/types/DataDictionaries";
 
 export class GLShader extends BaseObject
 {
     public static GL_TABLE = null;
 
     public static GLSL_SINGLE_SETTERS = {
-        float: function setSingleFloat(gl, location, value) { gl.uniform1f(location, value); },
-        vec2: function setSingleVec2(gl, location, value) { gl.uniform2f(location, value[0], value[1]); },
-        vec3: function setSingleVec3(gl, location, value) { gl.uniform3f(location, value[0], value[1], value[2]); },
-        vec4: function setSingleVec4(gl, location, value) { gl.uniform4f(location, value[0], value[1], value[2], value[3]); },    
-        int: function setSingleInt(gl, location, value) { gl.uniform1i(location, value); },
-        ivec2: function setSingleIvec2(gl, location, value) { gl.uniform2i(location, value[0], value[1]); },
-        ivec3: function setSingleIvec3(gl, location, value) { gl.uniform3i(location, value[0], value[1], value[2]); },
-        ivec4: function setSingleIvec4(gl, location, value) { gl.uniform4i(location, value[0], value[1], value[2], value[3]); },    
-        bool: function setSingleBool(gl, location, value) { gl.uniform1i(location, value); },
-        bvec2: function setSingleBvec2(gl, location, value) { gl.uniform2i(location, value[0], value[1]); },
-        bvec3: function setSingleBvec3(gl, location, value) { gl.uniform3i(location, value[0], value[1], value[2]); },
-        bvec4: function setSingleBvec4(gl, location, value) { gl.uniform4i(location, value[0], value[1], value[2], value[3]); },    
-        mat2: function setSingleMat2(gl, location, value) { gl.uniformMatrix2fv(location, false, value); },
-        mat3: function setSingleMat3(gl, location, value) { gl.uniformMatrix3fv(location, false, value); },
-        mat4: function setSingleMat4(gl, location, value) { gl.uniformMatrix4fv(location, false, value); },    
-        sampler2D: function setSingleSampler2D(gl, location, value) { gl.uniform1i(location, value); },
+        float: function setSingleFloat(gl:WebGLRenderingContext, location, value) { gl.uniform1f(location, value); },
+        vec2: function setSingleVec2(gl:WebGLRenderingContext, location, value) { gl.uniform2f(location, value[0], value[1]); },
+        vec3: function setSingleVec3(gl:WebGLRenderingContext, location, value) { gl.uniform3f(location, value[0], value[1], value[2]); },
+        vec4: function setSingleVec4(gl:WebGLRenderingContext, location, value) { gl.uniform4f(location, value[0], value[1], value[2], value[3]); },    
+        int: function setSingleInt(gl:WebGLRenderingContext, location, value) { gl.uniform1i(location, value); },
+        ivec2: function setSingleIvec2(gl:WebGLRenderingContext, location, value) { gl.uniform2i(location, value[0], value[1]); },
+        ivec3: function setSingleIvec3(gl:WebGLRenderingContext, location, value) { gl.uniform3i(location, value[0], value[1], value[2]); },
+        ivec4: function setSingleIvec4(gl:WebGLRenderingContext, location, value) { gl.uniform4i(location, value[0], value[1], value[2], value[3]); },    
+        bool: function setSingleBool(gl:WebGLRenderingContext, location, value) { gl.uniform1i(location, value); },
+        bvec2: function setSingleBvec2(gl:WebGLRenderingContext, location, value) { gl.uniform2i(location, value[0], value[1]); },
+        bvec3: function setSingleBvec3(gl:WebGLRenderingContext, location, value) { gl.uniform3i(location, value[0], value[1], value[2]); },
+        bvec4: function setSingleBvec4(gl:WebGLRenderingContext, location, value) { gl.uniform4i(location, value[0], value[1], value[2], value[3]); },    
+        mat2: function setSingleMat2(gl:WebGLRenderingContext, location, value) { gl.uniformMatrix2fv(location, false, value); },
+        mat3: function setSingleMat3(gl:WebGLRenderingContext, location, value) { gl.uniformMatrix3fv(location, false, value); },
+        mat4: function setSingleMat4(gl:WebGLRenderingContext, location, value) { gl.uniformMatrix4fv(location, false, value); },    
+        sampler2D: function setSingleSampler2D(gl:WebGLRenderingContext, location, value) { gl.uniform1i(location, value); },
     };
 
     public static GLSL_ARRAY_SETTERS = {
-        float: function setFloatArray(gl, location, value) { gl.uniform1fv(location, value); },
-        vec2: function setVec2Array(gl, location, value) { gl.uniform2fv(location, value); },
-        vec3: function setVec3Array(gl, location, value) { gl.uniform3fv(location, value); },
-        vec4: function setVec4Array(gl, location, value) { gl.uniform4fv(location, value); },
-        int: function setIntArray(gl, location, value) { gl.uniform1iv(location, value); },
-        ivec2: function setIvec2Array(gl, location, value) { gl.uniform2iv(location, value); },
-        ivec3: function setIvec3Array(gl, location, value) { gl.uniform3iv(location, value); },
-        ivec4: function setIvec4Array(gl, location, value) { gl.uniform4iv(location, value); },
-        bool: function setBoolArray(gl, location, value) { gl.uniform1iv(location, value); },
-        bvec2: function setBvec2Array(gl, location, value) { gl.uniform2iv(location, value); },
-        bvec3: function setBvec3Array(gl, location, value) { gl.uniform3iv(location, value); },
-        bvec4: function setBvec4Array(gl, location, value) { gl.uniform4iv(location, value); },
-        sampler2D: function setSampler2DArray(gl, location, value) { gl.uniform1iv(location, value); },
+        float: function setFloatArray(gl:WebGLRenderingContext, location, value) { gl.uniform1fv(location, value); },
+        vec2: function setVec2Array(gl:WebGLRenderingContext, location, value) { gl.uniform2fv(location, value); },
+        vec3: function setVec3Array(gl:WebGLRenderingContext, location, value) { gl.uniform3fv(location, value); },
+        vec4: function setVec4Array(gl:WebGLRenderingContext, location, value) { gl.uniform4fv(location, value); },
+        int: function setIntArray(gl:WebGLRenderingContext, location, value) { gl.uniform1iv(location, value); },
+        ivec2: function setIvec2Array(gl:WebGLRenderingContext, location, value) { gl.uniform2iv(location, value); },
+        ivec3: function setIvec3Array(gl:WebGLRenderingContext, location, value) { gl.uniform3iv(location, value); },
+        ivec4: function setIvec4Array(gl:WebGLRenderingContext, location, value) { gl.uniform4iv(location, value); },
+        bool: function setBoolArray(gl:WebGLRenderingContext, location, value) { gl.uniform1iv(location, value); },
+        bvec2: function setBvec2Array(gl:WebGLRenderingContext, location, value) { gl.uniform2iv(location, value); },
+        bvec3: function setBvec3Array(gl:WebGLRenderingContext, location, value) { gl.uniform3iv(location, value); },
+        bvec4: function setBvec4Array(gl:WebGLRenderingContext, location, value) { gl.uniform4iv(location, value); },
+        sampler2D: function setSampler2DArray(gl:WebGLRenderingContext, location, value) { gl.uniform1iv(location, value); },
     };
     
-    public static GL_TO_GLSL_TYPES = {
+    public static GL_TO_GLSL_TYPES:StringStringDictionary = {
       'FLOAT':       'float',
       'FLOAT_VEC2':  'vec2',
       'FLOAT_VEC3':  'vec3',
@@ -60,7 +62,8 @@ export class GLShader extends BaseObject
       'FLOAT_MAT4':  'mat4',      
       'SAMPLER_2D':  'sampler2D'  
     };
-    public static GLSL_TO_SIZE = {
+
+    public static GLSL_TO_SIZE:StringNumberDictionary = {
         'float':    1,
         'vec2':     2,
         'vec3':     3,
@@ -86,12 +89,13 @@ export class GLShader extends BaseObject
     public uniformData:any;    
     public uniforms:any;    
     public location:any;    
-    public size:any; 
+    public size:number; 
     protected precisionType:string;
 
     constructor(gl:WebGLRenderingContext, vertexSrc:string, fragmentSrc:string, attributeLocations:any = null, precision:number = 2)
     {
         super();
+        this.size = 0;
         this.precisionType = "mediump";
         if(precision == 2)
         {
