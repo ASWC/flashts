@@ -1,10 +1,7 @@
-define(["require", "exports", "../../geom/Matrix"], function (require, exports, Matrix_1) {
+define(["require", "exports", "flash/geom/Matrix"], function (require, exports, Matrix_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GroupD8 {
-        constructor() {
-            GroupD8.init();
-        }
         static signum(x) {
             if (x < 0) {
                 return -1;
@@ -15,6 +12,10 @@ define(["require", "exports", "../../geom/Matrix"], function (require, exports, 
             return 0;
         }
         static init() {
+            if (GroupD8.mul) {
+                return;
+            }
+            GroupD8.mul = [];
             for (let i = 0; i < 16; i++) {
                 const row = [];
                 GroupD8.mul.push(row);
@@ -47,7 +48,10 @@ define(["require", "exports", "../../geom/Matrix"], function (require, exports, 
             }
             return (-rotation) & 7;
         }
-        static add(rotationSecond, rotationFirst) { GroupD8.mul[rotationSecond][rotationFirst]; }
+        static add(rotationSecond, rotationFirst) {
+            GroupD8.init();
+            return GroupD8.mul[rotationSecond][rotationFirst];
+        }
         static sub(rotationSecond, rotationFirst) { GroupD8.mul[rotationSecond][GroupD8.inv(rotationFirst)]; }
         /**
          * Adds 180 degrees to rotation. Commutative operation.

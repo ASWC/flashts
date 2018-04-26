@@ -12,30 +12,33 @@ import { BaseObject } from "flash/rendering/core/BaseObject";
 import { StageSettings } from "flash/rendering/core/StageSettings";
 import { Event } from "flash/events/Event";
 import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
+import { SpriteDataGroup } from "flash/rendering/core/types/DataTypes";
+
+// TYPED
 
 export class SpriteRenderer extends ObjectRenderer
 {
-    private static _spriteRenderer:SpriteRenderer;
-    public static TICK:number = 0;
-    public static TEXTURE_TICK:number = 0;
-    public vertSize:number;
-    public vertByteSize:number;    
-    public size:number;
-    public buffers:Buffer[];
-    public indices:Uint16Array;
-    public shader:GLShader;
-    public currentIndex:number;
-    public groups:any[];
-    public vaoMax:number;
-    public vertexCount:number;
-    public MAX_TEXTURES:number;
-    public indexBuffer:GLBuffer;
-    public vertexBuffers:GLBuffer[];  
-    public vaos:VertexArrayObject[];   
-    public vao:VertexArrayObject;
-    public currentBlendMode:number;
-    public boundTextures:Array<number>;  
-    public sprites:Bitmap[];           
+    protected static _spriteRenderer:SpriteRenderer;
+    protected static TICK:number = 0;
+    protected static TEXTURE_TICK:number = 0;
+    protected vertSize:number;
+    protected vertByteSize:number;    
+    protected size:number;
+    protected buffers:Buffer[];
+    protected indices:Uint16Array;
+    protected shader:GLShader;
+    protected currentIndex:number;
+    protected groups:SpriteDataGroup[];
+    protected vaoMax:number;
+    protected vertexCount:number;
+    protected MAX_TEXTURES:number;
+    protected indexBuffer:GLBuffer;
+    protected vertexBuffers:GLBuffer[];  
+    protected vaos:VertexArrayObject[];   
+    protected vao:VertexArrayObject;
+    protected currentBlendMode:number;
+    protected boundTextures:BaseTexture[];  
+    protected sprites:Bitmap[];           
     
     constructor()
     {
@@ -54,7 +57,7 @@ export class SpriteRenderer extends ObjectRenderer
         this.groups = [];
         for (let k = 0; k < this.size; k++)
         {
-            this.groups[k] = { textures: [], textureCount: 0, ids: [], size: 0, start: 0, blend: 0 };
+            this.groups[k] = new SpriteDataGroup();
         }
         this.sprites = [];
         this.vertexBuffers = [];
@@ -80,17 +83,9 @@ export class SpriteRenderer extends ObjectRenderer
         }
         else
         {
-            this.show('S: ' + StageSettings.SPRITE_MAX_TEXTURES)
-
             this.MAX_TEXTURES = Math.min(this.stageContext.context.getParameter(this.stageContext.context.MAX_TEXTURE_IMAGE_UNITS), StageSettings.SPRITE_MAX_TEXTURES);
-            
-            this.show('sr: ' + this.MAX_TEXTURES)
-            
             this.MAX_TEXTURES = Utils.checkMaxIfStatmentsInShader(this.MAX_TEXTURES, this.stageContext.context);
         }
-
-        
-
         this.shader = Utils.generateMultiTextureShader(this.stageContext.context, this.MAX_TEXTURES);
         this.indexBuffer = GLBuffer.createIndexBuffer(this.stageContext.context, this.indices, this.stageContext.context.STATIC_DRAW);
         this.stageContext.bindVao(null);
@@ -139,28 +134,25 @@ export class SpriteRenderer extends ObjectRenderer
         {
             return;
         }        
-        const MAX_TEXTURES = this.MAX_TEXTURES;
-        const np2 = Utils.nextPow2(this.currentIndex);
-        const log2 = Utils.log2(np2);
-        const buffer = this.buffers[log2];
-        const sprites = this.sprites;
-        const groups = this.groups;
-        const float32View = buffer.float32View;
-        const uint32View = buffer.uint32View;
-        const boundTextures = this.boundTextures;
-        const rendererBoundTextures = this.stageContext.boundTextures;
-        const touch = this.stageContext.textureGCCount
-        let index = 0;
-        let nextTexture;
-        let currentTexture;
-        let groupCount = 1;
-        let textureCount = 0;
-        let currentGroup = groups[0];
-        let vertexData;
-        let uvs;
-        let globalmodes = Utils.mapPremultipliedBlendModes()
-        let bitmap:Bitmap = sprites[0]
-        let blendcategory = globalmodes[bitmap.texture.baseTexture.premultipliedAlpha ? 1 : 0]
+        const np2:number = Utils.nextPow2(this.currentIndex);
+        const log2:number = Utils.log2(np2);
+        const buffer:Buffer = this.buffers[log2];
+        const float32View:Float32Array = buffer.float32View;
+        const uint32View:Uint32Array = buffer.uint32View;
+        const boundTextures:BaseTexture[] = this.boundTextures;
+        const rendererBoundTextures:BaseTexture[] = this.stageContext.boundTextures;
+        const touch:number = this.stageContext.textureGCCount;
+        let index:number = 0;
+        let nextTexture:BaseTexture;
+        let currentTexture:BaseTexture;
+        let groupCount:number = 1;
+        let textureCount:number = 0;
+        let currentGroup:SpriteDataGroup = this.groups[0];
+        let vertexData:Float32Array;
+        let uvs:Uint32Array;
+        let globalmodes:Array<number[]> = Utils.mapPremultipliedBlendModes()
+        let bitmap:Bitmap = this.sprites[0]
+        let blendcategory:number[] = globalmodes[bitmap.texture.baseTexture.premultipliedAlpha ? 1 : 0]
         let blendindex:number = bitmap.blendMode;
         let blendMode:number = blendcategory[blendindex];
         if(!blendMode)
@@ -171,10 +163,10 @@ export class SpriteRenderer extends ObjectRenderer
         currentGroup.start = 0;
         currentGroup.blend = blendMode;
         SpriteRenderer.TICK++;
-        let i;
-        for (i = 0; i < MAX_TEXTURES; ++i)
+        let i:number;
+        for (i = 0; i < this.MAX_TEXTURES; ++i)
         {
-            const bt = rendererBoundTextures[i];
+            const bt:BaseTexture = rendererBoundTextures[i];
             if (bt._enabled === SpriteRenderer.TICK)
             {
                 boundTextures[i] = this.stageContext.emptyTextures[i];
@@ -187,7 +179,7 @@ export class SpriteRenderer extends ObjectRenderer
         SpriteRenderer.TICK++;
         for (i = 0; i < this.currentIndex; ++i)
         {
-            const sprite = sprites[i];
+            const sprite:Bitmap = this.sprites[i];
             nextTexture = sprite.texture.baseTexture;
             var spriteBlendMode:number = globalmodes[Number(nextTexture.premultipliedAlpha)][sprite.blendMode];
             if(!spriteBlendMode)
@@ -198,7 +190,7 @@ export class SpriteRenderer extends ObjectRenderer
             {
                 blendMode = spriteBlendMode;
                 currentTexture = null;
-                textureCount = MAX_TEXTURES;
+                textureCount = this.MAX_TEXTURES;
                 SpriteRenderer.TICK++;
             }
             if (currentTexture !== nextTexture)
@@ -206,12 +198,12 @@ export class SpriteRenderer extends ObjectRenderer
                 currentTexture = nextTexture;
                 if (nextTexture._enabled !== SpriteRenderer.TICK)
                 {
-                    if (textureCount === MAX_TEXTURES)
+                    if (textureCount === this.MAX_TEXTURES)
                     {
                         SpriteRenderer.TICK++;
                         currentGroup.size = i - currentGroup.start;
                         textureCount = 0;
-                        currentGroup = groups[groupCount++];
+                        currentGroup = this.groups[groupCount++];
                         currentGroup.blend = blendMode;
                         currentGroup.textureCount = 0;
                         currentGroup.start = i;
@@ -219,10 +211,10 @@ export class SpriteRenderer extends ObjectRenderer
                     nextTexture.touched = touch;
                     if (nextTexture._virtalBoundId === -1)
                     {
-                        for (let j = 0; j < MAX_TEXTURES; ++j)
+                        for (let j = 0; j < this.MAX_TEXTURES; ++j)
                         {
-                            const tIndex = (j + SpriteRenderer.TEXTURE_TICK) % MAX_TEXTURES;
-                            const t:any = boundTextures[tIndex];
+                            const tIndex:number = (j + SpriteRenderer.TEXTURE_TICK) % this.MAX_TEXTURES;
+                            const t:BaseTexture = boundTextures[tIndex];
                             if (t._enabled !== SpriteRenderer.TICK)
                             {
                                 SpriteRenderer.TEXTURE_TICK++;
@@ -243,7 +235,7 @@ export class SpriteRenderer extends ObjectRenderer
             uvs = sprite.texture._uvs.uvsUint32;
             if (this.stageContext.canvasRoundPixels)
             {
-                const resolution = this.stageContext.canvasResolution;
+                const resolution:number = this.stageContext.canvasResolution;
                 float32View[index] = ((vertexData[0] * resolution) | 0) / resolution;
                 float32View[index + 1] = ((vertexData[1] * resolution) | 0) / resolution;
                 float32View[index + 5] = ((vertexData[2] * resolution) | 0) / resolution;
@@ -268,9 +260,8 @@ export class SpriteRenderer extends ObjectRenderer
             uint32View[index + 7] = uvs[1];
             uint32View[index + 12] = uvs[2];
             uint32View[index + 17] = uvs[3];
-            const alpha = Math.min(sprite.worldAlpha, 1.0);
-            const argb = alpha < 1.0 && nextTexture.premultipliedAlpha ? Utils.premultiplyTint(sprite._tintRGB, alpha)
-                : sprite._tintRGB + (alpha * 255 << 24);
+            const alpha:number = Math.min(sprite.worldAlpha, 1.0);
+            const argb:number = alpha < 1.0 && nextTexture.premultipliedAlpha ? Utils.premultiplyTint(sprite._tintRGB, alpha): sprite._tintRGB + (alpha * 255 << 24);
             uint32View[index + 3] = uint32View[index + 8] = uint32View[index + 13] = uint32View[index + 18] = argb;
             float32View[index + 4] = float32View[index + 9] = float32View[index + 14] = float32View[index + 19] = nextTexture._virtalBoundId;
             index += 20;
@@ -282,12 +273,9 @@ export class SpriteRenderer extends ObjectRenderer
             {
                 this.vaoMax++;
                 const attrs:AttributeDataDictionary = this.shader.attributes;
-
-                this.reveal(attrs)
-
-
-                const vertexBuffer = this.vertexBuffers[this.vertexCount] = GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
-                const vao = this.stageContext.createVao()
+                const vertexBuffer:GLBuffer = GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);                
+                this.vertexBuffers[this.vertexCount] = vertexBuffer;
+                const vao:VertexArrayObject = this.stageContext.createVao()
                     .addIndex(this.indexBuffer)
                     .addAttribute(vertexBuffer, attrs.aVertexPosition, this.stageContext.context.FLOAT, false, this.vertByteSize, 0)
                     .addAttribute(vertexBuffer, attrs.aTextureCoord, this.stageContext.context.UNSIGNED_SHORT, true, this.vertByteSize, 2 * 4)
@@ -306,24 +294,20 @@ export class SpriteRenderer extends ObjectRenderer
         {
             this.vertexBuffers[this.vertexCount].upload(buffer.vertices, 0, true);
         }
-        for (i = 0; i < MAX_TEXTURES; ++i)
+        for (i = 0; i < this.MAX_TEXTURES; ++i)
         {
             rendererBoundTextures[i]._virtalBoundId = -1;
         }
         for (i = 0; i < groupCount; ++i)
         {
-            const group = groups[i];
-            const groupTextureCount = group.textureCount;
+            const group:SpriteDataGroup = this.groups[i];
+            const groupTextureCount:number = group.textureCount;
             for (let j = 0; j < groupTextureCount; j++)
             {
                 currentTexture = group.textures[j];
                 if (rendererBoundTextures[group.ids[j]] !== currentTexture)
-                {
-                    
+                {                    
                     var bindedtex:BaseTexture = currentTexture;
-
-                    this.show('binding texture: ' + bindedtex.uid + " at id: " + group.ids[j])
-
                     this.stageContext.bindTexture(currentTexture, group.ids[j], true);
                 }
                 currentTexture._virtalBoundId = -1;
@@ -356,7 +340,7 @@ export class SpriteRenderer extends ObjectRenderer
 
     public destroy()
     {
-        for (let i = 0; i < this.vaoMax; i++)
+        for (let i:number = 0; i < this.vaoMax; i++)
         {
             if (this.vertexBuffers[i])
             {
@@ -387,7 +371,7 @@ export class SpriteRenderer extends ObjectRenderer
         this.indexBuffer = null;
         this.indices = null;
         this.sprites = null;
-        for (let i = 0; i < this.buffers.length; ++i)
+        for (let i:number = 0; i < this.buffers.length; ++i)
         {
             this.buffers[i].destroy();
         }
@@ -395,23 +379,4 @@ export class SpriteRenderer extends ObjectRenderer
 }
 
 
-class TextureGroupItem extends BaseObject
-{
-    public textureCount:number;
-    public size:number;
-    public start:number;
-    public blend:number;
-    public textures:BaseTexture[];
-    public ids:number[];
 
-    constructor()
-    {
-        super();
-        this.textureCount = 0;
-        this.size = 0;
-        this.start = 0;
-        this.blend = 0;
-        this.textures = [];
-        this.ids = [];
-    }
-}

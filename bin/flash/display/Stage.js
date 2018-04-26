@@ -98,8 +98,8 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 this.rootRenderTarget.clearColor = this._backgroundColorRgba;
                 this.bindRenderTarget(this.rootRenderTarget);
                 const emptyGLTexture = GLTexture_1.GLTexture.fromData(this.stageOptions.context, null, 1, 1);
-                const tempObj = { _glTextures: {} };
-                tempObj._glTextures[this.CONTEXT_UID] = {};
+                const tempObj = new BaseTexture_1.BaseTexture();
+                tempObj._glTextures[this.CONTEXT_UID] = null;
                 for (let i = 0; i < maxTextures; i++) {
                     const empty = new BaseTexture_1.BaseTexture();
                     empty._glTextures[this.CONTEXT_UID] = emptyGLTexture;
@@ -144,10 +144,8 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
             }
             if (!glTexture || !glTexture.texture) {
                 this.textureManager.updateTexture(texture, location);
-                this.show('updating texture with location: ' + location);
             }
             else {
-                this.show('binding texture with location: ' + location);
                 this._boundTextures[location] = texture;
                 this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + location);
                 this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, glTexture.texture);

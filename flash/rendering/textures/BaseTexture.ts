@@ -5,6 +5,7 @@ import { GLTexture } from "flash/rendering/core/gl/GLTexture";
 import { EventDispatcher } from "flash/events/EventDispatcher";
 import { Event } from "flash/events/Event";
 import { StageSettings } from "flash/rendering/core/StageSettings";
+import { Rectangle } from "../../geom/Rectangle";
 
 class BaseTexture extends EventDispatcher
 {
@@ -38,10 +39,12 @@ class BaseTexture extends EventDispatcher
     public textureCacheIds:string[];
     public width:number;
     public height:number;
+    protected _frame:Rectangle;
 
     constructor(source:HTMLImageElement|HTMLCanvasElement = null, scaleMode:number = StageSettings.SCALE_MODE, resolution:number = StageSettings.RESOLUTION)
     {
         super();
+        this._frame = null;
         this.uid = Utils.uid();
         this.touched = 0;
         this._resolution = resolution;
@@ -70,6 +73,17 @@ class BaseTexture extends EventDispatcher
         {
             this.loadSource(source);
         }
+    }
+
+    public get frame():Rectangle
+    {
+        if(!this._frame)
+        {
+            this._frame = new Rectangle();
+        }
+        this._frame.width = this.width;
+        this._frame.height = this.height;
+        return this._frame;
     }
 
     public resize(width:number, height:number):void

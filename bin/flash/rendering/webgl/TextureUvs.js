@@ -1,10 +1,7 @@
-define(["require", "exports", "../math/GroupD8"], function (require, exports, GroupD8_1) {
+define(["require", "exports", "flash/rendering/math/GroupD8"], function (require, exports, GroupD8_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class TextureUvs {
-        /**
-         *
-         */
         constructor() {
             this.x0 = 0;
             this.y0 = 0;
@@ -16,28 +13,18 @@ define(["require", "exports", "../math/GroupD8"], function (require, exports, Gr
             this.y3 = 1;
             this.uvsUint32 = new Uint32Array(4);
         }
-        /**
-         * Sets the texture Uvs based on the given frame information.
-         *
-         * @private
-         * @param {PIXI.Rectangle} frame - The frame of the texture
-         * @param {PIXI.Rectangle} baseFrame - The base frame of the texture
-         * @param {number} rotate - Rotation of frame, see {@link PIXI.GroupD8}
-         */
         set(frame, baseFrame, rotate) {
             const tw = baseFrame.width;
             const th = baseFrame.height;
             if (rotate) {
-                // width and height div 2 div baseFrame size
                 const w2 = frame.width / 2 / tw;
                 const h2 = frame.height / 2 / th;
-                // coordinates of center
                 const cX = (frame.x / tw) + w2;
                 const cY = (frame.y / th) + h2;
-                rotate = GroupD8_1.GroupD8.add(rotate, GroupD8_1.GroupD8.NW); // NW is top-left corner
+                rotate = GroupD8_1.GroupD8.add(rotate, GroupD8_1.GroupD8.NW);
                 this.x0 = cX + (w2 * GroupD8_1.GroupD8.uX(rotate));
                 this.y0 = cY + (h2 * GroupD8_1.GroupD8.uY(rotate));
-                rotate = GroupD8_1.GroupD8.add(rotate, 2); // rotate 90 degrees clockwise
+                rotate = GroupD8_1.GroupD8.add(rotate, 2);
                 this.x1 = cX + (w2 * GroupD8_1.GroupD8.uX(rotate));
                 this.y1 = cY + (h2 * GroupD8_1.GroupD8.uY(rotate));
                 rotate = GroupD8_1.GroupD8.add(rotate, 2);

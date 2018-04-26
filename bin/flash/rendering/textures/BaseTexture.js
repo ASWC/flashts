@@ -1,9 +1,10 @@
-define(["require", "exports", "../webgl/Utils", "../core/BaseObject", "flash/events/EventDispatcher", "flash/events/Event", "flash/rendering/core/StageSettings"], function (require, exports, Utils_1, BaseObject_1, EventDispatcher_1, Event_1, StageSettings_1) {
+define(["require", "exports", "../webgl/Utils", "../core/BaseObject", "flash/events/EventDispatcher", "flash/events/Event", "flash/rendering/core/StageSettings", "../../geom/Rectangle"], function (require, exports, Utils_1, BaseObject_1, EventDispatcher_1, Event_1, StageSettings_1, Rectangle_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BaseTexture extends EventDispatcher_1.EventDispatcher {
         constructor(source = null, scaleMode = StageSettings_1.StageSettings.SCALE_MODE, resolution = StageSettings_1.StageSettings.RESOLUTION) {
             super();
+            this._frame = null;
             this.uid = Utils_1.Utils.uid();
             this.touched = 0;
             this._resolution = resolution;
@@ -31,6 +32,14 @@ define(["require", "exports", "../webgl/Utils", "../core/BaseObject", "flash/eve
             if (source) {
                 this.loadSource(source);
             }
+        }
+        get frame() {
+            if (!this._frame) {
+                this._frame = new Rectangle_1.Rectangle();
+            }
+            this._frame.width = this.width;
+            this._frame.height = this.height;
+            return this._frame;
         }
         resize(width, height) {
             width = Math.ceil(width);

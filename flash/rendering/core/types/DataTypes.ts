@@ -1,5 +1,5 @@
-
-
+import { BaseTexture } from "flash/rendering/textures/BaseTexture";
+import { BaseObject } from "flash/rendering/core/BaseObject";
 
 export class GLAttributeData
 {
@@ -14,5 +14,46 @@ export class GLAttributeData
         this.type = type;
         this.location = location;
         this.pointer = pointer;
+    }
+}
+
+export class SpriteDataGroup
+{
+    public textures:BaseTexture[];
+    public textureCount:number;
+    public ids:number[];
+    public size:number;
+    public start:number;
+    public blend:number;
+
+    constructor()
+    {
+        this.textures = [];
+        this.textureCount = 0;
+        this.ids = [];
+        this.size = 0;
+        this.start = 0;
+        this.blend = 0;
+    }
+}
+
+export class TextureGroupItem extends BaseObject
+{
+    public textureCount:number;
+    public size:number;
+    public start:number;
+    public blend:number;
+    public textures:BaseTexture[];
+    public ids:number[];
+
+    constructor()
+    {
+        super();
+        this.textureCount = 0;
+        this.size = 0;
+        this.start = 0;
+        this.blend = 0;
+        this.textures = [];
+        this.ids = [];
     }
 }

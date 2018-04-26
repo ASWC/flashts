@@ -1,6 +1,4 @@
-import { Matrix } from "../../geom/Matrix";
-
-
+import { Matrix } from "flash/geom/Matrix";
 
 export class GroupD8
 {
@@ -21,10 +19,6 @@ export class GroupD8
     public static tempMatrices = [];
     public static mul = [];
 
-    constructor()
-    {
-        GroupD8.init();
-    }
 
     public static signum(x)
     {
@@ -36,12 +30,16 @@ export class GroupD8
         {
             return 1;
         }
-
         return 0;
     }
 
     public static init()
     {
+        if(GroupD8.mul)
+        {
+            return;
+        }
+        GroupD8.mul = [];
         for (let i = 0; i < 16; i++)
         {
             const row = [];
@@ -79,6 +77,7 @@ export class GroupD8
     public static uY(ind)  {return GroupD8.uy[ind]}
     public static vX(ind)  {return GroupD8.vx[ind]}
     public static vY(ind)  {return GroupD8.vy[ind]}
+
     public static inv(rotation) 
     {
         if (rotation & 8)
@@ -88,7 +87,13 @@ export class GroupD8
 
         return (-rotation) & 7;
     }
-    public static add(rotationSecond, rotationFirst)  {GroupD8.mul[rotationSecond][rotationFirst]}
+
+    public static add(rotationSecond:number, rotationFirst:number):number
+    {
+        GroupD8.init();
+        return GroupD8.mul[rotationSecond][rotationFirst];    
+    }
+
     public static sub(rotationSecond, rotationFirst) { GroupD8.mul[rotationSecond][GroupD8.inv(rotationFirst)]}
 
     /**

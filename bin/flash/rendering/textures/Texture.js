@@ -115,7 +115,7 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             if (!this._uvs) {
                 this._uvs = new TextureUvs_1.TextureUvs();
             }
-            this._uvs.set(this._frame, this.baseTexture, this.rotate);
+            this._uvs.set(this._frame, this.baseTexture.frame, this.rotate);
             this._updateID++;
         }
         static fromImage(imageUrl, crossorigin = false, scaleMode = StageSettings_1.StageSettings.SCALE_MODE, sourceScale = StageSettings_1.StageSettings.SCALE_MODE) {

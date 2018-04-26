@@ -173,7 +173,7 @@ export class Texture extends EventDispatcher
         {
             this._uvs = new TextureUvs();
         }
-        this._uvs.set(this._frame, this.baseTexture, this.rotate);
+        this._uvs.set(this._frame, this.baseTexture.frame, this.rotate);
         this._updateID++;
     }
 

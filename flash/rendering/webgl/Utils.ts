@@ -767,10 +767,10 @@ export class Utils
         return array;
     }
 
-    public static mapPremultipliedBlendModes()
+    public static mapPremultipliedBlendModes():Array<number[]>
     {
-        const pm = [];
-        const npm = [];    
+        const pm:number[] = [];
+        const npm:number[] = [];    
         for (let i = 0; i < 32; i++)
         {
             pm[i] = i;
@@ -782,7 +782,7 @@ export class Utils
         npm[Constants.BLEND_MODES.NORMAL] = Constants.BLEND_MODES.NORMAL_NPM;
         npm[Constants.BLEND_MODES.ADD] = Constants.BLEND_MODES.ADD_NPM;
         npm[Constants.BLEND_MODES.SCREEN] = Constants.BLEND_MODES.SCREEN_NPM;    
-        const array = [];    
+        const array:Array<number[]> = [];    
         array.push(npm);
         array.push(pm);    
         return array;
