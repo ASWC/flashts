@@ -6,6 +6,9 @@ import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { IGraphicOwner } from "flash/rendering/core/exports/IGraphicOwner";
 import { Transform } from "flash/geom/Transform";
+import { Filter } from "../rendering/filters/Filter";
+
+// TYPED
 
 export class DisplayObjectContainer extends DisplayObject implements IDisplayObjectContainer
 {
@@ -16,30 +19,6 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
     {
         super();
         this.children = [];
-    }
-
-    public get mouseChildren():boolean
-    {
-        return this._mouseChildren;
-    }
-
-    public set mouseChildren(value:boolean)
-    {
-        this._mouseChildren = value;
-        for (let i = 0; i < this.children.length; i++)
-        {
-            var child:DisplayObject = this.children[i];           
-            child['mouseEnabled'] = this._mouseChildren;                        
-        }
-    }
-
-    public get numChildren():number
-    {
-        if(this.children)
-        {
-            return this.children.length;
-        }
-        return 0;
     }
 
     public contains(child:DisplayObject):boolean
@@ -54,7 +33,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
 
     public getChildByName(name:string):DisplayObject
     {
-        for (let i = 0; i < this.children.length; i++)
+        for (let i:number = 0; i < this.children.length; i++)
         {
             if (this.children[i].name === name)
             {
@@ -64,7 +43,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         return null;
     };
 
-    public onChildrenChange(value = null)
+    public onChildrenChange(value:number = null)
     {
        
     }
@@ -113,8 +92,8 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         {
             return;
         }
-        const index1 = this.getChildIndex(child);
-        const index2 = this.getChildIndex(child2);
+        const index1:number = this.getChildIndex(child);
+        const index2:number = this.getChildIndex(child2);
         this.children[index1] = child2;
         this.children[index2] = child;
         this.onChildrenChange(index1 < index2 ? index1 : index2);
@@ -122,8 +101,8 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
 
     public getChildIndex(child:DisplayObject):number
     {
-        const index = this.children.indexOf(child);
-        if (index === -1)
+        const index:number = this.children.indexOf(child);
+        if (index < 0)
         {
             throw new Error('The supplied DisplayObject must be a child of the caller');
         }
@@ -136,7 +115,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         {
             throw new Error(`The index ${index} supplied is out of bounds ${this.children.length}`);
         }
-        const currentIndex = this.getChildIndex(child);
+        const currentIndex:number = this.getChildIndex(child);
         Utils.removeItems(this.children, currentIndex, 1); 
         this.children.splice(index, 0, child);
         this.onChildrenChange(index);
@@ -153,31 +132,20 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
 
     public removeChild(child:DisplayObject):DisplayObject
     {
-        const argumentsLength = arguments.length;
-        if (argumentsLength > 1)
-        {
-            for (let i = 0; i < argumentsLength; i++)
-            {
-                this.removeChild(arguments[i]);
-            }
-        }
-        else
-        {
-            const index = this.children.indexOf(child);
-            if (index === -1) return null;
-            child.parent = null;
-            child.transform._parentID = -1;
-            Utils.removeItems(this.children, index, 1);
-            this._boundsID++;
-            this.onChildrenChange(index);
-            child.dispatchEvent(new Event(Event.REMOVED));
-        }
+        const index = this.children.indexOf(child);
+        if (index < 0) return null;
+        child.parent = null;
+        child.transform._parentID = -1;
+        Utils.removeItems(this.children, index, 1);
+        this._boundsID++;
+        this.onChildrenChange(index);
+        child.dispatchEvent(new Event(Event.REMOVED));       
         return child;
     }
 
     public removeChildAt(index:number):DisplayObject
     {
-        const child = this.getChildAt(index);
+        const child:DisplayObject = this.getChildAt(index);
         child.parent = null;
         child.transform._parentID = -1;
         Utils.removeItems(this.children, index, 1);
@@ -189,14 +157,14 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
 
     public removeChildren(beginIndex:number = 0, endIndex:number = 0):DisplayObject[]
     {
-        const begin = beginIndex;
-        const end = typeof endIndex === 'number' ? endIndex : this.children.length;
-        const range = end - begin;
-        let removed;
+        const begin:number = beginIndex;
+        const end:number = typeof endIndex === 'number' ? endIndex : this.children.length;
+        const range:number = end - begin;
+        let removed:DisplayObject[];
         if (range > 0 && range <= end)
         {
             removed = this.children.splice(begin, range);
-            for (let i = 0; i < removed.length; ++i)
+            for (let i:number = 0; i < removed.length; ++i)
             {
                 removed[i].parent = null;
                 if (removed[i].transform)
@@ -228,7 +196,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
             for (let i = 0, j = this.children.length; i < j; ++i)
             {
-                const child = this.children[i];
+                const child:DisplayObject = this.children[i];
                 if (child.visible)
                 {
                     child.updateTransform();
@@ -243,7 +211,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         this._calculateBounds();
         for (let i = 0; i < this.children.length; i++)
         {
-            const child = this.children[i];
+            const child:DisplayObject = this.children[i];
             if (!child.visible || !child.renderable)
             {
                 continue;
@@ -295,8 +263,7 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
             this.renderAdvancedWebGL();
         }
         else
-        {   
-            
+        {               
             this._renderWebGL();
             for (let i = 0, j = this.children.length; i < j; ++i)
             {
@@ -305,15 +272,15 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         }
     }
 
-    public renderAdvancedWebGL():void
+    protected renderAdvancedWebGL():void
     {
         if(!this.stage)
         {
             return;
         }
         this.stage.flush();
-        const filters = this._filters;
-        const mask = this._mask;
+        const filters:Filter[] = this._filters;
+        const mask:DisplayObject = this._mask;
         if (filters)
         {
             if (!this._enabledFilters)
@@ -353,28 +320,48 @@ export class DisplayObjectContainer extends DisplayObject implements IDisplayObj
         }
     }
 
-    public _renderWebGL():void 
+    protected _renderWebGL():void 
     {
         
     }
 
-    public destroy(options:any = null):void
+    public destroy():void
     {
         super.destroy();
-        const destroyChildren = typeof options === 'boolean' ? options : options && options.children;
-        const oldChildren = this.removeChildren(0, this.children.length);
-        if (destroyChildren)
+        const oldChildren = this.removeChildren(0, this.children.length);      
+        for (let i:number = 0; i < oldChildren.length; ++i)
         {
-            for (let i = 0; i < oldChildren.length; ++i)
-            {
-                oldChildren[i].destroy(options);
-            }
-        }
+            oldChildren[i].destroy();
+        }      
     }
 
     public getChildren():DisplayObject[]
     {
         return this.children;
+    }
+
+    public get mouseChildren():boolean
+    {
+        return this._mouseChildren;
+    }
+
+    public set mouseChildren(value:boolean)
+    {
+        this._mouseChildren = value;
+        for (let i = 0; i < this.children.length; i++)
+        {
+            var child:DisplayObject = this.children[i];           
+            child['mouseEnabled'] = this._mouseChildren;                        
+        }
+    }
+
+    public get numChildren():number
+    {
+        if(this.children)
+        {
+            return this.children.length;
+        }
+        return 0;
     }
 
 

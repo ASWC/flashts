@@ -80,8 +80,8 @@ define(["require", "exports", "flash/display/DisplayObjectContainer", "../manage
             }
             this._bufferUpdateIDs[bufferIndex] = ++this._updateID;
         }
-        destroy(options) {
-            super.destroy(options);
+        destroy() {
+            super.destroy();
             if (this._buffers) {
                 for (let i = 0; i < this._buffers.length; ++i) {
                     this._buffers[i].destroy();

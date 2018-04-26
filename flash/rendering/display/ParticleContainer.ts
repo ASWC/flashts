@@ -127,9 +127,9 @@ export class ParticleContainer extends DisplayObjectContainer
         this._bufferUpdateIDs[bufferIndex] = ++this._updateID;
     }
 
-    public destroy(options:any):void
+    public destroy():void
     {
-        super.destroy(options);
+        super.destroy();
         if (this._buffers)
         {
             for (let i = 0; i < this._buffers.length; ++i)

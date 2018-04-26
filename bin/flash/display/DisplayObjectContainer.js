@@ -1,26 +1,11 @@
 define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event", "flash/display/DisplayObject", "flash/geom/Transform"], function (require, exports, Utils_1, Event_1, DisplayObject_1, Transform_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // TYPED
     class DisplayObjectContainer extends DisplayObject_1.DisplayObject {
         constructor() {
             super();
             this.children = [];
-        }
-        get mouseChildren() {
-            return this._mouseChildren;
-        }
-        set mouseChildren(value) {
-            this._mouseChildren = value;
-            for (let i = 0; i < this.children.length; i++) {
-                var child = this.children[i];
-                child['mouseEnabled'] = this._mouseChildren;
-            }
-        }
-        get numChildren() {
-            if (this.children) {
-                return this.children.length;
-            }
-            return 0;
         }
         contains(child) {
             var index = this.children.indexOf(child);
@@ -82,7 +67,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
         }
         getChildIndex(child) {
             const index = this.children.indexOf(child);
-            if (index === -1) {
+            if (index < 0) {
                 throw new Error('The supplied DisplayObject must be a child of the caller');
             }
             return index;
@@ -103,23 +88,15 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
             return this.children[index];
         }
         removeChild(child) {
-            const argumentsLength = arguments.length;
-            if (argumentsLength > 1) {
-                for (let i = 0; i < argumentsLength; i++) {
-                    this.removeChild(arguments[i]);
-                }
-            }
-            else {
-                const index = this.children.indexOf(child);
-                if (index === -1)
-                    return null;
-                child.parent = null;
-                child.transform._parentID = -1;
-                Utils_1.Utils.removeItems(this.children, index, 1);
-                this._boundsID++;
-                this.onChildrenChange(index);
-                child.dispatchEvent(new Event_1.Event(Event_1.Event.REMOVED));
-            }
+            const index = this.children.indexOf(child);
+            if (index < 0)
+                return null;
+            child.parent = null;
+            child.transform._parentID = -1;
+            Utils_1.Utils.removeItems(this.children, index, 1);
+            this._boundsID++;
+            this.onChildrenChange(index);
+            child.dispatchEvent(new Event_1.Event(Event_1.Event.REMOVED));
             return child;
         }
         removeChildAt(index) {
@@ -256,18 +233,31 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
         }
         _renderWebGL() {
         }
-        destroy(options = null) {
+        destroy() {
             super.destroy();
-            const destroyChildren = typeof options === 'boolean' ? options : options && options.children;
             const oldChildren = this.removeChildren(0, this.children.length);
-            if (destroyChildren) {
-                for (let i = 0; i < oldChildren.length; ++i) {
-                    oldChildren[i].destroy(options);
-                }
+            for (let i = 0; i < oldChildren.length; ++i) {
+                oldChildren[i].destroy();
             }
         }
         getChildren() {
             return this.children;
+        }
+        get mouseChildren() {
+            return this._mouseChildren;
+        }
+        set mouseChildren(value) {
+            this._mouseChildren = value;
+            for (let i = 0; i < this.children.length; i++) {
+                var child = this.children[i];
+                child['mouseEnabled'] = this._mouseChildren;
+            }
+        }
+        get numChildren() {
+            if (this.children) {
+                return this.children.length;
+            }
+            return 0;
         }
     }
     exports.DisplayObjectContainer = DisplayObjectContainer;

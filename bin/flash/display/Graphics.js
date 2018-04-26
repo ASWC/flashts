@@ -449,8 +449,8 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             this.currentPath = null;
             return this;
         }
-        destroy(options) {
-            super.destroy(options);
+        destroy() {
+            super.destroy();
             for (let i = 0; i < this.graphicsData.length; ++i) {
                 this.graphicsData[i].destroy();
             }

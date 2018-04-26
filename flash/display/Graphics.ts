@@ -619,9 +619,9 @@ export class Graphics extends DisplayObjectContainer
         return this;
     }
 
-    public destroy(options:any|boolean)
+    public destroy()
     {
-        super.destroy(options);
+        super.destroy();
         for (let i = 0; i < this.graphicsData.length; ++i)
         {
             this.graphicsData[i].destroy();

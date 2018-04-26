@@ -1,36 +1,11 @@
 define(["require", "exports", "flash/rendering/core/CoreDisplayObject", "flash/geom/Matrix"], function (require, exports, CoreDisplayObject_1, Matrix_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // TYPED
     class DisplayObject extends CoreDisplayObject_1.CoreDisplayObject {
         constructor() {
             super();
             this._mask = null;
-        }
-        get worldVisible() {
-            let item = this;
-            do {
-                if (item instanceof DisplayObject) {
-                    if (!item._visible) {
-                        return false;
-                    }
-                    item = item._parent;
-                }
-            } while (item);
-            return true;
-        }
-        get mask() {
-            return this._mask;
-        }
-        set mask(value) {
-            if (this._mask) {
-                this._mask.renderable = true;
-                this._mask.isMask = false;
-            }
-            this._mask = value;
-            if (this._mask) {
-                this._mask.renderable = false;
-                this._mask.isMask = true;
-            }
         }
         toLocal(position, from, point, skipUpdate) {
             if (from) {
@@ -60,6 +35,32 @@ define(["require", "exports", "flash/rendering/core/CoreDisplayObject", "flash/g
             this.pivot.x = pivotX;
             this.pivot.y = pivotY;
             return this;
+        }
+        get worldVisible() {
+            let item = this;
+            do {
+                if (item instanceof DisplayObject) {
+                    if (!item._visible) {
+                        return false;
+                    }
+                    item = item._parent;
+                }
+            } while (item);
+            return true;
+        }
+        get mask() {
+            return this._mask;
+        }
+        set mask(value) {
+            if (this._mask) {
+                this._mask.renderable = true;
+                this._mask.isMask = false;
+            }
+            this._mask = value;
+            if (this._mask) {
+                this._mask.renderable = false;
+                this._mask.isMask = true;
+            }
         }
         get z() {
             return 0;

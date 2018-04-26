@@ -5,11 +5,12 @@ import { Matrix } from "flash/geom/Matrix";
 import { Point } from "flash/geom/Point";
 import { Event } from "flash/events/Event";
 
+// TYPED
+
 export class DisplayObject extends CoreDisplayObject
 {
-    public static _tempMatrix:Matrix = new Matrix();     
-    protected _mask:DisplayObject;   
-    
+    protected static _tempMatrix:Matrix = new Matrix();     
+    protected _mask:DisplayObject;       
     protected _enterFrameEvent:Event;
     protected _exitFrameEvent:Event;
 
@@ -19,7 +20,44 @@ export class DisplayObject extends CoreDisplayObject
         this._mask = null;        
     }
 
-    public get worldVisible():boolean
+    protected toLocal(position:Point, from:DisplayObject, point:Point, skipUpdate:boolean):Point
+    {
+        if (from)
+        {
+            position = from.toGlobal(position, point, skipUpdate);
+        }
+        if (!skipUpdate)
+        {
+            this._recursivePostUpdateTransform();
+            if (!this._parent)
+            {
+                //this._parent = Stage.emptyRoot;
+                this.updateTransform();
+                this._parent = null;
+            }
+            else
+            {
+                this.updateTransform();
+            }
+        }
+        return this.worldTransform.applyInverse(position, point);
+    }
+
+    protected setTransform(x:number = 0, y:number = 0, scaleX:number = 1, scaleY:number = 1, rotation:number = 0, skewX:number = 0, skewY:number = 0, pivotX:number = 0, pivotY:number = 0):DisplayObject
+    {
+        this.position.x = x;
+        this.position.y = y;
+        this.scale.x = !scaleX ? 1 : scaleX;
+        this.scale.y = !scaleY ? 1 : scaleY;
+        this.rotation = rotation;
+        this.skew.x = skewX;
+        this.skew.y = skewY;
+        this.pivot.x = pivotX;
+        this.pivot.y = pivotY;
+        return this;
+    }
+
+    protected get worldVisible():boolean
     {
         let item:any = this;
         do
@@ -57,55 +95,6 @@ export class DisplayObject extends CoreDisplayObject
         }
     }
 
-    public toLocal(position:Point, from:DisplayObject, point:Point, skipUpdate:boolean):Point
-    {
-        if (from)
-        {
-            position = from.toGlobal(position, point, skipUpdate);
-        }
-        if (!skipUpdate)
-        {
-            this._recursivePostUpdateTransform();
-            if (!this._parent)
-            {
-                //this._parent = Stage.emptyRoot;
-                this.updateTransform();
-                this._parent = null;
-            }
-            else
-            {
-                this.updateTransform();
-            }
-        }
-        return this.worldTransform.applyInverse(position, point);
-    }
-
-
-
-
-
-    public setTransform(x:number = 0, y:number = 0, scaleX:number = 1, scaleY:number = 1, rotation:number = 0, skewX:number = 0, skewY:number = 0, pivotX:number = 0, pivotY:number = 0):DisplayObject
-    {
-        this.position.x = x;
-        this.position.y = y;
-        this.scale.x = !scaleX ? 1 : scaleX;
-        this.scale.y = !scaleY ? 1 : scaleY;
-        this.rotation = rotation;
-        this.skew.x = skewX;
-        this.skew.y = skewY;
-        this.pivot.x = pivotX;
-        this.pivot.y = pivotY;
-        return this;
-    }
-
-
-
-
-
-
-
-
-
     public get z():number
     {
         return 0;
@@ -120,13 +109,6 @@ export class DisplayObject extends CoreDisplayObject
     {
         return null;
     }
-
-    /*public get loaderInfo():LoaderInfo
-    {
-        return null;
-    }*/
-
-
 
 }
 
