@@ -189,7 +189,7 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
                 uint32View[index + 12] = uvs[2];
                 uint32View[index + 17] = uvs[3];
                 const alpha = Math.min(sprite.worldAlpha, 1.0);
-                const argb = alpha < 1.0 && nextTexture.premultipliedAlpha ? Utils_1.Utils.premultiplyTint(sprite._tintRGB, alpha) : sprite._tintRGB + (alpha * 255 << 24);
+                const argb = alpha < 1.0 && nextTexture.premultipliedAlpha ? Utils_1.Utils.premultiplyTint(sprite.tintRGB, alpha) : sprite.tintRGB + (alpha * 255 << 24);
                 uint32View[index + 3] = uint32View[index + 8] = uint32View[index + 13] = uint32View[index + 18] = argb;
                 float32View[index + 4] = float32View[index + 9] = float32View[index + 14] = float32View[index + 19] = nextTexture._virtalBoundId;
                 index += 20;

@@ -339,9 +339,9 @@ export class TilingSprite extends Bitmap
      * @param {boolean} [options.texture=false] - Should it destroy the current texture of the sprite as well
      * @param {boolean} [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
      */
-    public destroy(options)
+    public destroy()
     {
-        super.destroy(options);
+        super.destroy();
 
         this.tileTransform = null;
         this.uvTransform = null;

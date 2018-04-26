@@ -269,7 +269,7 @@ export class Utils
         return obj3;
     }
 
-    public static sign(x)
+    public static sign(x:number):number
     {
         x = Number(x);
         if (x === 0 || isNaN(x))

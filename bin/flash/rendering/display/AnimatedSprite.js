@@ -193,9 +193,9 @@ define(["require", "exports", "flash/display/Bitmap", "../textures/Texture", "fl
          * @param {boolean} [options.texture=false] - Should it destroy the current texture of the sprite as well
          * @param {boolean} [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
          */
-        destroy(options) {
+        destroy() {
             this.stop();
-            super.destroy(options);
+            super.destroy();
         }
         /**
          * A short hand way of creating a movieclip from an array of frame ids

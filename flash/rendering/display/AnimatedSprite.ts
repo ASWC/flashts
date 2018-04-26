@@ -278,10 +278,10 @@ export class AnimatedSprite extends Bitmap
      * @param {boolean} [options.texture=false] - Should it destroy the current texture of the sprite as well
      * @param {boolean} [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
      */
-    public destroy(options)
+    public destroy()
     {
         this.stop();
-        super.destroy(options);
+        super.destroy();
     }
 
     /**

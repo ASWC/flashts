@@ -289,7 +289,7 @@ export class ParticleRenderer extends ObjectRenderer
             {   
                 const premultiplied = sprite.texture.baseTexture.premultipliedAlpha;
                 const alpha = sprite.alpha;
-                const argb = alpha < 1.0 && premultiplied ? Utils.premultiplyTint(sprite._tintRGB, alpha) : sprite._tintRGB + (alpha * 255 << 24);
+                const argb = alpha < 1.0 && premultiplied ? Utils.premultiplyTint(sprite.tintRGB, alpha) : sprite.tintRGB + (alpha * 255 << 24);
                 array[offset] = argb;
                 array[offset + stride] = argb;
                 array[offset + (stride * 2)] = argb;

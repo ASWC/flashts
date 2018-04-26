@@ -244,8 +244,8 @@ define(["require", "exports", "flash/display/Bitmap", "../../geom/Point", "../ma
          * @param {boolean} [options.texture=false] - Should it destroy the current texture of the sprite as well
          * @param {boolean} [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
          */
-        destroy(options) {
-            super.destroy(options);
+        destroy() {
+            super.destroy();
             this.tileTransform = null;
             this.uvTransform = null;
         }
