@@ -59,11 +59,11 @@ export class GraphicsRenderer extends ObjectRenderer
             this.primitiveShader = new PrimitiveShader(graphics.stage.context);
         }        
         let webGLData:WebGLGraphicsData;
-        let webGL = graphics._webGL[this.CONTEXT_UID];
+        let webGL:WebGLData = graphics.webGL[this.CONTEXT_UID];
         if (!webGL || graphics.dirty !== webGL.dirty)
         {
             this.updateGraphics(graphics);
-            webGL = graphics._webGL[this.CONTEXT_UID];
+            webGL = graphics.webGL[this.CONTEXT_UID];
         }
         const shader = this.primitiveShader;
         graphics.stage.bindShader(shader, true);
@@ -98,10 +98,10 @@ export class GraphicsRenderer extends ObjectRenderer
         {
             return;
         }
-        let webGL:WebGLData = graphics._webGL[this.CONTEXT_UID];
+        let webGL:WebGLData = graphics.webGL[this.CONTEXT_UID];
         if (!webGL)
         {
-            webGL = graphics._webGL[this.CONTEXT_UID] = new WebGLData(graphics.stage.context);
+            webGL = graphics.webGL[this.CONTEXT_UID] = new WebGLData(graphics.stage.context);
         }
         webGL.dirty = graphics.dirty;
         if (graphics.clearDirty !== webGL.clearDirty)

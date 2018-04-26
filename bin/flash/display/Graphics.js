@@ -1,6 +1,7 @@
 define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/geom/Rectangle", "flash/rendering/managers/Constants", "flash/rendering/math/Bounds", "flash/rendering/core/shapes/Polygon", "flash/rendering/core/shapes/RoundedRectangle", "flash/rendering/core/shapes/Circle", "flash/rendering/core/shapes/Ellipse", "flash/rendering/core/shapes/GraphicsData", "flash/rendering/core/shapes/ShapeUtils", "flash/rendering/core/renderers/GraphicsRenderer", "flash/display/DisplayObjectContainer"], function (require, exports, Matrix_1, Point_1, Rectangle_1, Constants_1, Bounds_1, Polygon_1, RoundedRectangle_1, Circle_1, Ellipse_1, GraphicsData_1, ShapeUtils_1, GraphicsRenderer_1, DisplayObjectContainer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // TYPED
     class Graphics extends DisplayObjectContainer_1.DisplayObjectContainer {
         constructor(nativeLines = false) {
             super();
@@ -11,17 +12,17 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             this.lineWidth = 0;
             this.nativeLines = nativeLines;
             this.lineColor = 0;
-            this.graphicsData = [];
-            this.tint = 0xFFFFFF;
+            this._graphicsData = [];
+            this._tint = 0xFFFFFF;
             this._prevTint = 0xFFFFFF;
-            this.blendMode = Constants_1.Constants.BLEND_MODES.NORMAL;
+            this._blendMode = Constants_1.Constants.BLEND_MODES.NORMAL;
             this.currentPath = null;
             this._webGL = {};
             this.isMask = false;
             this.boundsPadding = 0;
             this._localBounds = new Bounds_1.Bounds();
-            this.dirty = 0;
-            this.clearDirty = 0;
+            this._dirty = 0;
+            this._clearDirty = 0;
             this.boundsDirty = -1;
             this.cachedSpriteDirty = false;
             this._spriteRect = null;
@@ -32,16 +33,16 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             clone.fillAlpha = this.fillAlpha;
             clone.lineWidth = this.lineWidth;
             clone.lineColor = this.lineColor;
-            clone.tint = this.tint;
-            clone.blendMode = this.blendMode;
+            clone._tint = this._tint;
+            clone._blendMode = this._blendMode;
             clone.isMask = this.isMask;
             clone.boundsPadding = this.boundsPadding;
-            clone.dirty = 0;
+            clone._dirty = 0;
             clone.cachedSpriteDirty = this.cachedSpriteDirty;
-            for (let i = 0; i < this.graphicsData.length; ++i) {
-                clone.graphicsData.push(this.graphicsData[i].clone());
+            for (let i = 0; i < this._graphicsData.length; ++i) {
+                clone._graphicsData.push(this._graphicsData[i].clone());
             }
-            clone.currentPath = clone.graphicsData[clone.graphicsData.length - 1];
+            clone.currentPath = clone._graphicsData[clone._graphicsData.length - 1];
             clone.updateLocalBounds();
             return clone;
         }
@@ -71,7 +72,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
         }
         lineTo(x, y) {
             this.currentPath.shape.points.push(x, y);
-            this.dirty++;
+            this._dirty++;
             return this;
         }
         quadraticCurveTo(cpX, cpY, toX, toY) {
@@ -98,7 +99,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
                 ya = fromY + ((cpY - fromY) * j);
                 points.push(xa + (((cpX + ((toX - cpX) * j)) - xa) * j), ya + (((cpY + ((toY - cpY) * j)) - ya) * j));
             }
-            this.dirty++;
+            this._dirty++;
             return this;
         }
         bezierCurveTo(cpX, cpY, cpX2, cpY2, toX, toY) {
@@ -115,7 +116,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             const fromY = points[points.length - 1];
             points.length -= 2;
             ShapeUtils_1.ShapeUtils.bezierCurveTo(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
-            this.dirty++;
+            this._dirty++;
             return this;
         }
         arcTo(x1, y1, x2, y2, radius) {
@@ -158,7 +159,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
                 const endAngle = Math.atan2(qy - cy, qx - cx);
                 this.arc(cx + x1, cy + y1, radius, startAngle, endAngle, b1 * a2 > b2 * a1);
             }
-            this.dirty++;
+            this._dirty++;
             return this;
         }
         arc(cx, cy, radius, startAngle, endAngle, anticlockwise = false) {
@@ -201,7 +202,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
                 const s = -Math.sin(angle);
                 points.push((((cTheta * c) + (sTheta * s)) * radius) + cx, (((cTheta * -s) + (sTheta * c)) * radius) + cy);
             }
-            this.dirty++;
+            this._dirty++;
             return this;
         }
         beginFill(color = 0, alpha = 1) {
@@ -271,13 +272,13 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             return this.drawPolygon(polygon);
         }
         clear() {
-            if (this.lineWidth || this.filling || this.graphicsData.length > 0) {
+            if (this.lineWidth || this.filling || this._graphicsData.length > 0) {
                 this.lineWidth = 0;
                 this.filling = false;
                 this.boundsDirty = -1;
-                this.dirty++;
-                this.clearDirty++;
-                this.graphicsData.length = 0;
+                this._dirty++;
+                this._clearDirty++;
+                this._graphicsData.length = 0;
             }
             this.currentPath = null;
             this._spriteRect = null;
@@ -295,8 +296,8 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             GraphicsRenderer_1.GraphicsRenderer.renderer.render(this);
         }
         _calculateBounds() {
-            if (this.boundsDirty !== this.dirty) {
-                this.boundsDirty = this.dirty;
+            if (this.boundsDirty !== this._dirty) {
+                this.boundsDirty = this._dirty;
                 this.updateLocalBounds();
                 this.cachedSpriteDirty = true;
             }
@@ -305,7 +306,7 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
         }
         containsPoint(point) {
             this.worldTransform.applyInverse(point, Graphics.tempPoint);
-            const graphicsData = this.graphicsData;
+            const graphicsData = this._graphicsData;
             for (let i = 0; i < graphicsData.length; ++i) {
                 const data = graphicsData[i];
                 if (!data.fill) {
@@ -332,14 +333,14 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             let maxX = -Infinity;
             let minY = Infinity;
             let maxY = -Infinity;
-            if (this.graphicsData.length) {
-                let shape = 0;
+            if (this._graphicsData.length) {
+                let shape = null;
                 let x = 0;
                 let y = 0;
                 let w = 0;
                 let h = 0;
-                for (let i = 0; i < this.graphicsData.length; i++) {
-                    const data = this.graphicsData[i];
+                for (let i = 0; i < this._graphicsData.length; i++) {
+                    const data = this._graphicsData[i];
                     const type = data.type;
                     const lineWidth = data.lineWidth;
                     shape = data.shape;
@@ -422,17 +423,17 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
         drawShape(shape) {
             if (this.currentPath) {
                 if (this.currentPath.shape.points.length <= 2) {
-                    this.graphicsData.pop();
+                    this._graphicsData.pop();
                 }
             }
             this.currentPath = null;
             const data = new GraphicsData_1.GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, this.nativeLines, shape);
-            this.graphicsData.push(data);
+            this._graphicsData.push(data);
             if (data.type === Constants_1.Constants.SHAPES.POLY) {
                 data.shape.closed = data.shape.closed || this.filling;
                 this.currentPath = data;
             }
-            this.dirty++;
+            this._dirty++;
             return data;
         }
         closePath() {
@@ -443,16 +444,16 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             return this;
         }
         addHole() {
-            const hole = this.graphicsData.pop();
-            this.currentPath = this.graphicsData[this.graphicsData.length - 1];
+            const hole = this._graphicsData.pop();
+            this.currentPath = this._graphicsData[this._graphicsData.length - 1];
             this.currentPath.addHole(hole.shape);
             this.currentPath = null;
             return this;
         }
         destroy() {
             super.destroy();
-            for (let i = 0; i < this.graphicsData.length; ++i) {
-                this.graphicsData[i].destroy();
+            for (let i = 0; i < this._graphicsData.length; ++i) {
+                this._graphicsData[i].destroy();
             }
             for (const id in this._webgl) {
                 for (let j = 0; j < this._webgl[id].data.length; ++j) {
@@ -462,13 +463,30 @@ define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/ge
             if (this._spriteRect) {
                 this._spriteRect.destroy();
             }
-            this.graphicsData = null;
+            this._graphicsData = null;
             this.currentPath = null;
             this._webgl = null;
             this._localBounds = null;
         }
+        get graphicsData() {
+            return this._graphicsData;
+        }
+        get clearDirty() {
+            return this._clearDirty;
+        }
+        get dirty() {
+            return this._dirty;
+        }
+        get tint() {
+            return this._tint;
+        }
+        get blendMode() {
+            return this._blendMode;
+        }
+        get webGL() {
+            return this._webGL;
+        }
     }
-    Graphics._SPRITE_TEXTURE = null;
     Graphics.tempMatrix = new Matrix_1.Matrix();
     Graphics.tempPoint = new Point_1.Point();
     Graphics.tempColor1 = new Float32Array(4);

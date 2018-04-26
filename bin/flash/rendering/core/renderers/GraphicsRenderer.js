@@ -32,10 +32,10 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
                 this.primitiveShader = new PrimitiveShader_1.PrimitiveShader(graphics.stage.context);
             }
             let webGLData;
-            let webGL = graphics._webGL[this.CONTEXT_UID];
+            let webGL = graphics.webGL[this.CONTEXT_UID];
             if (!webGL || graphics.dirty !== webGL.dirty) {
                 this.updateGraphics(graphics);
-                webGL = graphics._webGL[this.CONTEXT_UID];
+                webGL = graphics.webGL[this.CONTEXT_UID];
             }
             const shader = this.primitiveShader;
             graphics.stage.bindShader(shader, true);
@@ -63,9 +63,9 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
             if (!graphics.stage.context) {
                 return;
             }
-            let webGL = graphics._webGL[this.CONTEXT_UID];
+            let webGL = graphics.webGL[this.CONTEXT_UID];
             if (!webGL) {
-                webGL = graphics._webGL[this.CONTEXT_UID] = new WebGLData_1.WebGLData(graphics.stage.context);
+                webGL = graphics.webGL[this.CONTEXT_UID] = new WebGLData_1.WebGLData(graphics.stage.context);
             }
             webGL.dirty = graphics.dirty;
             if (graphics.clearDirty !== webGL.clearDirty) {
