@@ -2,7 +2,7 @@
 import { Rectangle } from "flash/geom/Rectangle";
 import { Matrix } from "../../geom/Matrix";
 import { Constants } from "../managers/Constants";
-import { BaseObject } from "../core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { GLTexture } from "flash/rendering/core/gl/GLTexture";
 import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
 import { GLFramebuffer } from "flash/rendering/core/gl/GLFramebuffer";

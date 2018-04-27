@@ -1,4 +1,4 @@
-define(["require", "exports", "../webgl/Utils", "../core/BaseObject", "flash/events/EventDispatcher", "flash/events/Event", "flash/rendering/core/StageSettings", "../../geom/Rectangle"], function (require, exports, Utils_1, BaseObject_1, EventDispatcher_1, Event_1, StageSettings_1, Rectangle_1) {
+define(["require", "exports", "../webgl/Utils", "flash/display/BaseObject", "flash/events/EventDispatcher", "flash/events/Event", "flash/rendering/core/StageSettings", "../../geom/Rectangle"], function (require, exports, Utils_1, BaseObject_1, EventDispatcher_1, Event_1, StageSettings_1, Rectangle_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BaseTexture extends EventDispatcher_1.EventDispatcher {

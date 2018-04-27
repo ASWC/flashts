@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "../core/BaseObject", "../managers/Constants"], function (require, exports, Matrix_1, Point_1, BaseObject_1, Constants_1) {
+define(["require", "exports", "flash/geom/Matrix", "flash/geom/Point", "flash/display/BaseObject", "../managers/Constants"], function (require, exports, Matrix_1, Point_1, BaseObject_1, Constants_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class TransformBase extends BaseObject_1.BaseObject {

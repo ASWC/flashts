@@ -1,6 +1,6 @@
 import { Matrix } from "flash/geom/Matrix";
 import { Point } from "flash/geom/Point";
-import { BaseObject } from "../core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { Constants } from "../managers/Constants";
 
 class TransformBase extends BaseObject

@@ -13,9 +13,9 @@ import { GraphicsData } from "flash/rendering/core/shapes/GraphicsData";
 export class GraphicsRenderer extends ObjectRenderer
 {
     private static _graphicsRenderer:GraphicsRenderer;
-    public graphicsDataPool:WebGLGraphicsData[];
-    public primitiveShader:GLShader;    
-    public CONTEXT_UID:number;
+    protected graphicsDataPool:WebGLGraphicsData[];
+    protected primitiveShader:GLShader;    
+    protected CONTEXT_UID:number;
 
     constructor()
     {
@@ -34,16 +34,16 @@ export class GraphicsRenderer extends ObjectRenderer
         return GraphicsRenderer._graphicsRenderer;
     }
 
-    public destroy()
+    public destroy():void
     {
-        for (let i = 0; i < this.graphicsDataPool.length; ++i)
+        for (let i:number = 0; i < this.graphicsDataPool.length; ++i)
         {
             this.graphicsDataPool[i].destroy();
         }
         this.graphicsDataPool = null;
     }
 
-    public render(graphics:Graphics)
+    public render(graphics:Graphics):void
     {
         if(!graphics.stage)
         {
@@ -65,13 +65,13 @@ export class GraphicsRenderer extends ObjectRenderer
             this.updateGraphics(graphics);
             webGL = graphics.webGL[this.CONTEXT_UID];
         }
-        const shader = this.primitiveShader;
+        const shader:GLShader = this.primitiveShader;
         graphics.stage.bindShader(shader, true);
         graphics.stage.getRenderState().setBlendMode(graphics.blendMode);
-        for (let i = 0, n = webGL.data.length; i < n; i++)
+        for (let i:number = 0, n = webGL.data.length; i < n; i++)
         {
             webGLData = webGL.data[i];            
-            const shaderTemp = webGLData.shader;
+            const shaderTemp:GLShader = webGLData.shader;
             graphics.stage.bindShader(shaderTemp, true);
             shaderTemp.uniforms.translationMatrix = graphics.transform.worldTransform.toArray(true);    
             shaderTemp.uniforms.tint = Utils.hex2rgb(graphics.tint);
@@ -88,7 +88,7 @@ export class GraphicsRenderer extends ObjectRenderer
         }
     }
 
-    public updateGraphics(graphics:Graphics)
+    public updateGraphics(graphics:Graphics):void
     {
         if(!graphics.stage)
         {
@@ -107,7 +107,7 @@ export class GraphicsRenderer extends ObjectRenderer
         if (graphics.clearDirty !== webGL.clearDirty)
         {
             webGL.clearDirty = graphics.clearDirty;
-            for (let i = 0; i < webGL.data.length; i++)
+            for (let i:number = 0; i < webGL.data.length; i++)
             {
                 this.graphicsDataPool.push(webGL.data[i]);
             }
@@ -116,7 +116,7 @@ export class GraphicsRenderer extends ObjectRenderer
         }
         let webGLData:WebGLGraphicsData;
         let webGLDataNativeLines:WebGLGraphicsData;
-        for (let i = webGL.lastIndex; i < graphics.graphicsData.length; i++)
+        for (let i:number = webGL.lastIndex; i < graphics.graphicsData.length; i++)
         {
             const data:GraphicsData = graphics.graphicsData[i];
             const webglobjects:WebGLGraphicsData = this.getWebGLData(webGL, 0, false, graphics);
@@ -144,7 +144,7 @@ export class GraphicsRenderer extends ObjectRenderer
             webGL.lastIndex++;
         }
         graphics.stage.bindVao(null);
-        for (let i = 0; i < webGL.data.length; i++)
+        for (let i:number = 0; i < webGL.data.length; i++)
         {
             webGLData = webGL.data[i];
             if (webGLData.dirty)
@@ -157,12 +157,12 @@ export class GraphicsRenderer extends ObjectRenderer
     public getWebGLData(gl:WebGLData, type:number, nativeLines:boolean, graphics:Graphics):WebGLGraphicsData
     {
         let gldata:WebGLData = gl;
-        let webGLData = gldata.data[gldata.data.length - 1];
+        let webGLData:WebGLGraphicsData = gldata.data[gldata.data.length - 1];
         if (!webGLData || webGLData.nativeLines !== nativeLines || webGLData.points.length > 320000)
         {
             webGLData = this.graphicsDataPool.pop() || new WebGLGraphicsData(graphics.stage.context, this.primitiveShader, graphics.stage.getRenderState().attribState);
             webGLData.nativeLines = nativeLines;
-            webGLData.reset(type);
+            webGLData.reset();
             gldata.data.push(webGLData);
         }
         webGLData.dirty = true;

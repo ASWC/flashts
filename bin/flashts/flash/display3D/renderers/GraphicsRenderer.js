@@ -113,7 +113,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             if (!webGLData || webGLData.nativeLines !== nativeLines || webGLData.points.length > 320000) {
                 webGLData = this.graphicsDataPool.pop() || new WebGLGraphicsData_1.WebGLGraphicsData(graphics.stage.context, this.primitiveShader, graphics.stage.getRenderState().attribState);
                 webGLData.nativeLines = nativeLines;
-                webGLData.reset(type);
+                webGLData.reset();
                 gldata.data.push(webGLData);
             }
             webGLData.dirty = true;

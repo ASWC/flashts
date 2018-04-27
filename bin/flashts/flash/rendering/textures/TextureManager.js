@@ -1,4 +1,4 @@
-define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/GLTexture", "../webgl/Utils", "../managers/Constants", "./Texture", "../core/BaseObject", "flash/events/Event"], function (require, exports, RenderTarget_1, GLTexture_1, Utils_1, Constants_1, Texture_1, BaseObject_1, Event_1) {
+define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/GLTexture", "../webgl/Utils", "../managers/Constants", "./Texture", "flash/display/BaseObject", "flash/events/Event"], function (require, exports, RenderTarget_1, GLTexture_1, Utils_1, Constants_1, Texture_1, BaseObject_1, Event_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class TextureManager extends BaseObject_1.BaseObject {

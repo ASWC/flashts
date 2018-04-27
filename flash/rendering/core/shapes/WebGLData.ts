@@ -1,11 +1,12 @@
 import { BaseObject } from "flash/rendering/core/BaseObject";
+import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
 
 export class WebGLData extends BaseObject
 {
     public lastIndex:number;
     public clearDirty:number;
     public dirty:number;
-    public data:any[];
+    public data:WebGLGraphicsData[];
     public gl:WebGLRenderingContext;
 
     constructor(gl:WebGLRenderingContext)

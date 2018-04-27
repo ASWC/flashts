@@ -5,7 +5,7 @@ import { Stage } from "flash/display/Stage";
 
 export class ObjectRenderer extends BaseObject
 {
-    public stageContext:Stage;
+    protected stageContext:Stage;
     
     public static get renderer():ObjectRenderer
     {

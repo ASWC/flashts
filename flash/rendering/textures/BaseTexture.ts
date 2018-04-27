@@ -1,6 +1,6 @@
 
 import { Utils } from "../webgl/Utils";
-import { BaseObject } from "../core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { GLTexture } from "flash/rendering/core/gl/GLTexture";
 import { EventDispatcher } from "flash/events/EventDispatcher";
 import { Event } from "flash/events/Event";

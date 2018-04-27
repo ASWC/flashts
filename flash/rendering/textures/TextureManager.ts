@@ -4,7 +4,7 @@ import { Utils } from "../webgl/Utils";
 import { Constants } from "../managers/Constants";
 import { Texture } from "./Texture";
 import { BaseTexture } from "./BaseTexture";
-import { BaseObject } from "../core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { Event } from "flash/events/Event";
 import { Stage } from "../../display/Stage";
 

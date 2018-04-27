@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Rectangle", "../../geom/Matrix", "../managers/Constants", "../core/BaseObject", "flash/rendering/core/gl/GLFramebuffer", "flash/rendering/core/StageSettings"], function (require, exports, Rectangle_1, Matrix_1, Constants_1, BaseObject_1, GLFramebuffer_1, StageSettings_1) {
+define(["require", "exports", "flash/geom/Rectangle", "../../geom/Matrix", "../managers/Constants", "flash/display/BaseObject", "flash/rendering/core/gl/GLFramebuffer", "flash/rendering/core/StageSettings"], function (require, exports, Rectangle_1, Matrix_1, Constants_1, BaseObject_1, GLFramebuffer_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class RenderTarget extends BaseObject_1.BaseObject {
