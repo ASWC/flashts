@@ -6,6 +6,6 @@
         "allowUnreachableCode": true,
         "outDir": "bin/",
         "watch": true,   
-        "sourceMap": false            
+        "sourceMap": true            
     }
 }

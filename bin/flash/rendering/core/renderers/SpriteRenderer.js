@@ -300,3 +300,4 @@ define(["require", "exports", "flash/rendering/core/renderers/ObjectRenderer", "
         }
     }
 });
+//# sourceMappingURL=SpriteRenderer.js.map
