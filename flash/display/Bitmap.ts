@@ -5,13 +5,13 @@ import { Texture } from "flash/rendering/textures/Texture";
 import { Rectangle } from "flash/geom/Rectangle";
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { Utils } from "flash/rendering/webgl/Utils";
-import { SpriteRenderer } from "flash/rendering/core/renderers/SpriteRenderer";
+import { SpriteRenderer } from "flash/display3D/renderers/SpriteRenderer";
 import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Event } from "flash/events/Event";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { Matrix } from "flash/geom/Matrix";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 // TYPED
 

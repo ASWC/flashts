@@ -7,7 +7,7 @@ import { VideoBaseTexture } from "./VideoBaseTexture";
 import { TextureMatrix } from "../math/TextureMatrix";
 import { EventDispatcher } from "flash/events/EventDispatcher";
 import { Event } from "flash/events/Event";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 export class Texture extends EventDispatcher
 {

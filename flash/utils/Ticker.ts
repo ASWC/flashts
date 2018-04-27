@@ -1,6 +1,6 @@
 import { TickerListener } from "flash/utils/TickerListener";
 import { Constants } from "flash/rendering/managers/Constants";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 export class Ticker
 {

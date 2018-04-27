@@ -7,7 +7,7 @@ import { GLTexture } from "flash/rendering/core/gl/GLTexture";
 import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
 import { GLFramebuffer } from "flash/rendering/core/gl/GLFramebuffer";
 import { Graphics } from "flash/display/Graphics";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 export class RenderTarget extends BaseObject
 {

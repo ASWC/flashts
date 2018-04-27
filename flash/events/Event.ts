@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 
 export class Event extends BaseObject
 {
@@ -155,6 +155,7 @@ export class Event extends BaseObject
         if(currentTarget)
         {
             event._currentTarget = currentTarget;
+            
         }
     }
 }

@@ -1,11 +1,11 @@
 
 import { DisplayObject } from "flash/display/DisplayObject";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { Stage } from "flash/display/Stage";
 
 export class ObjectRenderer extends BaseObject
 {
-    protected stageContext:Stage;
+    public stageContext:Stage;
     
     public static get renderer():ObjectRenderer
     {

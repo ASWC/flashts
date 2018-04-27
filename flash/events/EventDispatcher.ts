@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { IEventDispatcher } from "flash/events/IEventDispatcher";
 import { Event } from "flash/events/Event";
 

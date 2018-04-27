@@ -6,7 +6,7 @@ import { Constants } from "flash/rendering/managers/Constants";
 import { TextStyle } from "flash/text/TextStyle";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { Event } from "flash/events/Event";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 export class Text extends Bitmap
 {

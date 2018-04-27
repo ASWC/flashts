@@ -3,7 +3,7 @@ import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
 import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Point } from "flash/geom/Point";
 import { Utils } from "flash/rendering/webgl/Utils";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 
 export class WebGLGraphicsData extends BaseObject
 {

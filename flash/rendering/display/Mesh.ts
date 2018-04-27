@@ -5,7 +5,7 @@ import { Texture } from "../textures/Texture";
 import { Constants } from "../managers/Constants";
 import { TextureMatrix } from "../math/TextureMatrix";
 import { Utils } from "../webgl/Utils";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 export class Mesh extends DisplayObjectContainer
 {

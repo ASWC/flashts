@@ -4,7 +4,7 @@ import { Rectangle } from "flash/geom/Rectangle";
 import { Circle } from "flash/rendering/core/shapes/Circle";
 import { RoundedRectangle } from "flash/rendering/core/shapes/RoundedRectangle";
 import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 
 export class GraphicsData extends BaseObject
 {

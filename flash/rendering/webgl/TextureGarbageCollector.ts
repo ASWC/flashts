@@ -5,7 +5,7 @@ import { DisplayObject } from "flash/display/DisplayObject";
 import { Sprite } from "flash/display/Sprite";
 import { Bitmap } from "flash/display/Bitmap";
 import { DisplayObjectContainer } from "../../display/DisplayObjectContainer";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 class TextureGarbageCollector
 {

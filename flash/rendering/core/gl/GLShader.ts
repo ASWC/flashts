@@ -1,5 +1,5 @@
 import { Utils } from "flash/rendering/webgl/Utils";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { GLAttributeData } from "flash/display3D/types/DataTypes";
 import { AttributeDataDictionary } from "flash/display3D/types/DataDictionaries";
 import { StringNumberDictionary } from "flash/display3D/types/DataDictionaries";

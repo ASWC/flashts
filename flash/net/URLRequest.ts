@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { URLRequestMethod } from "flash/net/URLRequestMethod";
 
 export class URLRequest extends BaseObject

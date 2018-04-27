@@ -1,5 +1,6 @@
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
+
 
 export class GLAttributeData
 {

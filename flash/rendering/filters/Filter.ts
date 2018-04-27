@@ -1,6 +1,6 @@
 import { Constants } from "../managers/Constants";
 import { Utils } from "../webgl/Utils";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 
 export class Filter

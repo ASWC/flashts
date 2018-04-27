@@ -14,7 +14,7 @@ import { Matrix } from "flash/geom/Matrix";
 import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
 import { MaskManager } from "flash/rendering/webgl/MaskManager";
 import { StencilManager } from "flash/rendering/webgl/StencilManager";
-import { ObjectRenderer } from "flash/rendering/core/renderers/ObjectRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { TextureManager } from "flash/rendering/textures/TextureManager";
 import { FilterManager } from "flash/rendering/webgl/FilterManager";
 import { WebGLState } from "flash/rendering/webgl/WebGLState";
@@ -28,7 +28,7 @@ import { Constants } from "flash/rendering/managers/Constants";
 import { Transform } from "flash/geom/Transform";
 import { IChildrenOwner } from "flash/rendering/core/exports/IChildrenOwner";
 import { IStage } from "flash/rendering/core/exports/IStage";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 import { Timer } from "flash/utils/Timer";
 import { numberDictionary } from "flash/display3D/types/DataDictionaries";
 

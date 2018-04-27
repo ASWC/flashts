@@ -83,3 +83,4 @@ define(["require", "exports", "flash/display/Bitmap", "flash/rendering/textures/
     }
     exports.Test = Test;
 });
+//# sourceMappingURL=Test.js.map

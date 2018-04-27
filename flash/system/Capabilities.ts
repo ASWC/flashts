@@ -1,5 +1,5 @@
 import { TouchscreenType } from "flash/system/TouchscreenType";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 
 export class Capabilities
 {

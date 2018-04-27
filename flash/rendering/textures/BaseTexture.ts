@@ -4,7 +4,7 @@ import { BaseObject } from "flash/display/BaseObject";
 import { GLTexture } from "flash/rendering/core/gl/GLTexture";
 import { EventDispatcher } from "flash/events/EventDispatcher";
 import { Event } from "flash/events/Event";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 import { Rectangle } from "../../geom/Rectangle";
 
 class BaseTexture extends EventDispatcher

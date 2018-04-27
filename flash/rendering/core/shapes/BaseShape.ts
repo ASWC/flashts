@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { Point } from "flash/geom/Point";
 
 export class BaseShape extends BaseObject

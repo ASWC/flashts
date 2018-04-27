@@ -1,5 +1,5 @@
 import { Filter } from "./Filter";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 
 export class BlurYFilter extends Filter

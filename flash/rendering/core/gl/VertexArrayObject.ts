@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
 
 export class VertexArrayObject extends BaseObject

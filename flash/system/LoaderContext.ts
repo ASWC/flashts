@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { ApplicationDomain } from "flash/system/ApplicationDomain";
 import { SecurityDomain } from "flash/system/SecurityDomain";
 

@@ -1,4 +1,4 @@
-import { ObjectRenderer } from "flash/rendering/core/renderers/ObjectRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { Matrix } from "../../geom/Matrix";
 import { ParticleShader } from "./ParticleShader";
 import { Utils } from "./Utils";

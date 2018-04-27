@@ -1,5 +1,5 @@
 import { GLTexture } from "flash/rendering/core/gl/GLTexture";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 
 export class GLFramebuffer extends BaseObject
 {

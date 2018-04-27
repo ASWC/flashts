@@ -1,4 +1,4 @@
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
 
 export class WebGLData extends BaseObject

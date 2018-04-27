@@ -1,6 +1,6 @@
 import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Utils } from "../webgl/Utils";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 
 

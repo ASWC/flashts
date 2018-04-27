@@ -2,7 +2,7 @@ import { Texture } from "./Texture";
 import { BaseRenderTexture } from "./BaseRenderTexture";
 import { Rectangle } from "flash/geom/Rectangle";
 import { BaseTexture } from "./BaseTexture";
-import { StageSettings } from "flash/rendering/core/StageSettings";
+import { StageSettings } from "flash/display/StageSettings";
 
 class RenderTexture extends Texture
 {

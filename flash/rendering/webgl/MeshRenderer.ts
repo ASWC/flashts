@@ -1,4 +1,4 @@
-import { ObjectRenderer } from "flash/rendering/core/renderers/ObjectRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
 import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
 import { Utils } from "./Utils";

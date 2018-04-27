@@ -6,7 +6,7 @@ import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
 import { ShapeUtils } from "flash/rendering/core/shapes/ShapeUtils";
 import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Graphics } from "flash/display/Graphics";
-import { BaseObject } from "flash/rendering/core/BaseObject";
+import { BaseObject } from "flash/display/BaseObject";
 import { WebGLData } from "flash/rendering/core/shapes/WebGLData";
 import { GraphicsData } from "flash/rendering/core/shapes/GraphicsData";
 
