@@ -1,11 +1,8 @@
 import { Constants } from "flash/rendering/managers/Constants";
-import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
+import { BaseShape } from "flash/geom/shapes/BaseShape";
 
 export class RoundedRectangle extends BaseShape
-{
-    public radius:number;
-    public type:number;
-    
+{    
     constructor(x:number = 0, y:number = 0, width:number = 0, height:number = 0, radius:number = 20)
     {
         super();
@@ -37,9 +34,9 @@ export class RoundedRectangle extends BaseShape
                 {
                     return true;
                 }
-                let dx = x - (this.x + this.radius);
-                let dy = y - (this.y + this.radius);
-                const radius2 = this.radius * this.radius;
+                let dx:number = x - (this.x + this.radius);
+                let dy:number = y - (this.y + this.radius);
+                const radius2:number = this.radius * this.radius;
                 if ((dx * dx) + (dy * dy) <= radius2)
                 {
                     return true;

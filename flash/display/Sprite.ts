@@ -2,7 +2,7 @@ import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { Graphics } from "flash/display/Graphics";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Rectangle } from "flash/geom/Rectangle";
-import { IChildrenOwner } from "flash/rendering/core/exports/IChildrenOwner";
+import { IChildrenOwner } from "flash/display3D/types/IChildrenOwner";
 import { Event } from "flash/events/Event";
 
 // typed

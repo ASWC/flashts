@@ -1,5 +1,5 @@
 import { GLAttributeData } from "flash/display3D/types/DataTypes";
-import { WebGLData } from "flash/rendering/core/shapes/WebGLData";
+import { WebGLData } from "flash/geom/shapes/WebGLData";
 
 export interface AttributeDataDictionary 
 {

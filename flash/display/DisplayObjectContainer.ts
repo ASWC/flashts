@@ -3,7 +3,7 @@ import { Utils } from "flash/rendering/webgl/Utils";
 import { Event } from "flash/events/Event";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { DisplayObject } from "flash/display/DisplayObject";
-import { IGraphicOwner } from "flash/rendering/core/exports/IGraphicOwner";
+import { IGraphicOwner } from "flash/display3D/types/IGraphicOwner";
 import { Transform } from "flash/geom/Transform";
 import { Filter } from "../rendering/filters/Filter";
 

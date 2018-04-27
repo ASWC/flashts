@@ -3,12 +3,12 @@ import { PrimitiveShader } from "flash/rendering/webgl/PrimitiveShader";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { Constants } from "flash/rendering/managers/Constants";
 import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
-import { ShapeUtils } from "flash/rendering/core/shapes/ShapeUtils";
+import { ShapeUtils } from "flash/geom/shapes/ShapeUtils";
 import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Graphics } from "flash/display/Graphics";
 import { BaseObject } from "flash/display/BaseObject";
-import { WebGLData } from "flash/rendering/core/shapes/WebGLData";
-import { GraphicsData } from "flash/rendering/core/shapes/GraphicsData";
+import { WebGLData } from "flash/geom/shapes/WebGLData";
+import { GraphicsData } from "flash/geom/shapes/GraphicsData";
 
 export class GraphicsRenderer extends ObjectRenderer
 {

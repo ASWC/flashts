@@ -3,18 +3,21 @@ import { Point } from "flash/geom/Point";
 
 export class BaseShape extends BaseObject
 {
-    public points:number[];
-    public closed:boolean;
-    public _x:number;
-    public _y:number;
-    public _width:number;
-    public _height:number;
-    public _radius:number;
+    protected _type:number;
+    protected _points:number[];
+    protected _closed:boolean;
+    protected _x:number;
+    protected _y:number;
+    protected _width:number;
+    protected _height:number;
+    protected _radius:number;
 
     constructor()
     {
         super();
-        this.closed = false;
+        this._type = 0;
+        this._points = [];
+        this._closed = false;
         this._x = 0;
         this._y = 0;
         this._width = 0;
@@ -22,10 +25,44 @@ export class BaseShape extends BaseObject
         this._radius = 0;
     }
 
+    public clone():BaseShape
+    {
+        return null;
+    }
+
+    public get type():number
+    {
+        return this._type;
+    }
+
+    public set type(value:number)
+    {
+        this._type = value;
+    }
+
+    public set points(value:number[])
+    {
+        this._points = value;
+    }
+
+    public get points():number[]
+    {
+        return this._points;
+    }
+
+    public set closed(value:boolean)
+    {
+        this._closed = value;
+    }
+
+    public get closed():boolean
+    {
+        return this._closed;
+    }
+
     public set radius(value:number)
     {
-        this._radius = value;
-        
+        this._radius = value;        
     }
 
     public get radius():number

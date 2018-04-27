@@ -1,6 +1,6 @@
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Graphics } from "flash/display/Graphics";
-import { IGraphicOwner } from "flash/rendering/core/exports/IGraphicOwner";
+import { IGraphicOwner } from "flash/display3D/types/IGraphicOwner";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { Event } from "flash/events/Event";
 

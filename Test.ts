@@ -14,7 +14,7 @@ import { InteractiveObject } from "flash/display/InteractiveObject";
 import { Event } from "flash/events/Event";
 import { Utils } from "flash/rendering/math/Utils";
 import { Constants } from "flash/rendering/managers/Constants";
-import { Polygon } from "flash/rendering/core/shapes/Polygon";
+import { Polygon } from "flash/geom/shapes/Polygon";
 import { URLRequest } from "flash/net/URLRequest";
 import { URLLoader } from "flash/net/URLLoader";
 import { URLLoaderDataFormat } from "flash/net/URLLoaderDataFormat";

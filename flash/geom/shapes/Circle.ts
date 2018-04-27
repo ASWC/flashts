@@ -1,11 +1,9 @@
 import { Constants } from "flash/rendering/managers/Constants";
 import { Rectangle } from "flash/geom/Rectangle";
-import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
+import { BaseShape } from "flash/geom/shapes/BaseShape";
 
 export class Circle extends BaseShape
 {
-    public radius:number;
-    public type:number;
     
     constructor(x:number = 0, y:number = 0, radius:number = 0)
     {
@@ -27,9 +25,9 @@ export class Circle extends BaseShape
         {
             return false;
         }
-        const r2 = this.radius * this.radius;
-        let dx = (this.x - x);
-        let dy = (this.y - y);
+        const r2:number = this.radius * this.radius;
+        let dx:number = (this.x - x);
+        let dy:number = (this.y - y);
         dx *= dx;
         dy *= dy;
         return (dx + dy <= r2);

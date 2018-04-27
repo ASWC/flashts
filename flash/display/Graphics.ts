@@ -4,22 +4,22 @@ import { Point } from "flash/geom/Point";
 import { Rectangle } from "flash/geom/Rectangle";
 import { Constants } from "flash/rendering/managers/Constants";
 import { Bounds } from "flash/rendering/math/Bounds";
-import { Polygon } from "flash/rendering/core/shapes/Polygon";
-import { RoundedRectangle } from "flash/rendering/core/shapes/RoundedRectangle";
-import { Circle } from "flash/rendering/core/shapes/Circle";
-import { Ellipse } from "flash/rendering/core/shapes/Ellipse";
+import { Polygon } from "flash/geom/shapes/Polygon";
+import { RoundedRectangle } from "flash/geom/shapes/RoundedRectangle";
+import { Circle } from "flash/geom/shapes/Circle";
+import { Ellipse } from "flash/geom/shapes/Ellipse";
 import { Bitmap } from "flash/display/Bitmap";
 import { Texture } from "flash/rendering/textures/Texture";
 import { Utils } from "flash/rendering/webgl/Utils";
-import { GraphicsData } from "flash/rendering/core/shapes/GraphicsData";
+import { GraphicsData } from "flash/geom/shapes/GraphicsData";
 import { RenderTexture } from "flash/rendering/textures/RenderTexture";
-import { ShapeUtils } from "flash/rendering/core/shapes/ShapeUtils";
+import { ShapeUtils } from "flash/geom/shapes/ShapeUtils";
 import { GraphicsRenderer } from "flash/display3D/renderers/GraphicsRenderer";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { BaseObject } from "flash/display/BaseObject";
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { WebGlDataDictionary } from "flash/display3D/types/DataDictionaries";
-import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
+import { BaseShape } from "flash/geom/shapes/BaseShape";
 
 // TYPED
 
@@ -349,9 +349,9 @@ export class Graphics extends DisplayObjectContainer
         return this;
     }
 
-    public drawPolygon(path:number[]|Point[]|Polygon):Graphics
+    public drawPolygon(path:number[]):Graphics
     {
-        let points:number[]|Point[]|Polygon = path;
+        let points:number[] = path;
         let closed:boolean = true;
         if (points instanceof Polygon)
         {

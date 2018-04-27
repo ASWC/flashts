@@ -1,5 +1,5 @@
 import { Constants } from "flash/rendering/managers/Constants";
-import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
+import { BaseShape } from "flash/geom/shapes/BaseShape";
 
 export class Rectangle extends BaseShape
 {    

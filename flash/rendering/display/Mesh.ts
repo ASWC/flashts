@@ -1,6 +1,6 @@
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { Point } from "../../geom/Point";
-import { Polygon } from "flash/rendering/core/shapes/Polygon";
+import { Polygon } from "flash/geom/shapes/Polygon";
 import { Texture } from "../textures/Texture";
 import { Constants } from "../managers/Constants";
 import { TextureMatrix } from "../math/TextureMatrix";

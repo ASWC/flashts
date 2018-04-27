@@ -14,7 +14,7 @@ import { RenderTexture } from "flash/rendering/textures/RenderTexture";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { Texture } from "flash/rendering/textures/Texture";
-import { IStage } from "flash/rendering/core/exports/IStage";
+import { IStage } from "flash/display3D/types/IStage";
 
 export class CoreDisplayObject extends EventDispatcher implements IBitmapDrawable
 {

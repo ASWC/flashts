@@ -1,11 +1,9 @@
 import { Constants } from "flash/rendering/managers/Constants";
 import { Rectangle } from "flash/geom/Rectangle";
-import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
+import { BaseShape } from "flash/geom/shapes/BaseShape";
 
 export class Ellipse extends BaseShape
-{   
-    public type:number;
-    
+{       
     constructor(x:number = 0, y:number = 0, width:number = 0, height:number = 0)
     {
         super();
@@ -27,8 +25,8 @@ export class Ellipse extends BaseShape
         {
             return false;
         }
-        let normx = ((x - this.x) / this.width);
-        let normy = ((y - this.y) / this.height);
+        let normx:number = ((x - this.x) / this.width);
+        let normy:number = ((y - this.y) / this.height);
         normx *= normx;
         normy *= normy;
         return (normx + normy <= 1);
