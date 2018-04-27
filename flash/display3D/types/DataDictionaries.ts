@@ -1,4 +1,4 @@
-import { GLAttributeData } from "flash/rendering/core/types/DataTypes";
+import { GLAttributeData } from "flash/display3D/types/DataTypes";
 import { WebGLData } from "flash/rendering/core/shapes/WebGLData";
 
 export interface AttributeDataDictionary 
@@ -19,4 +19,9 @@ export interface StringStringDictionary
 export interface WebGlDataDictionary 
 {
     [name: string]: WebGLData;
+}
+
+export interface numberDictionary 
+{
+    [name: string]: number;
 }

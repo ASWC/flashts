@@ -1,6 +1,6 @@
 
 import { Tracer } from "flash/Tracer";
-import { ObjectRenderer } from "../core/renderers/ObjectRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 
 export class MaskManager extends ObjectRenderer
 {

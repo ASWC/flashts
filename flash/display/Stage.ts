@@ -30,6 +30,9 @@ import { IChildrenOwner } from "flash/rendering/core/exports/IChildrenOwner";
 import { IStage } from "flash/rendering/core/exports/IStage";
 import { StageSettings } from "flash/rendering/core/StageSettings";
 import { Timer } from "flash/utils/Timer";
+import { numberDictionary } from "flash/display3D/types/DataDictionaries";
+
+// TYPED
 
 export class Stage extends DisplayObjectContainer implements IChildrenOwner, IStage
 {
@@ -53,8 +56,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
     protected _fullScreenSourceRect:Rectangle;
     protected _focus:InteractiveObject;       
     protected stageOptions:StageOptions; 
-    protected _screen:Rectangle;   
-    protected _blendModes:any;   
+    protected _screen:Rectangle;    
     protected _backgroundColorRgba:number[];
     protected _backgroundColorString:string;
     protected _lastObjectRendered:DisplayObject;
@@ -74,11 +76,9 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
     protected rootRenderTarget:RenderTarget;
     protected _started:boolean;    
     protected _renderEvent:Event;
-
-    protected _boundTextures:Array<BaseTexture>;
-    
-    protected _emptyTextures:any;
-    protected drawModes:any;
+    protected _boundTextures:Array<BaseTexture>;    
+    protected _emptyTextures:BaseTexture[];
+    protected drawModes:numberDictionary;
 
     constructor()
     {
@@ -182,12 +182,12 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             this.rootRenderTarget = new RenderTarget(this.stageOptions.context, this.stageOptions.width, this.stageOptions.height, null, this.stageOptions.resolution, true);
             this.rootRenderTarget.clearColor = this._backgroundColorRgba;
             this.bindRenderTarget(this.rootRenderTarget);
-            const emptyGLTexture = GLTexture.fromData(this.stageOptions.context, null, 1, 1);
+            const emptyGLTexture:GLTexture = GLTexture.fromData(this.stageOptions.context, null, 1, 1);
             const tempObj = new BaseTexture();
             tempObj._glTextures[this.CONTEXT_UID] = null;
-            for (let i = 0; i < maxTextures; i++)
+            for (let i:number = 0; i < maxTextures; i++)
             {
-                const empty = new BaseTexture();
+                const empty:BaseTexture = new BaseTexture();
                 empty._glTextures[this.CONTEXT_UID] = emptyGLTexture;
                 this._boundTextures[i] = tempObj;
                 this._emptyTextures[i] = empty;
@@ -212,7 +212,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }        
         if (!forceLocation)
         {
-            for (let i = 0; i < this._boundTextures.length; i++)
+            for (let i:number = 0; i < this._boundTextures.length; i++)
             {
                 if (this._boundTextures[i] === texture)
                 {
@@ -387,7 +387,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         let renderTarget;
         if (renderTexture)
         {
-            const baseTexture = renderTexture.baseTexture;
+            const baseTexture:BaseTexture = renderTexture.baseTexture;
             if (!baseTexture._glRenderTargets[this.CONTEXT_UID])
             {
                 this.textureManager.updateTexture(baseTexture, 0);
@@ -411,7 +411,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         {
             basetex = value.baseTexture
         }
-        for (let i = 0; i < this._boundTextures.length; i++)
+        for (let i:number = 0; i < this._boundTextures.length; i++)
         {
             if (this._boundTextures[i] === basetex)
             {
@@ -519,7 +519,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
     {
         this.textureManager.removeAll();
         this.filterManager.destroy(true);
-        //this._initContext();
+        this.setOptionsRendering();
     }
 
     protected handleContextLost = (event:WebGLContextEvent)=>
@@ -552,7 +552,6 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }
         this.stageOptions.view = null;
         this._screen = null;
-        this._blendModes = null;
         this.stageOptions = null;
         this._backgroundColorRgba = null;
         this._backgroundColorString = null;
@@ -562,7 +561,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
     public generateTexture(displayObject:DisplayObject, scaleMode:number, resolution:number, region:Rectangle):Texture
     {
         region = region || displayObject.getLocalBounds();
-        const renderTexture = RenderTexture.create(region.width | 0, region.height | 0, scaleMode, resolution);
+        const renderTexture:RenderTexture = RenderTexture.create(region.width | 0, region.height | 0, scaleMode, resolution);
         Matrix.GLOBAL.tx = -region.x;
         Matrix.GLOBAL.ty = -region.y;
         //this.render(displayObject, renderTexture, false, Matrix.GLOBAL, true);

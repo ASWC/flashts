@@ -4,6 +4,8 @@ import { DisplayObject } from "flash/display/DisplayObject";
 import { Stage } from "flash/display/Stage";
 import { IStage } from "flash/rendering/core/exports/IStage";
 
+// TYPED
+
 export interface IDisplayObjectContainer
 {
     worldAlpha:number;

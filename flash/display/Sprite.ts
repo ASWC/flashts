@@ -5,6 +5,8 @@ import { Rectangle } from "flash/geom/Rectangle";
 import { IChildrenOwner } from "flash/rendering/core/exports/IChildrenOwner";
 import { Event } from "flash/events/Event";
 
+// typed
+
 export class Sprite extends DisplayObjectContainer implements IChildrenOwner
 {
     protected _buttonMode:boolean;
@@ -86,6 +88,7 @@ export class Sprite extends DisplayObjectContainer implements IChildrenOwner
     public set buttonMode(value:boolean)
     {
         this._buttonMode = value;
+        // to implement
     }
 
     public get dropTarget():DisplayObject
@@ -110,6 +113,7 @@ export class Sprite extends DisplayObjectContainer implements IChildrenOwner
     public set hitArea(value:Sprite)
     {
         this._hitArea = value;
+        // to implement
     }
 
     public get useHandCursor():boolean
@@ -120,25 +124,26 @@ export class Sprite extends DisplayObjectContainer implements IChildrenOwner
     public set useHandCursor(value:boolean)
     {
         this._useHandCursor = value;
+        // to implement
     }
 
     public startDrag(lockCenter:boolean = false, bounds:Rectangle = null):void
     {
-
+        // to implement
     }
 
     public startTouchDrag(touchPointID:number, lockCenter:boolean = false, bounds:Rectangle = null):void
     {
-
+        // to implement
     }
 
     public stopDrag():void
     {
-
+        // to implement
     }
 
     public stopTouchDrag(touchPointID:number):void
     {
-
+        // to implement
     }
 }

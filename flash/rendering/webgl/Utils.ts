@@ -4,6 +4,7 @@ import { GLShader } from "flash/rendering/core/gl/GLShader";
 import { Matrix } from "../../geom/Matrix";
 import { Point } from "../../geom/Point";
 import { Shaders } from "../filters/Shaders";
+import { numberDictionary } from "flash/display3D/types/DataDictionaries";
 
 export class Utils
 {
@@ -714,9 +715,9 @@ export class Utils
         arr.length = len;
     }
 
-    public static mapWebGLDrawModesToPixi(gl:WebGLRenderingContext)
+    public static mapWebGLDrawModesToPixi(gl:WebGLRenderingContext):numberDictionary
     {
-        var object:any = {};
+        var object:numberDictionary = {};
         object[Constants.DRAW_MODES.POINTS] = gl.POINTS;
         object[Constants.DRAW_MODES.LINES] = gl.LINES;
         object[Constants.DRAW_MODES.LINE_LOOP] = gl.LINE_LOOP;

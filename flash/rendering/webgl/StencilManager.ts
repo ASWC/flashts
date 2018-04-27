@@ -1,6 +1,6 @@
 
 import { Graphics } from "flash/display/Graphics";
-import { GraphicsRenderer } from "../core/renderers/GraphicsRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 
 
 export class StencilManager// extends WebGLManager

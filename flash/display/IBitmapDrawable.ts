@@ -1,5 +1,6 @@
 
 
+// TYPED
 
 export interface IBitmapDrawable
 {

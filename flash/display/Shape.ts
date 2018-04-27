@@ -4,6 +4,8 @@ import { IGraphicOwner } from "flash/rendering/core/exports/IGraphicOwner";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { Event } from "flash/events/Event";
 
+// TYPED
+
 export class Shape extends DisplayObject implements IGraphicOwner
 {
     protected _graphics:Graphics;
@@ -32,10 +34,6 @@ export class Shape extends DisplayObject implements IGraphicOwner
         {
             this.transform.updateWorldTransform(this._parent.transform);
             this.transform.update();
-        }
-        else
-        {
-            
         }
         if(this._graphics)
         {

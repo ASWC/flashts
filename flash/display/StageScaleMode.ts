@@ -1,5 +1,5 @@
 
-
+// typed
 
 export class StageScaleMode
 {

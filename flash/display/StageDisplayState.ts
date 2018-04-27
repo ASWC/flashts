@@ -1,5 +1,5 @@
 
-
+// TYPED 
 export class StageDisplayState
 {
     public static FULL_SCREEN:string = "fullScreen"

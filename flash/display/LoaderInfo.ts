@@ -2,6 +2,8 @@ import { EventDispatcher } from "flash/events/EventDispatcher";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Loader } from "flash/display/Loader";
 
+// TYPED
+
 export class LoaderInfo extends EventDispatcher
 {
     protected _content:DisplayObject;

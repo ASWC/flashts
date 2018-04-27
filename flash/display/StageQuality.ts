@@ -1,4 +1,5 @@
 
+// TYPED 
 
 export class StageQuality
 {

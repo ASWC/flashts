@@ -18,8 +18,8 @@ import { GraphicsRenderer } from "flash/rendering/core/renderers/GraphicsRendere
 import { DisplayObject } from "flash/display/DisplayObject";
 import { BaseObject } from "flash/rendering/core/BaseObject";
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
-import { WebGlDataDictionary } from "flash/rendering/core/types/DataDictionaries";
-import { BaseShape } from "../rendering/core/shapes/BaseShape";
+import { WebGlDataDictionary } from "flash/display3D/types/DataDictionaries";
+import { BaseShape } from "flash/rendering/core/shapes/BaseShape";
 
 // TYPED
 

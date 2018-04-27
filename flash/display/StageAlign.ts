@@ -1,5 +1,5 @@
 
-
+// TYPED
 
 export class StageAlign
 {

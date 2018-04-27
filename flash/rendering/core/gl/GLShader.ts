@@ -1,9 +1,9 @@
 import { Utils } from "flash/rendering/webgl/Utils";
 import { BaseObject } from "flash/rendering/core/BaseObject";
-import { GLAttributeData } from "flash/rendering/core/types/DataTypes";
-import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
-import { StringNumberDictionary } from "flash/rendering/core/types/DataDictionaries";
-import { StringStringDictionary } from "flash/rendering/core/types/DataDictionaries";
+import { GLAttributeData } from "flash/display3D/types/DataTypes";
+import { AttributeDataDictionary } from "flash/display3D/types/DataDictionaries";
+import { StringNumberDictionary } from "flash/display3D/types/DataDictionaries";
+import { StringStringDictionary } from "flash/display3D/types/DataDictionaries";
 
 export class GLShader extends BaseObject
 {

@@ -1,8 +1,10 @@
 import { DisplayObject } from "flash/display/DisplayObject";
 
+// TYPED
+
 export class InteractiveObject extends DisplayObject
 {
-    public _mouseEnabled:boolean;   
+    protected _mouseEnabled:boolean;   
 
     constructor()
     {

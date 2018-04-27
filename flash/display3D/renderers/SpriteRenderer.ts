@@ -1,4 +1,4 @@
-import { ObjectRenderer } from "flash/rendering/core/renderers/ObjectRenderer";
+import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { Buffer } from "flash/rendering/core/gl/Buffer";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { CreateIndicesForQuads } from "flash/rendering/webgl/CreateIndicesForQuads";
@@ -11,8 +11,8 @@ import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { BaseObject } from "flash/rendering/core/BaseObject";
 import { StageSettings } from "flash/rendering/core/StageSettings";
 import { Event } from "flash/events/Event";
-import { AttributeDataDictionary } from "flash/rendering/core/types/DataDictionaries";
-import { SpriteDataGroup } from "flash/rendering/core/types/DataTypes";
+import { AttributeDataDictionary } from "flash/display3D/types/DataDictionaries";
+import { SpriteDataGroup } from "flash/display3D/types/DataTypes";
 
 // TYPED
 

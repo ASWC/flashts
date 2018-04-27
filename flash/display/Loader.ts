@@ -4,6 +4,9 @@ import { LoaderInfo } from "flash/display/LoaderInfo";
 import { LoaderContext } from "flash/system/LoaderContext";
 import { URLRequest } from "flash/net/URLRequest";
 
+// TYPED
+// TO IMPLEMENT
+
 export class Loader extends DisplayObjectContainer
 {
     protected _content:DisplayObject;
