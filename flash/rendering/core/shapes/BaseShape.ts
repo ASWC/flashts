@@ -25,6 +25,7 @@ export class BaseShape extends BaseObject
     public set radius(value:number)
     {
         this._radius = value;
+        
     }
 
     public get radius():number

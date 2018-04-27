@@ -1,9 +1,8 @@
 
-
-import { CoreDisplayObject } from "flash/rendering/core/CoreDisplayObject";
 import { Matrix } from "flash/geom/Matrix";
 import { Point } from "flash/geom/Point";
 import { Event } from "flash/events/Event";
+import { CoreDisplayObject } from "flash/display/CoreDisplayObject";
 
 // TYPED
 

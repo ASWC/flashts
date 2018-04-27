@@ -1,5 +1,4 @@
 
-
 import { Utils } from "flash/rendering/webgl/Utils";
 import { Event } from "flash/events/Event";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
