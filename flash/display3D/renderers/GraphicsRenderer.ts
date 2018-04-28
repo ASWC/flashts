@@ -127,15 +127,15 @@ export class GraphicsRenderer extends ObjectRenderer
             }
             if (data.type === Constants.SHAPES.POLY)
             {
-                ShapeUtils.buildPoly(webglobjects, data, webGLDataNativeLines);
+                ShapeUtils.buildPoly(webglobjects, data);
             }
             else if (data.type === Constants.SHAPES.CIRC || data.type === Constants.SHAPES.ELIP)
             {
-                ShapeUtils.buildCircle(webglobjects, data, webGLDataNativeLines);
+                ShapeUtils.buildCircle(webglobjects, data);
             }
             if (data.type === Constants.SHAPES.RECT)
             {
-                ShapeUtils.buildRectangle(webglobjects, data, webGLDataNativeLines);
+                ShapeUtils.buildRectangle(webglobjects, data);
             }
             else if (data.type === Constants.SHAPES.RREC)
             {

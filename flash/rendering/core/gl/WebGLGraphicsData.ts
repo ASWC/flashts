@@ -19,6 +19,7 @@ export class WebGLGraphicsData extends BaseObject
     public vao:VertexArrayObject;
     public glPoints:Float32Array;
     public glIndices:Uint16Array;
+    public alpha:number;
 
     constructor(gl:WebGLRenderingContext, shader:GLShader, attribsState:any)
     {
