@@ -1,15 +1,21 @@
 import { Utils } from "flash/rendering/webgl/Utils";
 import { BaseObject } from "flash/display/BaseObject";
 import { GLAttributeData } from "flash/display3D/types/DataTypes";
+import { ShaderUnniformData } from "flash/display3D/types/DataTypes";
 import { AttributeDataDictionary } from "flash/display3D/types/DataDictionaries";
 import { StringNumberDictionary } from "flash/display3D/types/DataDictionaries";
 import { StringStringDictionary } from "flash/display3D/types/DataDictionaries";
+import { ShaderUnnifromDataDictionary } from "flash/display3D/types/DataDictionaries";
+import { ShaderUnniformAccess } from "flash/display3D/types/DataTypes";
+
+
 
 export class GLShader extends BaseObject
 {
-    public static GL_TABLE = null;
+    protected static GL_TABLE:StringStringDictionary = null;
 
-    public static GLSL_SINGLE_SETTERS = {
+    public static GLSL_SINGLE_SETTERS = 
+    {
         float: function setSingleFloat(gl:WebGLRenderingContext, location, value) { gl.uniform1f(location, value); },
         vec2: function setSingleVec2(gl:WebGLRenderingContext, location, value) { gl.uniform2f(location, value[0], value[1]); },
         vec3: function setSingleVec3(gl:WebGLRenderingContext, location, value) { gl.uniform3f(location, value[0], value[1], value[2]); },
@@ -28,7 +34,8 @@ export class GLShader extends BaseObject
         sampler2D: function setSingleSampler2D(gl:WebGLRenderingContext, location, value) { gl.uniform1i(location, value); },
     };
 
-    public static GLSL_ARRAY_SETTERS = {
+    public static GLSL_ARRAY_SETTERS = 
+    {
         float: function setFloatArray(gl:WebGLRenderingContext, location, value) { gl.uniform1fv(location, value); },
         vec2: function setVec2Array(gl:WebGLRenderingContext, location, value) { gl.uniform2fv(location, value); },
         vec3: function setVec3Array(gl:WebGLRenderingContext, location, value) { gl.uniform3fv(location, value); },
@@ -44,7 +51,8 @@ export class GLShader extends BaseObject
         sampler2D: function setSampler2DArray(gl:WebGLRenderingContext, location, value) { gl.uniform1iv(location, value); },
     };
     
-    public static GL_TO_GLSL_TYPES:StringStringDictionary = {
+    protected static GL_TO_GLSL_TYPES:StringStringDictionary = 
+    {
       'FLOAT':       'float',
       'FLOAT_VEC2':  'vec2',
       'FLOAT_VEC3':  'vec3',
@@ -63,7 +71,8 @@ export class GLShader extends BaseObject
       'SAMPLER_2D':  'sampler2D'  
     };
 
-    public static GLSL_TO_SIZE:StringNumberDictionary = {
+    protected static GLSL_TO_SIZE:StringNumberDictionary = 
+    {
         'float':    1,
         'vec2':     2,
         'vec3':     3,
@@ -82,121 +91,79 @@ export class GLShader extends BaseObject
         'sampler2D':  1
     };
 
-    public gl:WebGLRenderingContext;
-    public program:WebGLProgram;
-    public attributes:AttributeDataDictionary;
-    public attributesuniforms:any;
-    public uniformData:any;    
-    public uniforms:any;    
-    public location:any;    
-    public size:number; 
-    protected precisionType:string;
+    protected gl:WebGLRenderingContext;
+    protected program:WebGLProgram;
+    protected _attributes:AttributeDataDictionary;
+    protected _uniforms:ShaderUnniformAccess;  
+    protected uniformData:ShaderUnnifromDataDictionary;        
+    protected location:number;    
+    protected size:number; 
 
-    constructor(gl:WebGLRenderingContext, vertexSrc:string, fragmentSrc:string, attributeLocations:any = null, precision:number = 2)
+    constructor(gl:WebGLRenderingContext, vertexSrc:string, fragmentSrc:string, attributeLocations:number[] = null)
     {
         super();
         this.size = 0;
-        this.precisionType = "mediump";
-        if(precision == 2)
-        {
-            this.precisionType = "mediump";
-        }
         this.gl = gl;
-        if(vertexSrc)
-        {
-            vertexSrc = this.setPrecision(vertexSrc);
-        }
-        if(fragmentSrc)
-        {
-            fragmentSrc = this.setPrecision(fragmentSrc);
-        }
         if(vertexSrc && fragmentSrc && this.gl)
         {
             this.program = this.compileProgram(gl, vertexSrc, fragmentSrc, attributeLocations);
         }
         if(this.gl)
         {
-            this.attributes = this.extractAttributes(gl, this.program);
-
-            this.reveal(this.attributes)
-
+            this._attributes = this.extractAttributes(gl, this.program);
             this.uniformData = this.extractUniforms(gl, this.program);
-            this.uniforms = this.generateUniformAccessObject(gl, this.uniformData);
+            this._uniforms = this.generateUniformAccessObject(gl, this.uniformData);
         }        
     }
 
-    public generateUniformAccessObject(gl:WebGLRenderingContext, uniformData:any):any
+    public generateUniformAccessObject(gl:WebGLRenderingContext, uniformData:ShaderUnnifromDataDictionary):ShaderUnniformAccess
     {
-        var uniforms:any = {data:{}};    
-        uniforms.gl = gl;    
-        var uniformKeys= Object.keys(uniformData);    
+        var uniforms:ShaderUnniformAccess = new ShaderUnniformAccess(gl);         
+        var uniformKeys:string[] = Object.keys(uniformData);    
         for (var i = 0; i < uniformKeys.length; i++)
         {
-            var fullName = uniformKeys[i];    
-            var nameTokens = fullName.split('.');
-            var name = nameTokens[nameTokens.length - 1];    
-            var uniformGroup = this.getUniformGroup(nameTokens, uniforms);    
-            var uniform =  uniformData[fullName];
+            var fullName:string = uniformKeys[i]; 
+            var nameTokens:string[] = fullName.split('.');
+            var name:string = nameTokens[nameTokens.length - 1]; 
+            var uniformGroup:ShaderUnniformAccess = this.getUniformGroup(nameTokens, uniforms);  
+            var uniform:ShaderUnniformData = uniformData[fullName];
             uniformGroup.data[name] = uniform;    
             uniformGroup.gl = gl;    
-            Object.defineProperty(uniformGroup, name, {
-                get: this.generateGetter(name),
-                set: this.generateSetter(name, uniform)
-            });
         }    
         return uniforms;
     };
 
-    public generateSetter(name, uniform)
+    public get attributes():AttributeDataDictionary
     {
-        return function(value) {
-            this.data[name].value = value;
-            var location = this.data[name].location;
-            if (uniform.size === 1)
-            {
-                GLShader.GLSL_SINGLE_SETTERS[uniform.type](this.gl, location, value);
-            }
-            else
-            {
-                GLShader.GLSL_ARRAY_SETTERS[uniform.type](this.gl, location, value);
-            }
-        };
+        return this._attributes;
     }
 
-    public generateGetter = function(name)
+    public get uniforms():ShaderUnniformAccess
     {
-        return function() {
-            return this.data[name].value;
-        };
-    };
+        return this._uniforms;
+    }
 
-    public getUniformGroup(nameTokens, uniform)
-    {
-        var cur = uniform;    
-        for (var i = 0; i < nameTokens.length - 1; i++)
+    public getUniformGroup(nameTokens:string[], uniform:ShaderUnniformAccess):ShaderUnniformAccess
+    {  
+        for (var i:number = 0; i < nameTokens.length - 1; i++)
         {
-            var o = cur[nameTokens[i]] || {data:{}};
-            cur[nameTokens[i]] = o;
-            cur = o;
+            var o:ShaderUnniformAccess = uniform[nameTokens[i]] || {data:{}};
+            uniform[nameTokens[i]] = o;
+            uniform = o;
         }    
-        return cur;
+        return uniform;
     }
 
-    public extractUniforms(gl:WebGLRenderingContext, program:WebGLProgram):any
+    public extractUniforms(gl:WebGLRenderingContext, program:WebGLProgram):ShaderUnnifromDataDictionary
     {
-        var uniforms:any = {};    
-        var totalUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);    
+        var uniforms:ShaderUnnifromDataDictionary = {};  
+        var totalUniforms:number = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);    
         for (var i = 0; i < totalUniforms; i++)
         {
-            var uniformData = gl.getActiveUniform(program, i);
-            var name = uniformData.name.replace(/\[.*?\]/, "");
-            var type = this.mapType(gl, uniformData.type );    
-            uniforms[name] = {
-                type:type,
-                size:uniformData.size,
-                location:gl.getUniformLocation(program, name),
-                value:Utils.defaultValue(type, uniformData.size)
-            };
+            var uniformData:WebGLActiveInfo = gl.getActiveUniform(program, i);
+            var name:string = uniformData.name.replace(/\[.*?\]/, "");
+            var type:string = this.mapType(gl, uniformData.type ); 
+            uniforms[name] = new ShaderUnniformData(type, uniformData.size, gl.getUniformLocation(program, name), Utils.defaultValue(type, uniformData.size));
         }    
         return uniforms;
     };
@@ -223,11 +190,11 @@ export class GLShader extends BaseObject
     {
         if(!GLShader.GL_TABLE) 
         {
-            var typeNames = Object.keys(GLShader.GL_TO_GLSL_TYPES);    
+            var typeNames:string[] = Object.keys(GLShader.GL_TO_GLSL_TYPES);    
             GLShader.GL_TABLE = {};    
             for(var i = 0; i < typeNames.length; ++i) 
             {
-                var tn = typeNames[i];
+                var tn:string = typeNames[i];
                 GLShader.GL_TABLE[ gl[tn] ] = GLShader.GL_TO_GLSL_TYPES[tn];
             }
         }    
@@ -239,11 +206,11 @@ export class GLShader extends BaseObject
         return GLShader.GLSL_TO_SIZE[type];
     };
 
-    public compileProgram (gl:WebGLRenderingContext, vertexSrc:string, fragmentSrc:string, attributeLocations:any):WebGLProgram
+    public compileProgram (gl:WebGLRenderingContext, vertexSrc:string, fragmentSrc:string, attributeLocations:number[]):WebGLProgram
     {
-        var glVertShader = this.compileShader(gl, gl.VERTEX_SHADER, vertexSrc);
-        var glFragShader = this.compileShader(gl, gl.FRAGMENT_SHADER, fragmentSrc);    
-        var program = gl.createProgram();    
+        var glVertShader:WebGLShader = this.compileShader(gl, gl.VERTEX_SHADER, vertexSrc);
+        var glFragShader:WebGLShader = this.compileShader(gl, gl.FRAGMENT_SHADER, fragmentSrc);    
+        var program:WebGLProgram = gl.createProgram();    
         gl.attachShader(program, glVertShader);
         gl.attachShader(program, glFragShader);
         if(attributeLocations)
@@ -254,6 +221,7 @@ export class GLShader extends BaseObject
             }
         }    
         gl.linkProgram(program);
+
         if (!gl.getProgramParameter(program, gl.LINK_STATUS))
         {
             console.error('Pixi.js Error: Could not initialize shader.');
@@ -266,6 +234,7 @@ export class GLShader extends BaseObject
             gl.deleteProgram(program);
             program = null;
         }
+
         gl.deleteShader(glVertShader);
         gl.deleteShader(glFragShader);    
         return program;
@@ -273,45 +242,28 @@ export class GLShader extends BaseObject
 
     public compileShader (gl:WebGLRenderingContext, type:number, src:string):WebGLShader
     {        
-        var shader = gl.createShader(type);  
+        var shader:WebGLShader = gl.createShader(type);  
         gl.shaderSource(shader, src);
-        gl.compileShader(shader);    
-       
+        gl.compileShader(shader);         
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
         {
             return null;
         }    
         return shader;
     };
-
-    public setPrecision(src:string)
-    {
-        if(src.substring(0, 9) !== 'precision')
-        {
-            return 'precision ' + this.precisionType + ' float;\n' + src;
-        }    
-        return src;
-    };
  
     public bind():GLShader
-    {
-    
+    {    
         this.gl.useProgram(this.program);
         return this;
     };
 
-    /**
-     * Destroys this shader
-     * TODO
-     */
-    public destroy()
+    public destroy():void
     {
-        this.attributes = null;
+        this._attributes = null;
         this.uniformData = null;
-        this.uniforms = null;
-
-        var gl = this.gl;
-        gl.deleteProgram(this.program);
+        this._uniforms = null;
+        this.gl.deleteProgram(this.program);
     };
 
 

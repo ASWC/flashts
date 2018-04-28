@@ -1,11 +1,11 @@
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 import { Utils } from "./Utils";
 import { Matrix } from "../../geom/Matrix";
 import { Mesh } from "../display/Mesh";
 import { Shaders } from "../filters/Shaders";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 
 export class MeshRenderer extends ObjectRenderer
 {
@@ -64,9 +64,9 @@ export class MeshRenderer extends ObjectRenderer
 
             glData = {
                 shader: this.shader,
-                vertexBuffer: GLBuffer.createVertexBuffer(gl, mesh.vertices, gl.STREAM_DRAW),
-                uvBuffer: GLBuffer.createVertexBuffer(gl, mesh.uvs, gl.STREAM_DRAW),
-                indexBuffer: GLBuffer.createIndexBuffer(gl, mesh.indices, gl.STATIC_DRAW),
+                vertexBuffer: IndexBuffer3D.createVertexBuffer(gl, mesh.vertices, gl.STREAM_DRAW),
+                uvBuffer: IndexBuffer3D.createVertexBuffer(gl, mesh.uvs, gl.STREAM_DRAW),
+                indexBuffer: IndexBuffer3D.createIndexBuffer(gl, mesh.indices, gl.STATIC_DRAW),
                 // build the vao object that will render..
                 vao: null,
                 dirty: mesh.dirty,
@@ -74,7 +74,7 @@ export class MeshRenderer extends ObjectRenderer
             };
 
             // build the vao object that will render..
-            glData.vao = new VertexArrayObject(gl)
+            glData.vao = new VertexBuffer3D(gl)
                 .addIndex(glData.indexBuffer)
                 .addAttribute(glData.vertexBuffer, glData.shader.attributes.aVertexPosition, gl.FLOAT, false, 2 * 4, 0)
                 .addAttribute(glData.uvBuffer, glData.shader.attributes.aTextureCoord, gl.FLOAT, false, 2 * 4, 0);

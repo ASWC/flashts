@@ -1,10 +1,10 @@
 
 import { Constants } from "flash/rendering/managers/Constants";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Matrix } from "../../geom/Matrix";
 import { Point } from "../../geom/Point";
 import { Shaders } from "../filters/Shaders";
-import { numberDictionary } from "flash/display3D/types/DataDictionaries";
+import { numberDictionary, numberNumberArrayDictionary } from "flash/display3D/types/DataDictionaries";
 
 export class Utils
 {
@@ -127,7 +127,9 @@ export class Utils
             sampleValues[i] = i;
         }    
         shader.bind();
+
         shader.uniforms.uSamplers = sampleValues;    
+
         return shader;
     }
   
@@ -620,7 +622,7 @@ export class Utils
         return uniforms;
     }
 
-    public static defaultValue(type, size) 
+    public static defaultValue(type:string, size:number):Float32Array|number|Int32Array|boolean|Array<boolean>
     {
         switch (type)
         {
@@ -679,15 +681,13 @@ export class Utils
         }
     };
 
-    public static booleanArray(size)
+    public static booleanArray(size:number)
     {
-        var array = new Array(size);
-    
-        for (var i = 0; i < array.length; i++) 
+        var array:Array<boolean> = new Array(size);    
+        for (var i:number = 0; i < array.length; i++) 
         {
             array[i] = false;
-        }
-    
+        }    
         return array;
     };
 
@@ -738,10 +738,8 @@ export class Utils
      * @param {string[]} [array=[]] - The array to output into.
      * @return {string[]} Mapped modes.
      */
-    public static mapWebGLBlendModesToPixi(gl, array = [])
+    public static mapWebGLBlendModesToPixi(gl:WebGLRenderingContext, array:numberNumberArrayDictionary = []):numberNumberArrayDictionary
     {
-        // TODO - premultiply alpha would be different.
-        // add a boolean for that!
         array[Constants.BLEND_MODES.NORMAL] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
         array[Constants.BLEND_MODES.ADD] = [gl.ONE, gl.DST_ALPHA];
         array[Constants.BLEND_MODES.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA];
@@ -759,12 +757,9 @@ export class Utils
         array[Constants.BLEND_MODES.SATURATION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
         array[Constants.BLEND_MODES.COLOR] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
         array[Constants.BLEND_MODES.LUMINOSITY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-
-        // not-premultiplied blend modes
         array[Constants.BLEND_MODES.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
         array[Constants.BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE, gl.DST_ALPHA];
         array[Constants.BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_COLOR];
-
         return array;
     }
 

@@ -1,5 +1,5 @@
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
 import { CreateIndicesForQuads } from "./CreateIndicesForQuads";
 import { DisplayObject } from "../../display/DisplayObject";
 
@@ -113,7 +113,7 @@ export class ParticleBuffer
          * @member {Uint16Array}
          */
         this.indices = CreateIndicesForQuads.createIndicesForQuads(this.size);
-        this.indexBuffer = GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+        this.indexBuffer = IndexBuffer3D.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
         this.dynamicStride = 0;
 
@@ -130,7 +130,7 @@ export class ParticleBuffer
 
         this.dynamicData = new Float32Array(dynBuffer);
         this.dynamicDataUint32 = new Uint32Array(dynBuffer);
-        this.dynamicBuffer = GLBuffer.createVertexBuffer(gl, dynBuffer, gl.STREAM_DRAW);
+        this.dynamicBuffer = IndexBuffer3D.createVertexBuffer(gl, dynBuffer, gl.STREAM_DRAW);
 
         // static //
         let staticOffset = 0;
@@ -150,9 +150,9 @@ export class ParticleBuffer
 
         this.staticData = new Float32Array(statBuffer);
         this.staticDataUint32 = new Uint32Array(statBuffer);
-        this.staticBuffer = GLBuffer.createVertexBuffer(gl, statBuffer, gl.STATIC_DRAW);
+        this.staticBuffer = IndexBuffer3D.createVertexBuffer(gl, statBuffer, gl.STATIC_DRAW);
 
-        this.vao = new VertexArrayObject(gl)
+        this.vao = new VertexBuffer3D(gl)
         .addIndex(this.indexBuffer);
 
         for (let i = 0; i < this.dynamicProperties.length; ++i)

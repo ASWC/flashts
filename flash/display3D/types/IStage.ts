@@ -3,9 +3,9 @@ import { RenderTarget } from "flash/rendering/webgl/RenderTarget";
 import { FilterManager } from "flash/rendering/webgl/FilterManager";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { MaskManager } from "flash/rendering/webgl/MaskManager";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { WebGLState } from "flash/rendering/webgl/WebGLState";
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 
 export interface IStage
 {
@@ -23,5 +23,5 @@ export interface IStage
     getContextID():number;
     bindShader(shader:GLShader, autoProject:boolean):void;
     getRenderState():WebGLState;
-    bindVao(vao:VertexArrayObject):void;
+    bindVao(vao:VertexBuffer3D):void;
 }

@@ -1,7 +1,7 @@
 
 import { Rectangle } from "flash/geom/Rectangle";
 import { Quad } from "./Quad";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Utils } from "./Utils";
 import { RenderTarget } from "./RenderTarget";
 import { Event } from "flash/events/Event";

@@ -3,7 +3,7 @@ import { Matrix } from "../../geom/Matrix";
 import { ParticleShader } from "./ParticleShader";
 import { Utils } from "./Utils";
 import { ParticleBuffer } from "./ParticleBuffer";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { ParticleContainer } from "../display/ParticleContainer";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Bitmap } from "flash/display/Bitmap";

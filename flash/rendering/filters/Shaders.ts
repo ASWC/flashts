@@ -1,4 +1,4 @@
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Utils } from "../webgl/Utils";
 import { StageSettings } from "flash/display/StageSettings";
 
@@ -140,7 +140,7 @@ export class Shaders
 
         const shader = new GLShader(gl, vertexSrc, fragmentSrc);
 
-        const sampleValues = [];
+        const sampleValues:number[] = [];
 
         for (let i = 0; i < maxTextures; i++)
         {
@@ -148,6 +148,7 @@ export class Shaders
         }
 
         shader.bind();
+
         shader.uniforms.uSamplers = sampleValues;
 
         return shader;

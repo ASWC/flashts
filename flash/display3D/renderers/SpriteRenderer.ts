@@ -1,10 +1,9 @@
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
-import { Buffer } from "flash/rendering/core/gl/Buffer";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { CreateIndicesForQuads } from "flash/rendering/webgl/CreateIndicesForQuads";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
+import { GLShader } from "flash/display3D/GLShader";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 import { Bitmap } from "flash/display/Bitmap";
 import { Texture } from "flash/rendering/textures/Texture";
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
@@ -32,10 +31,10 @@ export class SpriteRenderer extends ObjectRenderer
     protected vaoMax:number;
     protected vertexCount:number;
     protected MAX_TEXTURES:number;
-    protected indexBuffer:GLBuffer;
-    protected vertexBuffers:GLBuffer[];  
-    protected vaos:VertexArrayObject[];   
-    protected vao:VertexArrayObject;
+    protected indexBuffer:IndexBuffer3D;
+    protected vertexBuffers:IndexBuffer3D[];  
+    protected vaos:VertexBuffer3D[];   
+    protected vao:VertexBuffer3D;
     protected currentBlendMode:number;
     protected boundTextures:BaseTexture[];  
     protected sprites:Bitmap[];           
@@ -87,12 +86,12 @@ export class SpriteRenderer extends ObjectRenderer
             this.MAX_TEXTURES = Utils.checkMaxIfStatmentsInShader(this.MAX_TEXTURES, this.stageContext.context);
         }
         this.shader = Utils.generateMultiTextureShader(this.stageContext.context, this.MAX_TEXTURES);
-        this.indexBuffer = GLBuffer.createIndexBuffer(this.stageContext.context, this.indices, this.stageContext.context.STATIC_DRAW);
+        this.indexBuffer = IndexBuffer3D.createIndexBuffer(this.stageContext.context, this.indices, this.stageContext.context.STATIC_DRAW);
         this.stageContext.bindVao(null);
         const attrs = this.shader.attributes;
         for (let i = 0; i < this.vaoMax; i++)
         {
-            const vertexBuffer = GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);            
+            const vertexBuffer = IndexBuffer3D.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);            
             this.vertexBuffers[i] = vertexBuffer
             const vao = this.stageContext.createVao()
                 .addIndex(this.indexBuffer)
@@ -273,9 +272,9 @@ export class SpriteRenderer extends ObjectRenderer
             {
                 this.vaoMax++;
                 const attrs:AttributeDataDictionary = this.shader.attributes;
-                const vertexBuffer:GLBuffer = GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);                
+                const vertexBuffer:IndexBuffer3D = IndexBuffer3D.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);                
                 this.vertexBuffers[this.vertexCount] = vertexBuffer;
-                const vao:VertexArrayObject = this.stageContext.createVao()
+                const vao:VertexBuffer3D = this.stageContext.createVao()
                     .addIndex(this.indexBuffer)
                     .addAttribute(vertexBuffer, attrs.aVertexPosition, this.stageContext.context.FLOAT, false, this.vertByteSize, 0)
                     .addAttribute(vertexBuffer, attrs.aTextureCoord, this.stageContext.context.UNSIGNED_SHORT, true, this.vertByteSize, 2 * 4)
@@ -378,5 +377,25 @@ export class SpriteRenderer extends ObjectRenderer
     }
 }
 
+class Buffer extends BaseObject
+{
+    public vertices:ArrayBuffer;
+    public float32View:Float32Array;
+    public uint32View:Uint32Array;
+ 
+    constructor(size:number)
+    {
+        super();
+        this.vertices = new ArrayBuffer(size);
+        this.float32View = new Float32Array(this.vertices);
+        this.uint32View = new Uint32Array(this.vertices);
+    }
 
+    public destroy():void
+    {
+        this.vertices = null;
+        this.float32View = null;
+        this.uint32View = null;
+    }
+}
 

@@ -1,5 +1,5 @@
 import { RenderTarget } from "../webgl/RenderTarget";
-import { GLTexture } from "flash/rendering/core/gl/GLTexture";
+import { GLTexture } from "flash/display3D/textures/GLTexture";
 import { Utils } from "../webgl/Utils";
 import { Constants } from "../managers/Constants";
 import { Texture } from "./Texture";

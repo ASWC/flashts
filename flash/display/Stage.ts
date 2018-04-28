@@ -11,17 +11,17 @@ import { Utils } from "flash/rendering/webgl/Utils";
 import { Texture } from "flash/rendering/textures/Texture";
 import { RenderTexture } from "flash/rendering/textures/RenderTexture";
 import { Matrix } from "flash/geom/Matrix";
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 import { MaskManager } from "flash/rendering/webgl/MaskManager";
 import { StencilManager } from "flash/rendering/webgl/StencilManager";
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { TextureManager } from "flash/rendering/textures/TextureManager";
 import { FilterManager } from "flash/rendering/webgl/FilterManager";
 import { WebGLState } from "flash/rendering/webgl/WebGLState";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { RenderTarget } from "flash/rendering/webgl/RenderTarget";
 import { TextureGarbageCollector } from "flash/rendering/webgl/TextureGarbageCollector";
-import { GLTexture } from "flash/rendering/core/gl/GLTexture";
+import { GLTexture } from "flash/display3D/textures/GLTexture";
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { Event } from "flash/events/Event";
 import { Constants } from "flash/rendering/managers/Constants";
@@ -69,7 +69,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
     protected state:WebGLState;
     protected renderingToScreen:boolean;
     protected _activeShader:GLShader;
-    protected _activeVao:VertexArrayObject;   
+    protected _activeVao:VertexBuffer3D;   
     protected _activeRenderTarget:RenderTarget;
     protected _nextTextureLocation:number;
     protected _textureGC:TextureGarbageCollector;
@@ -156,7 +156,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }
         if (this.stageOptions.legacy)
         {
-            VertexArrayObject.FORCE_NATIVE = true;
+            VertexBuffer3D.FORCE_NATIVE = true;
         }
         this.stageOptions.view.addEventListener('webglcontextlost', this.handleContextLost, false);
         this.stageOptions.view.addEventListener('webglcontextrestored', this.handleContextRestored, false);
@@ -260,7 +260,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             renderTarget.activate();
             if (this._activeShader)
             {
-                this._activeShader.uniforms.projectionMatrix = renderTarget.projectionMatrix.toArray(true);
+                //this._activeShader.uniforms.projectionMatrix = renderTarget.projectionMatrix.toArray(true);
             }
             if(this.stencilManager)
             {
@@ -432,9 +432,9 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         return this._boundTextures;
     }
 
-    public createVao():VertexArrayObject
+    public createVao():VertexBuffer3D
     {
-        return new VertexArrayObject(this.context, this.state.attribState);
+        return new VertexBuffer3D(this.context, this.state.attribState);
     }
 
     public stop():void
@@ -882,7 +882,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }
     }
 
-    public bindVao(vao:VertexArrayObject):void
+    public bindVao(vao:VertexBuffer3D):void
     {
         if (this._activeVao === vao)
         {

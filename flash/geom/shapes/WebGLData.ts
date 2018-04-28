@@ -1,5 +1,5 @@
 import { BaseObject } from "flash/display/BaseObject";
-import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
+import { WebGLGraphicsData } from "flash/geom/shapes/WebGLGraphicsData";
 
 export class WebGLData extends BaseObject
 {

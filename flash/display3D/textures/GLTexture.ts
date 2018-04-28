@@ -2,36 +2,56 @@ import { BaseObject } from "flash/display/BaseObject";
 
 export class GLTexture extends BaseObject
 {
-    public static FLOATING_POINT_AVAILABLE = false;
-    public gl:WebGLRenderingContext;
-    public texture:WebGLTexture;
-    public mipmap:boolean;
-    public format:number;
-    public type:number;
-    public premultiplyAlpha:boolean;
-    public height:number;
-    public width:number;
+    protected static FLOATING_POINT_AVAILABLE = false;
+    protected gl:WebGLRenderingContext;
+    protected _texture:WebGLTexture;
+    protected mipmap:boolean;
+    protected format:number;
+    protected type:number;
+    protected _premultiplyAlpha:boolean;
+    protected height:number;
+    protected width:number;
 
     constructor(gl:WebGLRenderingContext, width:number = -1, height:number = -1, format:number = NaN, type:number = NaN)
     {
         super();
         this.gl = gl;
-        this.texture = gl.createTexture();
+        this._texture = gl.createTexture();
         this.mipmap = false;
-        this.premultiplyAlpha = false;
+        this._premultiplyAlpha = false;
         this.width = width;
         this.height = height;
         this.format = format || gl.RGBA;
         this.type = type || gl.UNSIGNED_BYTE;
     };
 
+    public set premultiplyAlpha(value:boolean)
+    {
+        this._premultiplyAlpha = value;
+    }
+
+    public get premultiplyAlpha():boolean
+    {
+        return this._premultiplyAlpha;
+    }
+
+    public get texture():WebGLTexture
+    {
+        return this._texture;
+    }
+
     public upload(value:HTMLImageElement|ImageData|HTMLVideoElement):void
     {
         this.bind();
-        var source:any = value;
-        this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.premultiplyAlpha);
-        var newWidth = source.videoWidth || source.width;
-        var newHeight = source.videoHeight || source.height;
+        var source:HTMLImageElement|ImageData|HTMLVideoElement = value;
+        this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this._premultiplyAlpha);
+        var newWidth:number = source.width;
+        var newHeight:number = source.height;
+        if(source instanceof HTMLVideoElement)
+        {
+            newWidth = source.videoWidth;
+            newHeight = source.videoHeight;
+        }
         if(newHeight !== this.height || newWidth !== this.width)
         {
             this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.format, this.format, this.type, source);
@@ -51,7 +71,7 @@ export class GLTexture extends BaseObject
         {
             if(!GLTexture.FLOATING_POINT_AVAILABLE)
             {
-                var ext = this.gl.getExtension("OES_texture_float");
+                var ext:OES_texture_float = this.gl.getExtension("OES_texture_float");
                 if(ext)
                 {
                     GLTexture.FLOATING_POINT_AVAILABLE = true;
@@ -67,7 +87,7 @@ export class GLTexture extends BaseObject
         {
             this.type = this.type || this.gl.UNSIGNED_BYTE;
         }
-        this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.premultiplyAlpha);
+        this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this._premultiplyAlpha);
         if(width !== this.width || height !== this.height)
         {
             this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.format,  width, height, 0, this.format, this.type, data || null);
@@ -86,7 +106,7 @@ export class GLTexture extends BaseObject
         {
             this.gl.activeTexture(this.gl.TEXTURE0 + location);
         }
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this._texture);
     };
 
     public unbind():void
@@ -155,20 +175,20 @@ export class GLTexture extends BaseObject
 
     public destroy():void
     {
-        this.gl.deleteTexture(this.texture);
+        this.gl.deleteTexture(this._texture);
     };
 
     public static fromSource(gl:WebGLRenderingContext, source:HTMLImageElement|ImageData, premultiplyAlpha:boolean):GLTexture
     {
-        var texture = new GLTexture(gl);
-        texture.premultiplyAlpha = premultiplyAlpha || false;
+        var texture:GLTexture = new GLTexture(gl);
+        texture._premultiplyAlpha = premultiplyAlpha || false;
         texture.upload(source);
         return texture;
     };
 
     public static fromData (gl:WebGLRenderingContext, data:Float32Array, width:number, height:number):GLTexture
     {
-        var texture = new GLTexture(gl);
+        var texture:GLTexture = new GLTexture(gl);
         texture.uploadData(data, width, height);
         return texture;
     };

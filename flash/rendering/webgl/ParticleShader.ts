@@ -1,4 +1,4 @@
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 
 export class ParticleShader extends GLShader
 {

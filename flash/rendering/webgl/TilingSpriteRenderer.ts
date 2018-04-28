@@ -1,6 +1,6 @@
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { Matrix } from "../../geom/Matrix";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Quad } from "./Quad";
 import { Constants } from "../managers/Constants";
 import { Utils } from "./Utils";

@@ -3,9 +3,9 @@ import { Rectangle } from "flash/geom/Rectangle";
 import { Matrix } from "../../geom/Matrix";
 import { Constants } from "../managers/Constants";
 import { BaseObject } from "flash/display/BaseObject";
-import { GLTexture } from "flash/rendering/core/gl/GLTexture";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
-import { GLFramebuffer } from "flash/rendering/core/gl/GLFramebuffer";
+import { GLTexture } from "flash/display3D/textures/GLTexture";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
+import { GLFramebuffer } from "flash/display3D/GLFramebuffer";
 import { Graphics } from "flash/display/Graphics";
 import { StageSettings } from "flash/display/StageSettings";
 
@@ -21,7 +21,7 @@ export class RenderTarget extends BaseObject
     public sourceFrame:Rectangle;
     public frame:Rectangle;
     public stencilMaskStack:Graphics[];
-    public stencilBuffer:GLBuffer;
+    public stencilBuffer:IndexBuffer3D;
     public scaleMode:number;
     public root:boolean;
     public defaultFrame:Rectangle;

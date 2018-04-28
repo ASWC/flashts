@@ -1,44 +1,40 @@
 import { BaseObject } from "flash/display/BaseObject";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
+import { AttributeState } from "flash/display3D/types/DataTypes";
 
-export class VertexArrayObject extends BaseObject
+export class VertexBuffer3D extends BaseObject
 {
     public static FORCE_NATIVE:boolean = false;
     public nativeVaoExtension:any;
-    public nativeState:any;
+    public nativeState:AttributeState;
     public nativeVao:any;
-    public indexBuffer:GLBuffer;
+    public indexBuffer:IndexBuffer3D;
     public dirty:boolean;
     public attributes:any[];
     public gl:WebGLRenderingContext;
 
-    constructor(gl:WebGLRenderingContext, state = null)
+    constructor(gl:WebGLRenderingContext, state:AttributeState = null)
     {
         super();
         this.attributes = [];
         this.gl = gl;
         this.nativeVaoExtension = null;    
-        if(!VertexArrayObject.FORCE_NATIVE)
+        if(!VertexBuffer3D.FORCE_NATIVE)
         {
-            this.nativeVaoExtension = gl.getExtension('OES_vertex_array_object') ||
-                                      gl.getExtension('MOZ_OES_vertex_array_object') ||
-                                      gl.getExtension('WEBKIT_OES_vertex_array_object');
+            this.nativeVaoExtension = gl.getExtension('OES_vertex_array_object') || gl.getExtension('MOZ_OES_vertex_array_object') || gl.getExtension('WEBKIT_OES_vertex_array_object');
         }    
         this.nativeState = state;    
         if(this.nativeVaoExtension)
         {
             this.nativeVao = this.nativeVaoExtension.createVertexArrayOES();    
             var maxAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
-            this.nativeState = {
-                tempAttribState: new Array(maxAttribs),
-                attribState: new Array(maxAttribs)
-            };
+            this.nativeState = new AttributeState(maxAttribs);
         }      
         this.indexBuffer = null;
         this.dirty = false;
     }
  
-    public bind():VertexArrayObject
+    public bind():VertexBuffer3D
     {
         if(this.nativeVao)
         {
@@ -61,7 +57,7 @@ export class VertexArrayObject extends BaseObject
         return this;
     };
  
-    public unbind():VertexArrayObject
+    public unbind():VertexBuffer3D
     {
         if(this.nativeVao)
         {
@@ -70,7 +66,7 @@ export class VertexArrayObject extends BaseObject
         return this;
     };
 
-    public activate():VertexArrayObject
+    public activate():VertexBuffer3D
     {    
         var gl = this.gl;
         var lastBuffer = null;    
@@ -138,7 +134,7 @@ export class VertexArrayObject extends BaseObject
         }
     };
  
-    public addAttribute(buffer:GLBuffer, attribute:any, type:number, normalized:boolean, stride:number, start:number):VertexArrayObject
+    public addAttribute(buffer:IndexBuffer3D, attribute:any, type:number, normalized:boolean, stride:number, start:number):VertexBuffer3D
     {
         this.attributes.push({
             buffer:     buffer,
@@ -153,14 +149,14 @@ export class VertexArrayObject extends BaseObject
         return this;
     };
   
-    public addIndex(buffer:GLBuffer):VertexArrayObject
+    public addIndex(buffer:IndexBuffer3D):VertexBuffer3D
     {
         this.indexBuffer = buffer;    
         this.dirty = true;    
         return this;
     };
  
-    public clear():VertexArrayObject
+    public clear():VertexBuffer3D
     {
         if(this.nativeVao)
         {
@@ -171,7 +167,7 @@ export class VertexArrayObject extends BaseObject
         return this;
     };
 
-    public draw(type:number, size:number, start:number = 0):VertexArrayObject
+    public draw(type:number, size:number, start:number = 0):VertexBuffer3D
     {
         var gl = this.gl;    
         if(this.indexBuffer)

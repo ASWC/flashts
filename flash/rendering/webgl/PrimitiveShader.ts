@@ -1,4 +1,4 @@
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Shaders } from "../filters/Shaders";
 
 export class PrimitiveShader extends GLShader

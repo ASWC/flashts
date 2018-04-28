@@ -1,6 +1,6 @@
 import { CreateIndicesForQuads } from "./CreateIndicesForQuads";
-import { GLBuffer } from "flash/rendering/core/gl/GLBuffer";
-import { VertexArrayObject } from "flash/rendering/core/gl/VertexArrayObject";
+import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
+import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 
 export class Quad
 {
@@ -72,21 +72,21 @@ export class Quad
          *
          * @member {glCore.GLBuffer}
          */
-        this.vertexBuffer = GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
+        this.vertexBuffer = IndexBuffer3D.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
 
         /**
          * The index buffer
          *
          * @member {glCore.GLBuffer}
          */
-        this.indexBuffer = GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+        this.indexBuffer = IndexBuffer3D.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
         /**
          * The vertex array object
          *
          * @member {glCore.VertexArrayObject}
          */
-        this.vao = new VertexArrayObject(gl, state);
+        this.vao = new VertexBuffer3D(gl, state);
     }
 
     /**

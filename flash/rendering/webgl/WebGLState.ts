@@ -1,4 +1,6 @@
 import { Utils } from "./Utils";
+import { numberNumberArrayDictionary } from "../../display3D/types/DataDictionaries";
+import { AttributeState } from "../../display3D/types/DataTypes";
 
 export class WebGLState
 {
@@ -10,11 +12,14 @@ export class WebGLState
     public activeState:Uint8Array;
     public defaultState:Uint8Array;
     public stackIndex:number;
-    public blendModes:any;
-    public attribState:any;
+    public blendModes:numberNumberArrayDictionary;
+    public maxAttribs:number;
+    public attribState:AttributeState;
+
     public nativeVaoExtension:any;
+
     public gl:WebGLRenderingContext;
-    public maxAttribs:any;
+    
     public stack:any[];
 
     constructor(gl:WebGLRenderingContext)
@@ -26,16 +31,9 @@ export class WebGLState
         this.stack = [];
         this.gl = gl;
         this.maxAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
-        this.attribState = {
-            tempAttribState: new Array(this.maxAttribs),
-            attribState: new Array(this.maxAttribs),
-        };
+        this.attribState = new AttributeState(this.maxAttribs);
         this.blendModes = Utils.mapWebGLBlendModesToPixi(gl);
-        this.nativeVaoExtension = (
-            gl.getExtension('OES_vertex_array_object')
-            || gl.getExtension('MOZ_OES_vertex_array_object')
-            || gl.getExtension('WEBKIT_OES_vertex_array_object')
-        );
+        this.nativeVaoExtension = (gl.getExtension('OES_vertex_array_object') || gl.getExtension('MOZ_OES_vertex_array_object') || gl.getExtension('WEBKIT_OES_vertex_array_object'));
     }
 
     public push():void

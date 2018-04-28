@@ -1,6 +1,6 @@
 import { Point } from "flash/geom/Point";
 import { Constants } from "flash/rendering/managers/Constants";
-import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
+import { WebGLGraphicsData } from "flash/geom/shapes/WebGLGraphicsData";
 import { GraphicsData } from "flash/geom/shapes/GraphicsData";
 import { Graphics } from "flash/display/Graphics";
 import { WebGLData } from "flash/geom/shapes/WebGLData";

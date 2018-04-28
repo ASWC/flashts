@@ -2,9 +2,9 @@ import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
 import { PrimitiveShader } from "flash/rendering/webgl/PrimitiveShader";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { Constants } from "flash/rendering/managers/Constants";
-import { WebGLGraphicsData } from "flash/rendering/core/gl/WebGLGraphicsData";
+import { WebGLGraphicsData } from "flash/geom/shapes/WebGLGraphicsData";
 import { ShapeUtils } from "flash/geom/shapes/ShapeUtils";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Graphics } from "flash/display/Graphics";
 import { BaseObject } from "flash/display/BaseObject";
 import { WebGLData } from "flash/geom/shapes/WebGLData";
@@ -73,9 +73,11 @@ export class GraphicsRenderer extends ObjectRenderer
             webGLData = webGL.data[i];            
             const shaderTemp:GLShader = webGLData.shader;
             graphics.stage.bindShader(shaderTemp, true);
+
             shaderTemp.uniforms.translationMatrix = graphics.transform.worldTransform.toArray(true);    
             shaderTemp.uniforms.tint = Utils.hex2rgb(graphics.tint);
             shaderTemp.uniforms.alpha = graphics.worldAlpha;
+
             graphics.stage.bindVao(webGLData.vao);
             if (webGLData.nativeLines)
             {

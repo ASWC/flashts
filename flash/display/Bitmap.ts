@@ -6,7 +6,7 @@ import { Rectangle } from "flash/geom/Rectangle";
 import { BaseTexture } from "flash/rendering/textures/BaseTexture";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { SpriteRenderer } from "flash/display3D/renderers/SpriteRenderer";
-import { GLShader } from "flash/rendering/core/gl/GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 import { Event } from "flash/events/Event";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
