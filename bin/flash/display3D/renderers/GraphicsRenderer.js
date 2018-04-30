@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/webgl/PrimitiveShader", "flash/rendering/webgl/Utils", "flash/rendering/managers/Constants", "flash/rendering/core/gl/WebGLGraphicsData", "flash/rendering/core/shapes/ShapeUtils", "flash/rendering/core/shapes/WebGLData"], function (require, exports, ObjectRenderer_1, PrimitiveShader_1, Utils_1, Constants_1, WebGLGraphicsData_1, ShapeUtils_1, WebGLData_1) {
+define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/webgl/PrimitiveShader", "flash/rendering/webgl/Utils", "flash/rendering/managers/Constants", "flash/geom/shapes/WebGLGraphicsData", "flash/geom/shapes/ShapeUtils", "flash/geom/shapes/WebGLData"], function (require, exports, ObjectRenderer_1, PrimitiveShader_1, Utils_1, Constants_1, WebGLGraphicsData_1, ShapeUtils_1, WebGLData_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GraphicsRenderer extends ObjectRenderer_1.ObjectRenderer {
@@ -86,13 +86,13 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                     webGL.lastIndex++;
                 }
                 if (data.type === Constants_1.Constants.SHAPES.POLY) {
-                    ShapeUtils_1.ShapeUtils.buildPoly(webglobjects, data, webGLDataNativeLines);
+                    ShapeUtils_1.ShapeUtils.buildPoly(webglobjects, data);
                 }
                 else if (data.type === Constants_1.Constants.SHAPES.CIRC || data.type === Constants_1.Constants.SHAPES.ELIP) {
-                    ShapeUtils_1.ShapeUtils.buildCircle(webglobjects, data, webGLDataNativeLines);
+                    ShapeUtils_1.ShapeUtils.buildCircle(webglobjects, data);
                 }
                 if (data.type === Constants_1.Constants.SHAPES.RECT) {
-                    ShapeUtils_1.ShapeUtils.buildRectangle(webglobjects, data, webGLDataNativeLines);
+                    ShapeUtils_1.ShapeUtils.buildRectangle(webglobjects, data);
                 }
                 else if (data.type === Constants_1.Constants.SHAPES.RREC) {
                     ShapeUtils_1.ShapeUtils.buildRoundedRectangle(webglobjects, data, webGLDataNativeLines);

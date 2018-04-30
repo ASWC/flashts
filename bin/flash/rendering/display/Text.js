@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display/Bitmap", "flash/rendering/textures/Texture", "flash/geom/Rectangle", "flash/text/TextMetrics", "flash/rendering/managers/Constants", "flash/text/TextStyle", "flash/rendering/webgl/Utils", "flash/events/Event", "flash/display/StageSettings"], function (require, exports, Bitmap_1, Texture_1, Rectangle_1, TextMetrics_1, Constants_1, TextStyle_1, Utils_1, Event_1, StageSettings_1) {
+define(["require", "exports", "flash/display/Bitmap", "flash/display3D/textures/Texture", "flash/geom/Rectangle", "flash/text/TextMetrics", "flash/rendering/managers/Constants", "flash/text/TextStyle", "flash/rendering/webgl/Utils", "flash/events/Event", "flash/display/StageSettings"], function (require, exports, Bitmap_1, Texture_1, Rectangle_1, TextMetrics_1, Constants_1, TextStyle_1, Utils_1, Event_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Text extends Bitmap_1.Bitmap {
@@ -147,12 +147,12 @@ define(["require", "exports", "flash/display/Bitmap", "flash/rendering/textures/
             baseTexture.realHeight = canvas.height;
             baseTexture.width = canvas.width / this.resolution;
             baseTexture.height = canvas.height / this.resolution;
-            texture.trim.width = texture._frame.width = canvas.width / this.resolution;
-            texture.trim.height = texture._frame.height = canvas.height / this.resolution;
+            texture.trim.width = texture.frame.width = canvas.width / this.resolution;
+            texture.trim.height = texture.frame.height = canvas.height / this.resolution;
             texture.trim.x = -padding;
             texture.trim.y = -padding;
-            texture.orig.width = texture._frame.width - (padding * 2);
-            texture.orig.height = texture._frame.height - (padding * 2);
+            texture.orig.width = texture.frame.width - (padding * 2);
+            texture.orig.height = texture.frame.height - (padding * 2);
             this._onTextureUpdate();
             baseTexture.dispatchEvent(new Event_1.Event(Event_1.Event.CHANGE));
             this.dirty = false;

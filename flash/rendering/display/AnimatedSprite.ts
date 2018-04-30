@@ -1,5 +1,5 @@
 import { Bitmap } from "flash/display/Bitmap";
-import { Texture } from "../textures/Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { Timer } from "flash/utils/Timer";
 import { Constants } from "../managers/Constants";
 import { Utils } from "../webgl/Utils";

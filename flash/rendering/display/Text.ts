@@ -1,5 +1,5 @@
 import { Bitmap } from "flash/display/Bitmap";
-import { Texture } from "flash/rendering/textures/Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { Rectangle } from "flash/geom/Rectangle";
 import { TextMetrics } from "flash/text/TextMetrics";
 import { Constants } from "flash/rendering/managers/Constants";
@@ -210,12 +210,12 @@ export class Text extends Bitmap
         baseTexture.realHeight = canvas.height;
         baseTexture.width = canvas.width / this.resolution;
         baseTexture.height = canvas.height / this.resolution;
-        texture.trim.width = texture._frame.width = canvas.width / this.resolution;
-        texture.trim.height = texture._frame.height = canvas.height / this.resolution;
+        texture.trim.width = texture.frame.width = canvas.width / this.resolution;
+        texture.trim.height = texture.frame.height = canvas.height / this.resolution;
         texture.trim.x = -padding;
         texture.trim.y = -padding;
-        texture.orig.width = texture._frame.width - (padding * 2);
-        texture.orig.height = texture._frame.height - (padding * 2);
+        texture.orig.width = texture.frame.width - (padding * 2);
+        texture.orig.height = texture.frame.height - (padding * 2);
         this._onTextureUpdate();
         baseTexture.dispatchEvent(new Event(Event.CHANGE));
         this.dirty = false;

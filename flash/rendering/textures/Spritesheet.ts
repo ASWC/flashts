@@ -1,6 +1,6 @@
 import { Utils } from "../webgl/Utils";
 import { Rectangle } from "flash/geom/Rectangle";
-import { Texture } from "./Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 
 
 

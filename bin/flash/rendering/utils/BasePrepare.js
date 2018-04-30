@@ -1,4 +1,4 @@
-define(["require", "exports", "../managers/Constants", "flash/utils/Timer", "flash/display/DisplayObjectContainer", "../textures/Texture", "../textures/BaseTexture", "../../text/TextStyle", "../../text/TextMetrics", "flash/rendering/display/Text"], function (require, exports, Constants_1, Timer_1, DisplayObjectContainer_1, Texture_1, BaseTexture_1, TextStyle_1, TextMetrics_1, Text_1) {
+define(["require", "exports", "../managers/Constants", "flash/utils/Timer", "flash/display/DisplayObjectContainer", "flash/display3D/textures/Texture", "flash/display3D/textures/BaseTexture", "../../text/TextStyle", "../../text/TextMetrics", "flash/rendering/display/Text"], function (require, exports, Constants_1, Timer_1, DisplayObjectContainer_1, Texture_1, BaseTexture_1, TextStyle_1, TextMetrics_1, Text_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BasePrepare {

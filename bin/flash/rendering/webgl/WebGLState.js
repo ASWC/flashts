@@ -1,4 +1,4 @@
-define(["require", "exports", "./Utils"], function (require, exports, Utils_1) {
+define(["require", "exports", "./Utils", "../../display3D/types/DataTypes"], function (require, exports, Utils_1, DataTypes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class WebGLState {
@@ -10,14 +10,9 @@ define(["require", "exports", "./Utils"], function (require, exports, Utils_1) {
             this.stack = [];
             this.gl = gl;
             this.maxAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
-            this.attribState = {
-                tempAttribState: new Array(this.maxAttribs),
-                attribState: new Array(this.maxAttribs),
-            };
+            this.attribState = new DataTypes_1.AttributeState(this.maxAttribs);
             this.blendModes = Utils_1.Utils.mapWebGLBlendModesToPixi(gl);
-            this.nativeVaoExtension = (gl.getExtension('OES_vertex_array_object')
-                || gl.getExtension('MOZ_OES_vertex_array_object')
-                || gl.getExtension('WEBKIT_OES_vertex_array_object'));
+            this.nativeVaoExtension = (gl.getExtension('OES_vertex_array_object') || gl.getExtension('MOZ_OES_vertex_array_object') || gl.getExtension('WEBKIT_OES_vertex_array_object'));
         }
         push() {
             let state = this.stack[this.stackIndex];

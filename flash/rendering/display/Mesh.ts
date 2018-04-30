@@ -1,9 +1,9 @@
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { Point } from "../../geom/Point";
 import { Polygon } from "flash/geom/shapes/Polygon";
-import { Texture } from "../textures/Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { Constants } from "../managers/Constants";
-import { TextureMatrix } from "../math/TextureMatrix";
+import { TextureMatrix } from "flash/display3D/textures/TextureMatrix";
 import { Utils } from "../webgl/Utils";
 import { StageSettings } from "flash/display/StageSettings";
 

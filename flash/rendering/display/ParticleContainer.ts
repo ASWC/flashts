@@ -1,7 +1,7 @@
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
 import { Constants } from "../managers/Constants";
 import { Utils } from "../webgl/Utils";
-import { BaseTexture } from "../textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { Bitmap } from "flash/display/Bitmap";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Event } from "flash/events/Event";

@@ -1,6 +1,6 @@
 import { Resource } from "../loading/Resource";
 import { BitmapText } from "../display/BitmapText";
-import { BaseTexture } from "../textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { Utils } from "../webgl/Utils";
 
 

@@ -1,4 +1,4 @@
-define(["require", "exports", "./BasePrepare", "../textures/BaseTexture", "flash/display/Graphics"], function (require, exports, BasePrepare_1, BaseTexture_1, Graphics_1) {
+define(["require", "exports", "./BasePrepare", "flash/display3D/textures/BaseTexture", "flash/display/Graphics"], function (require, exports, BasePrepare_1, BaseTexture_1, Graphics_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class WebGLPrepare extends BasePrepare_1.BasePrepare {
@@ -62,7 +62,7 @@ define(["require", "exports", "./BasePrepare", "../textures/BaseTexture", "flash
                 // if the texture already has a GL texture, then the texture has been prepared or rendered
                 // before now. If the texture changed, then the changer should be calling texture.update() which
                 // reuploads the texture without need for preparing it again
-                if (!item._glTextures[renderer.CONTEXT_UID]) {
+                if (!item.glTextures[renderer.CONTEXT_UID]) {
                     renderer.textureManager.updateTexture(item);
                 }
                 return true;

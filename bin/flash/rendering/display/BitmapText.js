@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display/DisplayObjectContainer", "../../geom/Point", "../webgl/Utils", "flash/display/Bitmap", "flash/geom/Rectangle", "../textures/Texture", "flash/display/StageSettings"], function (require, exports, DisplayObjectContainer_1, Point_1, Utils_1, Bitmap_1, Rectangle_1, Texture_1, StageSettings_1) {
+define(["require", "exports", "flash/display/DisplayObjectContainer", "../../geom/Point", "../webgl/Utils", "flash/display/Bitmap", "flash/geom/Rectangle", "flash/display3D/textures/Texture", "flash/display/StageSettings"], function (require, exports, DisplayObjectContainer_1, Point_1, Utils_1, Bitmap_1, Rectangle_1, Texture_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BitmapText extends DisplayObjectContainer_1.DisplayObjectContainer {

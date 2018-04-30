@@ -1,7 +1,7 @@
-import { BaseTexture } from "flash/rendering/textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { BaseObject } from "flash/display/BaseObject";
 import { ShaderUnnifromDataDictionary } from "flash/display3D/types/DataDictionaries";
-import { GLShader } from "../GLShader";
+import { GLShader } from "flash/display3D/GLShader";
 
 
 export class AttributeState
@@ -14,6 +14,20 @@ export class AttributeState
         this.tempAttribState = new Array(arraylength);
         this.attribState = new Array(arraylength);
     }
+}
+
+export class SvgSize
+{
+    public width:number;
+    public height:number;
+}
+
+export class DecomposedDataUri
+{
+    public mediaType:string;
+    public subType:string;
+    public encoding:string;
+    public data:string;
 }
 
 export class GLAttributeData

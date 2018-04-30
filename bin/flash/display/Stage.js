@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/geom/Rectangle", "flash/display/StageAlign", "flash/display/StageDisplayState", "flash/display/StageQuality", "flash/display/StageScaleMode", "flash/rendering/webgl/Utils", "flash/rendering/textures/Texture", "flash/rendering/textures/RenderTexture", "flash/geom/Matrix", "flash/rendering/core/gl/VertexArrayObject", "flash/rendering/webgl/MaskManager", "flash/rendering/webgl/StencilManager", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/textures/TextureManager", "flash/rendering/webgl/FilterManager", "flash/rendering/webgl/WebGLState", "flash/rendering/webgl/RenderTarget", "flash/rendering/webgl/TextureGarbageCollector", "flash/rendering/core/gl/GLTexture", "flash/rendering/textures/BaseTexture", "flash/events/Event", "flash/rendering/managers/Constants", "flash/display/StageSettings", "flash/utils/Timer"], function (require, exports, DisplayObjectContainer_1, Rectangle_1, StageAlign_1, StageDisplayState_1, StageQuality_1, StageScaleMode_1, Utils_1, Texture_1, RenderTexture_1, Matrix_1, VertexArrayObject_1, MaskManager_1, StencilManager_1, ObjectRenderer_1, TextureManager_1, FilterManager_1, WebGLState_1, RenderTarget_1, TextureGarbageCollector_1, GLTexture_1, BaseTexture_1, Event_1, Constants_1, StageSettings_1, Timer_1) {
+define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/geom/Rectangle", "flash/display/StageAlign", "flash/display/StageDisplayState", "flash/display/StageQuality", "flash/display/StageScaleMode", "flash/rendering/webgl/Utils", "flash/display3D/textures/Texture", "flash/display3D/textures/RenderTexture", "flash/geom/Matrix", "flash/display3D/VertexBuffer3D", "flash/rendering/webgl/MaskManager", "flash/display3D/renderers/StencilManager", "flash/display3D/renderers/ObjectRenderer", "flash/display3D/textures/TextureManager", "flash/rendering/webgl/FilterManager", "flash/rendering/webgl/WebGLState", "flash/display3D/textures/RenderTarget", "flash/rendering/webgl/TextureGarbageCollector", "flash/display3D/textures/GLTexture", "flash/display3D/textures/BaseTexture", "flash/events/Event", "flash/rendering/managers/Constants", "flash/display/StageSettings", "flash/utils/Timer"], function (require, exports, DisplayObjectContainer_1, Rectangle_1, StageAlign_1, StageDisplayState_1, StageQuality_1, StageScaleMode_1, Utils_1, Texture_1, RenderTexture_1, Matrix_1, VertexBuffer3D_1, MaskManager_1, StencilManager_1, ObjectRenderer_1, TextureManager_1, FilterManager_1, WebGLState_1, RenderTarget_1, TextureGarbageCollector_1, GLTexture_1, BaseTexture_1, Event_1, Constants_1, StageSettings_1, Timer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // TYPED
@@ -74,7 +74,7 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 return;
             }
             if (this.stageOptions.legacy) {
-                VertexArrayObject_1.VertexArrayObject.FORCE_NATIVE = true;
+                VertexBuffer3D_1.VertexBuffer3D.FORCE_NATIVE = true;
             }
             this.stageOptions.view.addEventListener('webglcontextlost', this.handleContextLost, false);
             this.stageOptions.view.addEventListener('webglcontextrestored', this.handleContextRestored, false);
@@ -100,10 +100,10 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 this.bindRenderTarget(this.rootRenderTarget);
                 const emptyGLTexture = GLTexture_1.GLTexture.fromData(this.stageOptions.context, null, 1, 1);
                 const tempObj = new BaseTexture_1.BaseTexture();
-                tempObj._glTextures[this.CONTEXT_UID] = null;
+                tempObj.glTextures[this.CONTEXT_UID] = null;
                 for (let i = 0; i < maxTextures; i++) {
                     const empty = new BaseTexture_1.BaseTexture();
-                    empty._glTextures[this.CONTEXT_UID] = emptyGLTexture;
+                    empty.glTextures[this.CONTEXT_UID] = emptyGLTexture;
                     this._boundTextures[i] = tempObj;
                     this._emptyTextures[i] = empty;
                     this.bindTexture(null, i);
@@ -141,13 +141,14 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 glTexture = null;
             }
             else {
-                glTexture = texture._glTextures[this.CONTEXT_UID];
+                glTexture = texture.glTextures[this.CONTEXT_UID];
             }
             if (!glTexture || !glTexture.texture) {
                 this.textureManager.updateTexture(texture, location);
             }
             else {
                 this._boundTextures[location] = texture;
+                //this.show('activate text: ' + this.stageOptions.context.TEXTURE0 + location)
                 this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + location);
                 this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, glTexture.texture);
             }
@@ -256,11 +257,11 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
             let renderTarget;
             if (renderTexture) {
                 const baseTexture = renderTexture.baseTexture;
-                if (!baseTexture._glRenderTargets[this.CONTEXT_UID]) {
+                if (!baseTexture.glRenderTargets[this.CONTEXT_UID]) {
                     this.textureManager.updateTexture(baseTexture, 0);
                 }
                 this.unbindTexture(baseTexture);
-                renderTarget = baseTexture._glRenderTargets[this.CONTEXT_UID];
+                renderTarget = baseTexture.glRenderTargets[this.CONTEXT_UID];
                 renderTarget.setFrame(renderTexture.frame);
             }
             else {
@@ -278,7 +279,7 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 if (this._boundTextures[i] === basetex) {
                     this._boundTextures[i] = this._emptyTextures[i];
                     this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + i);
-                    this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, this._emptyTextures[i]._glTextures[this.CONTEXT_UID].texture);
+                    this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, this._emptyTextures[i].glTextures[this.CONTEXT_UID].texture);
                 }
             }
         }
@@ -289,7 +290,7 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
             return this._boundTextures;
         }
         createVao() {
-            return new VertexArrayObject_1.VertexArrayObject(this.context, this.state.attribState);
+            return new VertexBuffer3D_1.VertexBuffer3D(this.context, this.state.attribState);
         }
         stop() {
             this._started = false;
@@ -326,6 +327,7 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
                 return;
             }
             this.stencilManager = new StencilManager_1.StencilManager();
+            this.stencilManager.stage = this;
         }
         getMaskManager() {
             return this.maskManager;
@@ -372,7 +374,7 @@ define(["require", "exports", "flash/display//DisplayObjectContainer", "flash/ge
             const renderTexture = RenderTexture_1.RenderTexture.create(region.width | 0, region.height | 0, scaleMode, resolution);
             Matrix_1.Matrix.GLOBAL.tx = -region.x;
             Matrix_1.Matrix.GLOBAL.ty = -region.y;
-            //this.render(displayObject, renderTexture, false, Matrix.GLOBAL, true);
+            this.render(displayObject, renderTexture, false, Matrix_1.Matrix.GLOBAL, true);
             return renderTexture;
         }
         get height() {

@@ -1,7 +1,7 @@
 import { Bitmap } from "flash/display/Bitmap";
-import { RenderTexture } from "../textures/RenderTexture";
+import { RenderTexture } from "flash/display3D/textures/RenderTexture";
 import { Matrix } from "../../geom/Matrix";
-import { Bounds } from "../math/Bounds";
+import { Bounds } from "flash/geom/Bounds";
 import { Rectangle } from "../../geom/Rectangle";
 
 

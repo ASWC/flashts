@@ -1,19 +1,19 @@
 import { EventDispatcher } from "flash/events/EventDispatcher";
 import { IBitmapDrawable } from "flash/display/IBitmapDrawable";
-import { TransformBase } from "flash/rendering/math/TransformBase";
+import { TransformBase } from "flash/geom/TransformBase";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
-import { Bounds } from "flash/rendering/math/Bounds";
+import { Bounds } from "flash/geom/Bounds";
 import { Filter } from "flash/rendering/filters/Filter";
 import { Constants } from "flash/rendering/managers/Constants";
-import { TransformStatic } from "flash/rendering/math/TransformStatic";
+import { TransformStatic } from "flash/geom/TransformStatic";
 import { Transform } from "flash/geom/Transform";
 import { Point } from "flash/geom/Point";
 import { Matrix } from "flash/geom/Matrix";
 import { Rectangle } from "flash/geom/Rectangle";
-import { RenderTexture } from "flash/rendering/textures/RenderTexture";
+import { RenderTexture } from "flash/display3D/textures/RenderTexture";
 import { Utils } from "flash/rendering/webgl/Utils";
-import { BaseTexture } from "flash/rendering/textures/BaseTexture";
-import { Texture } from "flash/rendering/textures/Texture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { IStage } from "flash/display3D/types/IStage";
 
 export class CoreDisplayObject extends EventDispatcher implements IBitmapDrawable
@@ -258,7 +258,7 @@ export class CoreDisplayObject extends EventDispatcher implements IBitmapDrawabl
         this._cacheData.sprite = null//SpriteBuffer.getSprite(renderTexture, this.transform.worldTransform, bounds, cacheAlpha, this._bounds);
         this._calculateBounds = this._calculateCachedBounds;
         this.getLocalBounds = this._getCachedLocalBounds;        
-        this._transform._parentID = -1;
+        this._transform.parentID = -1;
         if (!this._parent)
         {
             this._parent = renderer.emptyRoot;

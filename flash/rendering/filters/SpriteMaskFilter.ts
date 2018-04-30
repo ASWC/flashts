@@ -1,6 +1,6 @@
 import { Filter } from "./Filter";
 import { Matrix } from "../../geom/Matrix";
-import { TextureMatrix } from "../math/TextureMatrix";
+import { TextureMatrix } from "flash/display3D/textures/TextureMatrix";
 import { Shaders } from "./Shaders";
 
 

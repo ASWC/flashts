@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display/DisplayObjectContainer", "../../geom/Point", "flash/rendering/core/shapes/Polygon", "../textures/Texture", "../managers/Constants", "../math/TextureMatrix", "../webgl/Utils", "flash/display/StageSettings"], function (require, exports, DisplayObjectContainer_1, Point_1, Polygon_1, Texture_1, Constants_1, TextureMatrix_1, Utils_1, StageSettings_1) {
+define(["require", "exports", "flash/display/DisplayObjectContainer", "../../geom/Point", "flash/geom/shapes/Polygon", "flash/display3D/textures/Texture", "../managers/Constants", "flash/display3D/textures/TextureMatrix", "../webgl/Utils", "flash/display/StageSettings"], function (require, exports, DisplayObjectContainer_1, Point_1, Polygon_1, Texture_1, Constants_1, TextureMatrix_1, Utils_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Mesh extends DisplayObjectContainer_1.DisplayObjectContainer {

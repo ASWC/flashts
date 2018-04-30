@@ -1,5 +1,5 @@
 import { Point } from "flash/geom/Point";
-import { TransformBase } from "flash/rendering/math/TransformBase";
+import { TransformBase } from "flash/geom/TransformBase";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { Stage } from "flash/display/Stage";
 import { IStage } from "flash/display3D/types/IStage";

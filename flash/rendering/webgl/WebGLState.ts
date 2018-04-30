@@ -15,11 +15,8 @@ export class WebGLState
     public blendModes:numberNumberArrayDictionary;
     public maxAttribs:number;
     public attribState:AttributeState;
-
     public nativeVaoExtension:any;
-
-    public gl:WebGLRenderingContext;
-    
+    public gl:WebGLRenderingContext;    
     public stack:any[];
 
     constructor(gl:WebGLRenderingContext)
@@ -92,7 +89,7 @@ export class WebGLState
             return;
         }
         this.activeState[WebGLState.BLEND_FUNC] = value;
-        const mode = this.blendModes[value];
+        const mode:number[] = this.blendModes[value];
         if (mode.length === 2)
         {
             this.gl.blendFunc(mode[0], mode[1]);

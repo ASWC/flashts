@@ -1,5 +1,5 @@
 import { Rectangle } from "flash/geom/Rectangle";
-import { RenderTexture } from "../textures/RenderTexture";
+import { RenderTexture } from "flash/display3D/textures/RenderTexture";
 import { CanvasRenderTarget } from "../display/CanvasRenderTarget";
 
 

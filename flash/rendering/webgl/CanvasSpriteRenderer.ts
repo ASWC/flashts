@@ -1,5 +1,5 @@
 import { Matrix } from "../../geom/Matrix";
-import { GroupD8 } from "../math/GroupD8";
+import { GroupD8 } from "flash/display3D/textures/GroupD8";
 import { CanvasTinter } from "./CanvasTinter";
 import { Constants } from "../managers/Constants";
 

@@ -33,7 +33,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
                 child.parent.removeChild(child);
             }
             child.parent = this;
-            child.transform._parentID = -1;
+            child.transform.parentID = -1;
             this.children.push(child);
             this._boundsID++;
             this.onChildrenChange(this.children.length - 1);
@@ -48,7 +48,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
                 child.parent.removeChild(child);
             }
             child.parent = this;
-            child.transform._parentID = -1;
+            child.transform.parentID = -1;
             this.children.splice(index, 0, child);
             this._boundsID++;
             this.onChildrenChange(index);
@@ -92,7 +92,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
             if (index < 0)
                 return null;
             child.parent = null;
-            child.transform._parentID = -1;
+            child.transform.parentID = -1;
             Utils_1.Utils.removeItems(this.children, index, 1);
             this._boundsID++;
             this.onChildrenChange(index);
@@ -102,7 +102,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
         removeChildAt(index) {
             const child = this.getChildAt(index);
             child.parent = null;
-            child.transform._parentID = -1;
+            child.transform.parentID = -1;
             Utils_1.Utils.removeItems(this.children, index, 1);
             this._boundsID++;
             this.onChildrenChange(index);
@@ -119,7 +119,7 @@ define(["require", "exports", "flash/rendering/webgl/Utils", "flash/events/Event
                 for (let i = 0; i < removed.length; ++i) {
                     removed[i].parent = null;
                     if (removed[i].transform) {
-                        removed[i].transform._parentID = -1;
+                        removed[i].transform.parentID = -1;
                     }
                 }
                 this._boundsID++;

@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Constants", "flash/rendering/textures/Texture", "flash/geom/Rectangle", "flash/rendering/textures/BaseTexture", "flash/rendering/webgl/Utils", "flash/display3D/renderers/SpriteRenderer", "flash/events/Event", "flash/display/DisplayObject", "flash/display/StageSettings"], function (require, exports, Point_1, Constants_1, Texture_1, Rectangle_1, BaseTexture_1, Utils_1, SpriteRenderer_1, Event_1, DisplayObject_1, StageSettings_1) {
+define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Constants", "flash/display3D/textures/Texture", "flash/geom/Rectangle", "flash/display3D/textures/BaseTexture", "flash/rendering/webgl/Utils", "flash/display3D/renderers/SpriteRenderer", "flash/events/Event", "flash/display/DisplayObject", "flash/display/StageSettings"], function (require, exports, Point_1, Constants_1, Texture_1, Rectangle_1, BaseTexture_1, Utils_1, SpriteRenderer_1, Event_1, DisplayObject_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // TYPED
@@ -22,7 +22,6 @@ define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Cons
             this._textureID = -1;
             this._transformTrimmedID = -1;
             this._textureTrimmedID = -1;
-            this.pluginName = 'sprite';
         }
         getLocalBounds(rect) {
             this._bounds.minX = this._texture.orig.width * -this._anchor.x;
@@ -66,7 +65,7 @@ define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Cons
         destroy() {
             super.destroy();
             this._anchor = null;
-            this._texture.destroy(true);
+            this._texture.destroy();
             this._texture = null;
             this.shader = null;
         }
@@ -89,11 +88,11 @@ define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Cons
             this._transformTrimmedID = -1;
         }
         calculateVertices() {
-            if (this._transformID === this.transform._worldID && this._textureID === this._texture._updateID) {
+            if (this._transformID === this.transform.worldID && this._textureID === this._texture.updateID) {
                 return;
             }
-            this._transformID = this.transform._worldID;
-            this._textureID = this._texture._updateID;
+            this._transformID = this.transform.worldID;
+            this._textureID = this._texture.updateID;
             const texture = this._texture;
             const wt = this.transform.worldTransform;
             const a = wt.a;
@@ -143,11 +142,11 @@ define(["require", "exports", "flash/geom/Point", "flash/rendering/managers/Cons
             if (!this.vertexTrimmedData) {
                 this.vertexTrimmedData = new Float32Array(8);
             }
-            else if (this._transformTrimmedID === this.transform._worldID && this._textureTrimmedID === this._texture._updateID) {
+            else if (this._transformTrimmedID === this.transform.worldID && this._textureTrimmedID === this._texture.updateID) {
                 return;
             }
-            this._transformTrimmedID = this.transform._worldID;
-            this._textureTrimmedID = this._texture._updateID;
+            this._transformTrimmedID = this.transform.worldID;
+            this._textureTrimmedID = this._texture.updateID;
             const texture = this._texture;
             const vertexData = this.vertexTrimmedData;
             const orig = texture.orig;

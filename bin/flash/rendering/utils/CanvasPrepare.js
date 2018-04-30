@@ -1,4 +1,4 @@
-define(["require", "exports", "./BasePrepare", "../textures/BaseTexture"], function (require, exports, BasePrepare_1, BaseTexture_1) {
+define(["require", "exports", "./BasePrepare", "flash/display3D/textures/BaseTexture"], function (require, exports, BasePrepare_1, BaseTexture_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class CanvasPrepare extends BasePrepare_1.BasePrepare {

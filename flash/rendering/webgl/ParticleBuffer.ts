@@ -1,6 +1,5 @@
 import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
-import { CreateIndicesForQuads } from "./CreateIndicesForQuads";
 import { DisplayObject } from "../../display/DisplayObject";
 
 export class ParticleBuffer
@@ -112,7 +111,7 @@ export class ParticleBuffer
          *
          * @member {Uint16Array}
          */
-        this.indices = CreateIndicesForQuads.createIndicesForQuads(this.size);
+        this.indices = ParticleBuffer.createIndicesForQuads(this.size);
         this.indexBuffer = IndexBuffer3D.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
         this.dynamicStride = 0;
@@ -249,5 +248,21 @@ export class ParticleBuffer
         this.staticBuffer = null;
         this.staticData = null;
         this.staticDataUint32 = null;
+    }
+
+    public static createIndicesForQuads(size:number):Uint16Array
+    {
+        const totalIndices:number = size * 6;
+        const indices:Uint16Array = new Uint16Array(totalIndices);
+        for (let i:number = 0, j = 0; i < totalIndices; i += 6, j += 4)
+        {
+            indices[i + 0] = j + 0;
+            indices[i + 1] = j + 1;
+            indices[i + 2] = j + 2;
+            indices[i + 3] = j + 0;
+            indices[i + 4] = j + 2;
+            indices[i + 5] = j + 3;
+        }
+        return indices;
     }
 }

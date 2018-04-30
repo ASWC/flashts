@@ -1,4 +1,4 @@
-define(["require", "exports", "../../geom/Matrix", "../math/GroupD8", "./CanvasTinter", "../managers/Constants"], function (require, exports, Matrix_1, GroupD8_1, CanvasTinter_1, Constants_1) {
+define(["require", "exports", "../../geom/Matrix", "flash/display3D/textures/GroupD8", "./CanvasTinter", "../managers/Constants"], function (require, exports, Matrix_1, GroupD8_1, CanvasTinter_1, Constants_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class CanvasSpriteRenderer {

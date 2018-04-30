@@ -48,7 +48,7 @@ class TextureGarbageCollector
         {
             return;
         }
-        const managedTextures =  tm._managedTextures;
+        const managedTextures =  tm.managedTextures;
         if(!managedTextures)
         {
             return;
@@ -57,7 +57,7 @@ class TextureGarbageCollector
         for (let i = 0; i < managedTextures.length; i++)
         {
             const texture = managedTextures[i];
-            if (!texture._glRenderTargets && this.count - texture.touched > this.maxIdle)
+            if (!texture.glRenderTargets && this.count - texture.touched > this.maxIdle)
             {
                 tm.destroyTexture(texture, true);
                 managedTextures[i] = null;

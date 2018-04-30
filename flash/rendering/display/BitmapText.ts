@@ -3,7 +3,7 @@ import { Point } from "../../geom/Point";
 import { Utils } from "../webgl/Utils";
 import { Bitmap } from "flash/display/Bitmap";
 import { Rectangle } from "flash/geom/Rectangle";
-import { Texture } from "../textures/Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { StageSettings } from "flash/display/StageSettings";
 
 export class BitmapText extends DisplayObjectContainer

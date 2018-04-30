@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/events/EventDispatcher", "flash/rendering/math/Bounds", "flash/geom/Transform", "flash/geom/Point", "flash/geom/Matrix", "flash/geom/Rectangle", "flash/rendering/textures/RenderTexture", "flash/rendering/webgl/Utils", "flash/rendering/textures/BaseTexture", "flash/rendering/textures/Texture"], function (require, exports, EventDispatcher_1, Bounds_1, Transform_1, Point_1, Matrix_1, Rectangle_1, RenderTexture_1, Utils_1, BaseTexture_1, Texture_1) {
+define(["require", "exports", "flash/events/EventDispatcher", "flash/geom/Bounds", "flash/geom/Transform", "flash/geom/Point", "flash/geom/Matrix", "flash/geom/Rectangle", "flash/display3D/textures/RenderTexture", "flash/rendering/webgl/Utils", "flash/display3D/textures/BaseTexture", "flash/display3D/textures/Texture"], function (require, exports, EventDispatcher_1, Bounds_1, Transform_1, Point_1, Matrix_1, Rectangle_1, RenderTexture_1, Utils_1, BaseTexture_1, Texture_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class CoreDisplayObject extends EventDispatcher_1.EventDispatcher {
@@ -169,7 +169,7 @@ define(["require", "exports", "flash/events/EventDispatcher", "flash/rendering/m
             this._cacheData.sprite = null; //SpriteBuffer.getSprite(renderTexture, this.transform.worldTransform, bounds, cacheAlpha, this._bounds);
             this._calculateBounds = this._calculateCachedBounds;
             this.getLocalBounds = this._getCachedLocalBounds;
-            this._transform._parentID = -1;
+            this._transform.parentID = -1;
             if (!this._parent) {
                 this._parent = renderer.emptyRoot;
                 this.updateTransform();

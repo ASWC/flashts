@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/core/gl/GLShader", "../filters/Shaders"], function (require, exports, GLShader_1, Shaders_1) {
+define(["require", "exports", "flash/display3D/GLShader", "../filters/Shaders"], function (require, exports, GLShader_1, Shaders_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class PrimitiveShader extends GLShader_1.GLShader {

@@ -203,7 +203,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "../..
             for (let i = 0; i < amount; ++i) {
                 var sprite = children[startIndex + i];
                 if (sprite instanceof Bitmap_1.Bitmap) {
-                    const textureUvs = sprite.texture._uvs;
+                    const textureUvs = sprite.texture.uvs;
                     if (textureUvs) {
                         array[offset] = textureUvs.x0;
                         array[offset + 1] = textureUvs.y0;

@@ -8,21 +8,21 @@ import { InteractiveObject } from "flash/display/InteractiveObject";
 import { DisplayObject } from "flash/display/DisplayObject";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { Utils } from "flash/rendering/webgl/Utils";
-import { Texture } from "flash/rendering/textures/Texture";
-import { RenderTexture } from "flash/rendering/textures/RenderTexture";
+import { Texture } from "flash/display3D/textures/Texture";
+import { RenderTexture } from "flash/display3D/textures/RenderTexture";
 import { Matrix } from "flash/geom/Matrix";
 import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 import { MaskManager } from "flash/rendering/webgl/MaskManager";
-import { StencilManager } from "flash/rendering/webgl/StencilManager";
+import { StencilManager } from "flash/display3D/renderers/StencilManager";
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
-import { TextureManager } from "flash/rendering/textures/TextureManager";
+import { TextureManager } from "flash/display3D/textures/TextureManager";
 import { FilterManager } from "flash/rendering/webgl/FilterManager";
 import { WebGLState } from "flash/rendering/webgl/WebGLState";
 import { GLShader } from "flash/display3D/GLShader";
-import { RenderTarget } from "flash/rendering/webgl/RenderTarget";
+import { RenderTarget } from "flash/display3D/textures/RenderTarget";
 import { TextureGarbageCollector } from "flash/rendering/webgl/TextureGarbageCollector";
 import { GLTexture } from "flash/display3D/textures/GLTexture";
-import { BaseTexture } from "flash/rendering/textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { Event } from "flash/events/Event";
 import { Constants } from "flash/rendering/managers/Constants";
 import { Transform } from "flash/geom/Transform";
@@ -184,11 +184,11 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             this.bindRenderTarget(this.rootRenderTarget);
             const emptyGLTexture:GLTexture = GLTexture.fromData(this.stageOptions.context, null, 1, 1);
             const tempObj = new BaseTexture();
-            tempObj._glTextures[this.CONTEXT_UID] = null;
+            tempObj.glTextures[this.CONTEXT_UID] = null;
             for (let i:number = 0; i < maxTextures; i++)
             {
                 const empty:BaseTexture = new BaseTexture();
-                empty._glTextures[this.CONTEXT_UID] = emptyGLTexture;
+                empty.glTextures[this.CONTEXT_UID] = emptyGLTexture;
                 this._boundTextures[i] = tempObj;
                 this._emptyTextures[i] = empty;
                 this.bindTexture(null, i);
@@ -237,7 +237,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }
         else
         {
-            glTexture = texture._glTextures[this.CONTEXT_UID];
+            glTexture = texture.glTextures[this.CONTEXT_UID];
         }        
         if (!glTexture || !glTexture.texture)
         {
@@ -246,6 +246,9 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         else
         {
             this._boundTextures[location] = texture;
+
+            //this.show('activate text: ' + this.stageOptions.context.TEXTURE0 + location)
+
             this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + location);
             this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, glTexture.texture);            
         }
@@ -260,7 +263,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             renderTarget.activate();
             if (this._activeShader)
             {
-                //this._activeShader.uniforms.projectionMatrix = renderTarget.projectionMatrix.toArray(true);
+                this._activeShader.uniforms.projectionMatrix = renderTarget.projectionMatrix.toArray(true);
             }
             if(this.stencilManager)
             {
@@ -330,7 +333,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         this.render(this);
     }
 
-    public render(displayObject:DisplayObject, renderTexture:RenderTexture = null, clear:boolean = true, transform:Transform = null, skipUpdateTransform:boolean = false):void
+    public render(displayObject:DisplayObject, renderTexture:RenderTexture = null, clear:boolean = true, transform:Matrix = null, skipUpdateTransform:boolean = false):void
     {        
         if(this.hasEventListener(Event.ENTER_FRAME))
         {
@@ -382,18 +385,18 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         }
     }
 
-    protected bindRenderTexture(renderTexture:RenderTexture, transform:Transform):void
+    protected bindRenderTexture(renderTexture:RenderTexture, transform:Matrix):void
     {
-        let renderTarget;
+        let renderTarget:RenderTarget;
         if (renderTexture)
         {
             const baseTexture:BaseTexture = renderTexture.baseTexture;
-            if (!baseTexture._glRenderTargets[this.CONTEXT_UID])
+            if (!baseTexture.glRenderTargets[this.CONTEXT_UID])
             {
                 this.textureManager.updateTexture(baseTexture, 0);
             }
             this.unbindTexture(baseTexture);
-            renderTarget = baseTexture._glRenderTargets[this.CONTEXT_UID];
+            renderTarget = baseTexture.glRenderTargets[this.CONTEXT_UID];
             renderTarget.setFrame(renderTexture.frame);
         }
         else
@@ -417,7 +420,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             {
                 this._boundTextures[i] = this._emptyTextures[i];
                 this.stageOptions.context.activeTexture(this.stageOptions.context.TEXTURE0 + i);
-                this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, this._emptyTextures[i]._glTextures[this.CONTEXT_UID].texture);
+                this.stageOptions.context.bindTexture(this.stageOptions.context.TEXTURE_2D, this._emptyTextures[i].glTextures[this.CONTEXT_UID].texture);
             }
         }
     }
@@ -489,6 +492,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
             return;
         }
         this.stencilManager = new StencilManager();
+        this.stencilManager.stage = this;
     }
 
     public getMaskManager():MaskManager
@@ -564,7 +568,7 @@ export class Stage extends DisplayObjectContainer implements IChildrenOwner, ISt
         const renderTexture:RenderTexture = RenderTexture.create(region.width | 0, region.height | 0, scaleMode, resolution);
         Matrix.GLOBAL.tx = -region.x;
         Matrix.GLOBAL.ty = -region.y;
-        //this.render(displayObject, renderTexture, false, Matrix.GLOBAL, true);
+        this.render(displayObject, renderTexture, false, Matrix.GLOBAL, true);
         return renderTexture;
     }
 

@@ -1,4 +1,4 @@
-define(["require", "exports", "./Texture", "../loading/Resource"], function (require, exports, Texture_1, Resource_1) {
+define(["require", "exports", "flash/display3D/textures/Texture", "../loading/Resource"], function (require, exports, Texture_1, Resource_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class TextureParser {

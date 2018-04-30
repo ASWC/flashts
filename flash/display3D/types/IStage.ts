@@ -1,5 +1,5 @@
 import { ObjectRenderer } from "flash/display3D/renderers/ObjectRenderer";
-import { RenderTarget } from "flash/rendering/webgl/RenderTarget";
+import { RenderTarget } from "flash/display3D/textures/RenderTarget";
 import { FilterManager } from "flash/rendering/webgl/FilterManager";
 import { IDisplayObjectContainer } from "flash/display/IDisplayObjectContainer";
 import { MaskManager } from "flash/rendering/webgl/MaskManager";

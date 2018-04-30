@@ -1,4 +1,4 @@
-import { Texture } from "./Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { Resource } from "../loading/Resource";
 
 

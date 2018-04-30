@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Rectangle", "../textures/RenderTexture", "../display/CanvasRenderTarget"], function (require, exports, Rectangle_1, RenderTexture_1, CanvasRenderTarget_1) {
+define(["require", "exports", "flash/geom/Rectangle", "flash/display3D/textures/RenderTexture", "../display/CanvasRenderTarget"], function (require, exports, Rectangle_1, RenderTexture_1, CanvasRenderTarget_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class WebGLExtract {

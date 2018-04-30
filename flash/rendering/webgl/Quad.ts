@@ -1,4 +1,4 @@
-import { CreateIndicesForQuads } from "./CreateIndicesForQuads";
+
 import { IndexBuffer3D } from "flash/display3D/IndexBuffer3D";
 import { VertexBuffer3D } from "flash/display3D/VertexBuffer3D";
 
@@ -65,7 +65,7 @@ export class Quad
          *
          * @member {Uint16Array}
          */
-        this.indices = CreateIndicesForQuads.createIndicesForQuads(1);
+        this.indices = Quad.createIndicesForQuads(1);
 
         /**
          * The vertex buffer
@@ -173,5 +173,21 @@ export class Quad
 
         gl.deleteBuffer(this.vertexBuffer);
         gl.deleteBuffer(this.indexBuffer);
+    }
+
+    public static createIndicesForQuads(size:number):Uint16Array
+    {
+        const totalIndices:number = size * 6;
+        const indices:Uint16Array = new Uint16Array(totalIndices);
+        for (let i:number = 0, j = 0; i < totalIndices; i += 6, j += 4)
+        {
+            indices[i + 0] = j + 0;
+            indices[i + 1] = j + 1;
+            indices[i + 2] = j + 2;
+            indices[i + 3] = j + 0;
+            indices[i + 4] = j + 2;
+            indices[i + 5] = j + 3;
+        }
+        return indices;
     }
 }

@@ -250,7 +250,7 @@ export class ParticleRenderer extends ObjectRenderer
             var sprite:DisplayObject = children[startIndex + i];
             if(sprite instanceof Bitmap)
             {
-                const textureUvs = sprite.texture._uvs;
+                const textureUvs = sprite.texture.uvs;
                 if (textureUvs)
                 {
                     array[offset] = textureUvs.x0;

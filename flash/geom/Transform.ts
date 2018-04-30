@@ -1,4 +1,4 @@
-import { TransformBase } from "flash/rendering/math/TransformBase";
+import { TransformBase } from "flash/geom/TransformBase";
 import { Point } from "flash/geom/Point";
 import { Matrix } from "flash/geom/Matrix";
 

@@ -1,4 +1,4 @@
-define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/GLTexture", "../webgl/Utils", "../managers/Constants", "./Texture", "flash/display/BaseObject", "flash/events/Event"], function (require, exports, RenderTarget_1, GLTexture_1, Utils_1, Constants_1, Texture_1, BaseObject_1, Event_1) {
+define(["require", "exports", "flash/display3D/textures/RenderTarget", "flash/display3D/textures/GLTexture", "flash/rendering/webgl/Utils", "flash/rendering/managers/Constants", "flash/display3D/textures/Texture", "flash/display/BaseObject", "flash/events/Event"], function (require, exports, RenderTarget_1, GLTexture_1, Utils_1, Constants_1, Texture_1, BaseObject_1, Event_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class TextureManager extends BaseObject_1.BaseObject {
@@ -6,20 +6,23 @@ define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/
             super();
             this._managedTextures = [];
         }
+        set stage(value) {
+            this._stage = value;
+        }
         bindTexture() {
         }
         getTexture() {
             return null;
         }
         updateTexture(texture, location) {
-            if (!this.stage) {
+            if (!this._stage) {
                 return;
             }
-            const isRenderTexture = !!texture._glRenderTargets;
+            const isRenderTexture = !!texture.glRenderTargets;
             if (!texture.hasLoaded) {
                 return null;
             }
-            const boundTextures = this.stage.boundTextures;
+            const boundTextures = this._stage.boundTextures;
             if (location === undefined) {
                 location = 0;
                 for (let i = 0; i < boundTextures.length; ++i) {
@@ -30,23 +33,23 @@ define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/
                 }
             }
             boundTextures[location] = texture;
-            this.stage.context.activeTexture(this.stage.context.TEXTURE0 + location);
-            let glTexture = texture._glTextures[this.stage.getContextID()];
+            this._stage.context.activeTexture(this._stage.context.TEXTURE0 + location);
+            let glTexture = texture.glTextures[this._stage.getContextID()];
             if (!glTexture) {
                 if (isRenderTexture) {
-                    const renderTarget = new RenderTarget_1.RenderTarget(this.stage.context, texture.width, texture.height, texture.scaleMode, texture.resolution);
+                    const renderTarget = new RenderTarget_1.RenderTarget(this._stage.context, texture.width, texture.height, texture.scaleMode, texture.resolution);
                     renderTarget.resize(texture.width, texture.height);
-                    texture._glRenderTargets[this.stage.getContextID()] = renderTarget;
+                    texture.glRenderTargets[this._stage.getContextID()] = renderTarget;
                     glTexture = renderTarget.texture;
                 }
                 else {
                     var textsource = texture.source;
-                    glTexture = new GLTexture_1.GLTexture(this.stage.context);
+                    glTexture = new GLTexture_1.GLTexture(this._stage.context);
                     glTexture.bind(location);
                     glTexture.premultiplyAlpha = true;
                     glTexture.upload(textsource);
                 }
-                texture._glTextures[this.stage.getContextID()] = glTexture;
+                texture.glTextures[this._stage.getContextID()] = glTexture;
                 texture.removeEventListener(Event_1.Event.CHANGE, this.updateTexture);
                 texture.removeEventListener(Event_1.Event.UNLOAD, this.destroyTexture);
                 this._managedTextures.push(texture);
@@ -75,7 +78,7 @@ define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/
                 }
             }
             else if (isRenderTexture) {
-                texture._glRenderTargets[this.stage.getContextID()].resize(texture.width, texture.height);
+                texture.glRenderTargets[this._stage.getContextID()].resize(texture.width, texture.height);
             }
             else {
                 var textsource = texture.source;
@@ -95,11 +98,11 @@ define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/
             if (!basetext.hasLoaded) {
                 return;
             }
-            const uid = this.stage.getContextID();
-            const glTextures = basetext._glTextures;
-            const glRenderTargets = basetext._glRenderTargets;
+            const uid = this._stage.getContextID();
+            const glTextures = basetext.glTextures;
+            const glRenderTargets = basetext.glRenderTargets;
             if (glTextures[uid]) {
-                this.stage.unbindTexture(basetext);
+                this._stage.unbindTexture(basetext);
                 glTextures[uid].destroy();
                 basetext.removeEventListener(Event_1.Event.CHANGE, this.updateTexture);
                 basetext.removeEventListener(Event_1.Event.UNLOAD, this.destroyTexture);
@@ -119,8 +122,8 @@ define(["require", "exports", "../webgl/RenderTarget", "flash/rendering/core/gl/
         removeAll() {
             for (let i = 0; i < this._managedTextures.length; ++i) {
                 const texture = this._managedTextures[i];
-                if (texture._glTextures[this.stage.getContextID()]) {
-                    delete texture._glTextures[this.stage.getContextID()];
+                if (texture.glTextures[this._stage.getContextID()]) {
+                    delete texture.glTextures[this._stage.getContextID()];
                 }
             }
         }

@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/core/gl/GLShader"], function (require, exports, GLShader_1) {
+define(["require", "exports", "flash/display3D/GLShader"], function (require, exports, GLShader_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class ParticleShader extends GLShader_1.GLShader {

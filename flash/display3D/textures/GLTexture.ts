@@ -89,8 +89,8 @@ export class GLTexture extends BaseObject
         }
         this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this._premultiplyAlpha);
         if(width !== this.width || height !== this.height)
-        {
-            this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.format,  width, height, 0, this.format, this.type, data || null);
+        {           
+            this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.format,  width, height, 0, this.format, this.type, data || null);            
         }
         else
         {
@@ -100,7 +100,7 @@ export class GLTexture extends BaseObject
         this.height = height;
     };
 
-    public bind(location:number = 0):void
+    public bind(location:number = undefined):void
     {
         if(location !== undefined)
         {

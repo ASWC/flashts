@@ -2,8 +2,8 @@
 import { Constants } from "../managers/Constants";
 import { Timer } from "flash/utils/Timer";
 import { DisplayObjectContainer } from "flash/display/DisplayObjectContainer";
-import { Texture } from "../textures/Texture";
-import { BaseTexture } from "../textures/BaseTexture";
+import { Texture } from "flash/display3D/textures/Texture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { TextStyle } from "../../text/TextStyle";
 import { TextMetrics } from "../../text/TextMetrics";
 import { Text } from "flash/rendering/display/Text";

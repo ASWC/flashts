@@ -3,14 +3,16 @@ import { Rectangle } from "flash/geom/Rectangle";
 import { Quad } from "./Quad";
 import { GLShader } from "flash/display3D/GLShader";
 import { Utils } from "./Utils";
-import { RenderTarget } from "./RenderTarget";
+import { RenderTarget } from "flash/display3D/textures/RenderTarget";
 import { Event } from "flash/events/Event";
 import { Stage } from "../../display/Stage";
 
 export class FilterManager// extends WebGLRenderer
 {
     public static screenKey = 'screen';
+
     public gl:WebGLRenderingContext;
+    
     public quad:any;
     public shaderCache:any;
     public pool:any;
@@ -575,7 +577,7 @@ export class FilterManager// extends WebGLRenderer
             renderTarget = new RenderTarget(gl, minWidth, minHeight, null, 1);
 
             // set the current one back
-            gl.bindTexture(gl.TEXTURE_2D, tex._glTextures[this.stageContext.getContextID()].texture);
+            gl.bindTexture(gl.TEXTURE_2D, tex.glTextures[this.stageContext.getContextID()].texture);
         }
 
         // manually tweak the resolution...

@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl/TextureUvs", "../webgl/Utils", "./VideoBaseTexture", "flash/events/EventDispatcher", "flash/events/Event", "flash/display/StageSettings"], function (require, exports, Rectangle_1, BaseTexture_1, TextureUvs_1, Utils_1, VideoBaseTexture_1, EventDispatcher_1, Event_1, StageSettings_1) {
+define(["require", "exports", "flash/geom/Rectangle", "flash/display3D/textures/BaseTexture", "../webgl/TextureUvs", "flash/rendering/webgl/Utils", "flash/display3D/textures/VideoBaseTexture", "flash/events/EventDispatcher", "flash/events/Event", "flash/display/StageSettings"], function (require, exports, Rectangle_1, BaseTexture_1, TextureUvs_1, Utils_1, VideoBaseTexture_1, EventDispatcher_1, Event_1, StageSettings_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Texture extends EventDispatcher_1.EventDispatcher {
@@ -12,13 +12,13 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             if (baseTexture instanceof Texture) {
                 baseTexture = baseTexture.baseTexture;
             }
-            this.baseTexture = baseTexture;
+            this._baseTexture = baseTexture;
             this._frame = frame;
-            this.trim = trim;
-            this.valid = false;
+            this._trim = trim;
+            this._valid = false;
             this.requiresUpdate = false;
             this._uvs = null;
-            this.orig = orig || frame;
+            this._orig = orig || frame;
             this._rotate = 0;
             if (rotate === true) {
                 this._rotate = 2;
@@ -40,6 +40,36 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             this.transform = null;
             this.textureCacheIds = [];
         }
+        set valid(value) {
+            this._valid = value;
+        }
+        get valid() {
+            return this._valid;
+        }
+        get frame() {
+            return this._frame;
+        }
+        get updateID() {
+            return this._updateID;
+        }
+        get orig() {
+            return this._orig;
+        }
+        set orig(value) {
+            this._orig = value;
+        }
+        get uvs() {
+            return this._uvs;
+        }
+        set trim(value) {
+            this._trim = value;
+        }
+        get trim() {
+            return this._trim;
+        }
+        get baseTexture() {
+            return this._baseTexture;
+        }
         static get WHITE() {
             if (!Texture._WHITE) {
                 Texture._WHITE = Texture.createWhiteTexture();
@@ -52,55 +82,43 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             }
             return Texture._EMPTY;
         }
-        /*public static init():void
-        {
-            Texture.EMPTY = new Texture(new BaseTexture());
-            Texture.WHITE = Texture.createWhiteTexture();
-            Texture.removeAllHandlers(Texture.EMPTY);
-            Texture.removeAllHandlers(Texture.EMPTY.baseTexture);
-            Texture.removeAllHandlers(Texture.WHITE);
-            Texture.removeAllHandlers(Texture.WHITE.baseTexture);
-        }*/
         update() {
-            this.baseTexture.update();
+            this._baseTexture.update();
         }
         onBaseTextureLoaded(event) {
-            this.baseTexture.removeEventListener(Event_1.Event.COMPLETE, this.onBaseTextureLoaded);
-            this.show("base texture loaded");
+            this._baseTexture.removeEventListener(Event_1.Event.COMPLETE, this.onBaseTextureLoaded);
             this._updateID++;
             if (this.noFrame) {
-                this.frame = new Rectangle_1.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
+                this.frame = new Rectangle_1.Rectangle(0, 0, this._baseTexture.width, this._baseTexture.height);
             }
             else {
                 this.frame = this._frame;
             }
-            this.baseTexture.addEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated, this);
+            this._baseTexture.addEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated, this);
             this.dispatchEvent(new Event_1.Event(Event_1.Event.CHANGE));
         }
         onBaseTextureUpdated(event) {
-            this.baseTexture.removeEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated);
+            this._baseTexture.removeEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated);
             this._updateID++;
-            this._frame.width = this.baseTexture.width;
-            this._frame.height = this.baseTexture.height;
+            this._frame.width = this._baseTexture.width;
+            this._frame.height = this._baseTexture.height;
             this.dispatchEvent(new Event_1.Event(Event_1.Event.CHANGE));
         }
-        destroy(destroyBase) {
-            if (this.baseTexture) {
-                if (destroyBase) {
-                    if (BaseTexture_1.BaseTexture.TextureCache[this.baseTexture.imageUrl]) {
-                        Texture.removeFromCache(this.baseTexture.imageUrl);
-                    }
-                    this.baseTexture.destroy();
+        destroy() {
+            if (this._baseTexture) {
+                if (BaseTexture_1.BaseTexture.TextureCache[this._baseTexture.imageUrl]) {
+                    Texture.removeFromCache(this._baseTexture.imageUrl);
                 }
-                this.baseTexture.removeEventListener(Event_1.Event.COMPLETE, this.onBaseTextureLoaded);
-                this.baseTexture.removeEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated);
-                this.baseTexture = null;
+                this._baseTexture.destroy();
+                this._baseTexture.removeEventListener(Event_1.Event.COMPLETE, this.onBaseTextureLoaded);
+                this._baseTexture.removeEventListener(Event_1.Event.CHANGE, this.onBaseTextureUpdated);
+                this._baseTexture = null;
             }
             this._frame = null;
             this._uvs = null;
-            this.trim = null;
-            this.orig = null;
-            this.valid = false;
+            this._trim = null;
+            this._orig = null;
+            this._valid = false;
             Texture.removeFromCache(this);
             this.textureCacheIds = null;
         }
@@ -109,13 +127,13 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             if (this.rotate != 0) {
                 rotating = true;
             }
-            return new Texture(this.baseTexture, this.frame, this.orig, this.trim, rotating);
+            return new Texture(this._baseTexture, this.frame, this._orig, this._trim, rotating);
         }
         _updateUvs() {
             if (!this._uvs) {
                 this._uvs = new TextureUvs_1.TextureUvs();
             }
-            this._uvs.set(this._frame, this.baseTexture.frame, this.rotate);
+            this._uvs.set(this._frame, this._baseTexture.frame, this.rotate);
             this._updateID++;
         }
         static fromImage(imageUrl, crossorigin = false, scaleMode = StageSettings_1.StageSettings.SCALE_MODE, sourceScale = StageSettings_1.StageSettings.SCALE_MODE) {
@@ -178,10 +196,10 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             if (!name) {
                 name = imageUrl;
             }
-            BaseTexture_1.BaseTexture.addToCache(texture.baseTexture, name);
+            BaseTexture_1.BaseTexture.addToCache(texture._baseTexture, name);
             Texture.addToCache(texture, name);
             if (name !== imageUrl) {
-                BaseTexture_1.BaseTexture.addToCache(texture.baseTexture, imageUrl);
+                BaseTexture_1.BaseTexture.addToCache(texture._baseTexture, imageUrl);
                 Texture.addToCache(texture, imageUrl);
             }
             return texture;
@@ -220,27 +238,22 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             }
             return null;
         }
-        get frame() {
-            return this._frame;
-        }
         set frame(frame) {
             this._frame = frame;
             this.noFrame = false;
-            const { x, y, width, height } = frame;
-            const xNotFit = x + width > this.baseTexture.width;
-            const yNotFit = y + height > this.baseTexture.height;
+            const xNotFit = this._frame.x + this._frame.width > this._baseTexture.width;
+            const yNotFit = this._frame.y + this._frame.height > this._baseTexture.height;
             if (xNotFit || yNotFit) {
                 const relationship = xNotFit && yNotFit ? 'and' : 'or';
-                const errorX = `X: ${x} + ${width} = ${x + width} > ${this.baseTexture.width}`;
-                const errorY = `Y: ${y} + ${height} = ${y + height} > ${this.baseTexture.height}`;
-                throw new Error('Texture Error: frame does not fit inside the base Texture dimensions: '
-                    + `${errorX} ${relationship} ${errorY}`);
+                const errorX = `X: ${this._frame.x} + ${this._frame.width} = ${this._frame.x + this._frame.width} > ${this._baseTexture.width}`;
+                const errorY = `Y: ${this._frame.y} + ${this._frame.height} = ${this._frame.y + this._frame.height} > ${this._baseTexture.height}`;
+                throw new Error('Texture Error: frame does not fit inside the base Texture dimensions: ' + `${errorX} ${relationship} ${errorY}`);
             }
-            this.valid = width && height && this.baseTexture.hasLoaded;
-            if (!this.trim && !this.rotate) {
-                this.orig = frame;
+            this._valid = this._frame.width && this._frame.height && this._baseTexture.hasLoaded;
+            if (!this._trim && !this.rotate) {
+                this._orig = frame;
             }
-            if (this.valid) {
+            if (this._valid) {
                 this._updateUvs();
             }
         }
@@ -249,15 +262,15 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
         }
         set rotate(rotate) {
             this._rotate = rotate;
-            if (this.valid) {
+            if (this._valid) {
                 this._updateUvs();
             }
         }
         get width() {
-            return this.orig.width;
+            return this._orig.width;
         }
         get height() {
-            return this.orig.height;
+            return this._orig.height;
         }
         static createWhiteTexture(width = 100, height = 100) {
             const canvas = document.createElement('canvas');
@@ -276,12 +289,6 @@ define(["require", "exports", "flash/geom/Rectangle", "./BaseTexture", "../webgl
             context.fillStyle = 'red';
             context.fillRect(0, 0, width, height);
             return new Texture(new BaseTexture_1.BaseTexture(canvas));
-        }
-        static removeAllHandlers(tex) {
-            tex.destroy = function _emptyDestroy() { };
-            //tex.on = function _emptyOn() { /* empty */ };
-            //tex.once = function _emptyOnce() { /* empty */ };
-            //tex.emit = null;
         }
     }
     exports.Texture = Texture;

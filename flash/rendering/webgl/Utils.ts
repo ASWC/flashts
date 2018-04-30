@@ -5,6 +5,7 @@ import { Matrix } from "../../geom/Matrix";
 import { Point } from "../../geom/Point";
 import { Shaders } from "../filters/Shaders";
 import { numberDictionary, numberNumberArrayDictionary } from "flash/display3D/types/DataDictionaries";
+import { DecomposedDataUri, SvgSize } from "../../display3D/types/DataTypes";
 
 export class Utils
 {
@@ -448,47 +449,30 @@ export class Utils
         return undefined;
     }
 
-    /**
-     * Split a data URI into components. Returns undefined if
-     * parameter `dataUri` is not a valid data URI.
-     *
-     * @memberof PIXI.utils
-     * @function decomposeDataUri
-     * @param {string} dataUri - the data URI to check
-     * @return {PIXI.utils~DecomposedDataUri|undefined} The decomposed data uri or undefined
-     */
-    public static decomposeDataUri(url:string):any
+    public static decomposeDataUri(url:string):DecomposedDataUri
     {
-        var dataUriMatch = Constants.DATA_URI.exec(url);    
+        var dataUriMatch:RegExpExecArray = Constants.DATA_URI.exec(url);    
         if (dataUriMatch) 
         {
-            return {
-                mediaType: dataUriMatch[1] ? dataUriMatch[1].toLowerCase() : undefined,
-                subType: dataUriMatch[2] ? dataUriMatch[2].toLowerCase() : undefined,
-                encoding: dataUriMatch[3] ? dataUriMatch[3].toLowerCase() : undefined,
-                data: dataUriMatch[4]
-            };
+            var datauri:DecomposedDataUri = new DecomposedDataUri();
+            datauri.mediaType = dataUriMatch[1] ? dataUriMatch[1].toLowerCase() : undefined,
+            datauri.subType = dataUriMatch[2] ? dataUriMatch[2].toLowerCase() : undefined,
+            datauri.encoding = dataUriMatch[3] ? dataUriMatch[3].toLowerCase() : undefined,
+            datauri.data = dataUriMatch[4]
+            return datauri;
         }  
         return undefined;
     }
 
-    /**
-     * Get size from an svg string using regexp.
-     *
-     * @memberof PIXI.utils
-     * @function getSvgSize
-     * @param {string} svgString - a serialized svg element
-     * @return {PIXI.utils~Size|undefined} image extension
-     */
-    public static getSvgSize(svgString) {
-        var sizeMatch = Constants.SVG_SIZE.exec(svgString);
-        var size = {};
-    
-        if (sizeMatch) {
-            size[sizeMatch[1]] = Math.round(parseFloat(sizeMatch[3]));
-            size[sizeMatch[5]] = Math.round(parseFloat(sizeMatch[7]));
-        }
-    
+    public static getSvgSize(svgString:string):SvgSize 
+    {
+        var sizeMatch:RegExpExecArray = Constants.SVG_SIZE.exec(svgString);
+        var size:SvgSize = new SvgSize();    
+        if (sizeMatch) 
+        {
+            size.width = Math.round(parseFloat(sizeMatch[3]));
+            size.height = Math.round(parseFloat(sizeMatch[7]));
+        }    
         return size;
     }
 

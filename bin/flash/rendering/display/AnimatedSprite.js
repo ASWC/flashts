@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display/Bitmap", "../textures/Texture", "flash/utils/Timer", "../managers/Constants", "../webgl/Utils"], function (require, exports, Bitmap_1, Texture_1, Timer_1, Constants_1, Utils_1) {
+define(["require", "exports", "flash/display/Bitmap", "flash/display3D/textures/Texture", "flash/utils/Timer", "../managers/Constants", "../webgl/Utils"], function (require, exports, Bitmap_1, Texture_1, Timer_1, Constants_1, Utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class AnimatedSprite extends Bitmap_1.Bitmap {

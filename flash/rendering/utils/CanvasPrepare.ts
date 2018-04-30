@@ -1,5 +1,5 @@
 import { BasePrepare } from "./BasePrepare";
-import { BaseTexture } from "../textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 
 
 

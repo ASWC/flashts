@@ -26,14 +26,14 @@ define(["require", "exports", "flash/rendering/managers/Constants", "flash/displ
             if (!tm) {
                 return;
             }
-            const managedTextures = tm._managedTextures;
+            const managedTextures = tm.managedTextures;
             if (!managedTextures) {
                 return;
             }
             let wasRemoved = false;
             for (let i = 0; i < managedTextures.length; i++) {
                 const texture = managedTextures[i];
-                if (!texture._glRenderTargets && this.count - texture.touched > this.maxIdle) {
+                if (!texture.glRenderTargets && this.count - texture.touched > this.maxIdle) {
                     tm.destroyTexture(texture, true);
                     managedTextures[i] = null;
                     wasRemoved = true;

@@ -1,4 +1,4 @@
-define(["require", "exports", "../loading/Resource", "../display/BitmapText", "../textures/BaseTexture", "../webgl/Utils"], function (require, exports, Resource_1, BitmapText_1, BaseTexture_1, Utils_1) {
+define(["require", "exports", "../loading/Resource", "../display/BitmapText", "flash/display3D/textures/BaseTexture", "../webgl/Utils"], function (require, exports, Resource_1, BitmapText_1, BaseTexture_1, Utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BitmapFontParser {

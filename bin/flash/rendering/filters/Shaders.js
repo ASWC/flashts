@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/core/gl/GLShader", "../webgl/Utils"], function (require, exports, GLShader_1, Utils_1) {
+define(["require", "exports", "flash/display3D/GLShader", "../webgl/Utils"], function (require, exports, GLShader_1, Utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Shaders {

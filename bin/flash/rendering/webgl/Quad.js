@@ -1,4 +1,4 @@
-define(["require", "exports", "./CreateIndicesForQuads", "flash/rendering/core/gl/GLBuffer", "flash/rendering/core/gl/VertexArrayObject"], function (require, exports, CreateIndicesForQuads_1, GLBuffer_1, VertexArrayObject_1) {
+define(["require", "exports", "flash/display3D/IndexBuffer3D", "flash/display3D/VertexBuffer3D"], function (require, exports, IndexBuffer3D_1, VertexBuffer3D_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Quad {
@@ -43,25 +43,25 @@ define(["require", "exports", "./CreateIndicesForQuads", "flash/rendering/core/g
              *
              * @member {Uint16Array}
              */
-            this.indices = CreateIndicesForQuads_1.CreateIndicesForQuads.createIndicesForQuads(1);
+            this.indices = Quad.createIndicesForQuads(1);
             /**
              * The vertex buffer
              *
              * @member {glCore.GLBuffer}
              */
-            this.vertexBuffer = GLBuffer_1.GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
+            this.vertexBuffer = IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
             /**
              * The index buffer
              *
              * @member {glCore.GLBuffer}
              */
-            this.indexBuffer = GLBuffer_1.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+            this.indexBuffer = IndexBuffer3D_1.IndexBuffer3D.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
             /**
              * The vertex array object
              *
              * @member {glCore.VertexArrayObject}
              */
-            this.vao = new VertexArrayObject_1.VertexArrayObject(gl, state);
+            this.vao = new VertexBuffer3D_1.VertexBuffer3D(gl, state);
         }
         /**
          * Initialises the vaos and uses the shader.
@@ -126,6 +126,19 @@ define(["require", "exports", "./CreateIndicesForQuads", "flash/rendering/core/g
             const gl = this.gl;
             gl.deleteBuffer(this.vertexBuffer);
             gl.deleteBuffer(this.indexBuffer);
+        }
+        static createIndicesForQuads(size) {
+            const totalIndices = size * 6;
+            const indices = new Uint16Array(totalIndices);
+            for (let i = 0, j = 0; i < totalIndices; i += 6, j += 4) {
+                indices[i + 0] = j + 0;
+                indices[i + 1] = j + 1;
+                indices[i + 2] = j + 2;
+                indices[i + 3] = j + 0;
+                indices[i + 4] = j + 2;
+                indices[i + 5] = j + 3;
+            }
+            return indices;
         }
     }
     exports.Quad = Quad;

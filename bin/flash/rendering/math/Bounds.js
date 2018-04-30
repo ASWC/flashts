@@ -2,44 +2,16 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Bounds {
-        /**
-         *
-         */
         constructor() {
-            /**
-             * @member {number}
-             * @default 0
-             */
             this.minX = Infinity;
-            /**
-             * @member {number}
-             * @default 0
-             */
             this.minY = Infinity;
-            /**
-             * @member {number}
-             * @default 0
-             */
             this.maxX = -Infinity;
-            /**
-             * @member {number}
-             * @default 0
-             */
             this.maxY = -Infinity;
             this.rect = null;
         }
-        /**
-         * Checks if bounds are empty.
-         *
-         * @return {boolean} True if empty.
-         */
         isEmpty() {
             return this.minX > this.maxX || this.minY > this.maxY;
         }
-        /**
-         * Clears the bounds and resets.
-         *
-         */
         clear() {
             this.updateID++;
             this.minX = Infinity;
@@ -47,13 +19,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             this.maxX = -Infinity;
             this.maxY = -Infinity;
         }
-        /**
-         * Can return Rectangle.EMPTY constant, either construct new rectangle, either use your rectangle
-         * It is not guaranteed that it will return tempRect
-         *
-         * @param {PIXI.Rectangle} rect - temporary object will be used if AABB is not empty
-         * @returns {PIXI.Rectangle} A rectangle of the bounds
-         */
         getRectangle(rect) {
             if (this.minX > this.maxX || this.minY > this.maxY) {
                 return Rectangle_1.Rectangle.EMPTY;
@@ -65,22 +30,12 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             rect.height = this.maxY - this.minY;
             return rect;
         }
-        /**
-         * This function should be inlined when its possible.
-         *
-         * @param {PIXI.Point} point - The point to add.
-         */
         addPoint(point) {
             this.minX = Math.min(this.minX, point.x);
             this.maxX = Math.max(this.maxX, point.x);
             this.minY = Math.min(this.minY, point.y);
             this.maxY = Math.max(this.maxY, point.y);
         }
-        /**
-         * Adds a quad, not transformed
-         *
-         * @param {Float32Array} vertices - The verts to add.
-         */
         addQuad(vertices) {
             let minX = this.minX;
             let minY = this.minY;
@@ -115,15 +70,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             this.maxX = maxX;
             this.maxY = maxY;
         }
-        /**
-         * Adds sprite frame, transformed.
-         *
-         * @param {PIXI.TransformBase} transform - TODO
-         * @param {number} x0 - TODO
-         * @param {number} y0 - TODO
-         * @param {number} x1 - TODO
-         * @param {number} y1 - TODO
-         */
         addFrame(transform, x0, y0, x1, y1) {
             const matrix = transform.worldTransform;
             const a = matrix.a;
@@ -165,14 +111,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             this.maxX = maxX;
             this.maxY = maxY;
         }
-        /**
-         * Add an array of vertices
-         *
-         * @param {PIXI.TransformBase} transform - TODO
-         * @param {Float32Array} vertices - TODO
-         * @param {number} beginOffset - TODO
-         * @param {number} endOffset - TODO
-         */
         addVertices(transform, vertices, beginOffset, endOffset) {
             const matrix = transform.worldTransform;
             const a = matrix.a;
@@ -200,11 +138,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             this.maxX = maxX;
             this.maxY = maxY;
         }
-        /**
-         * Adds other Bounds
-         *
-         * @param {PIXI.Bounds} bounds - TODO
-         */
         addBounds(bounds) {
             const minX = this.minX;
             const minY = this.minY;
@@ -215,12 +148,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
             this.maxX = bounds.maxX > maxX ? bounds.maxX : maxX;
             this.maxY = bounds.maxY > maxY ? bounds.maxY : maxY;
         }
-        /**
-         * Adds other Bounds, masked with Bounds
-         *
-         * @param {PIXI.Bounds} bounds - TODO
-         * @param {PIXI.Bounds} mask - TODO
-         */
         addBoundsMask(bounds, mask) {
             const _minX = bounds.minX > mask.minX ? bounds.minX : mask.minX;
             const _minY = bounds.minY > mask.minY ? bounds.minY : mask.minY;
@@ -237,12 +164,6 @@ define(["require", "exports", "flash/geom/Rectangle"], function (require, export
                 this.maxY = _maxY > maxY ? _maxY : maxY;
             }
         }
-        /**
-         * Adds other Bounds, masked with Rectangle
-         *
-         * @param {PIXI.Bounds} bounds - TODO
-         * @param {PIXI.Rectangle} area - TODO
-         */
         addBoundsArea(bounds, area) {
             const _minX = bounds.minX > area.x ? bounds.minX : area.x;
             const _minY = bounds.minY > area.y ? bounds.minY : area.y;

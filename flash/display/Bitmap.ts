@@ -1,9 +1,9 @@
 
 import { Point } from "flash/geom/Point";
 import { Constants } from "flash/rendering/managers/Constants";
-import { Texture } from "flash/rendering/textures/Texture";
+import { Texture } from "flash/display3D/textures/Texture";
 import { Rectangle } from "flash/geom/Rectangle";
-import { BaseTexture } from "flash/rendering/textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { Utils } from "flash/rendering/webgl/Utils";
 import { SpriteRenderer } from "flash/display3D/renderers/SpriteRenderer";
 import { GLShader } from "flash/display3D/GLShader";
@@ -30,8 +30,7 @@ export class Bitmap extends DisplayObject
     protected _transformID:number;
     protected _textureID:number;
     protected _transformTrimmedID:number;
-    protected _textureTrimmedID:number;
-    protected pluginName:string;    
+    protected _textureTrimmedID:number; 
 
     constructor(texture:Texture = null)
     {
@@ -53,7 +52,6 @@ export class Bitmap extends DisplayObject
         this._textureID = -1;
         this._transformTrimmedID = -1;
         this._textureTrimmedID = -1;
-        this.pluginName = 'sprite';
     }
 
     public getLocalBounds(rect:Rectangle):Rectangle
@@ -111,7 +109,7 @@ export class Bitmap extends DisplayObject
     {
         super.destroy();
         this._anchor = null;
-        this._texture.destroy(true);
+        this._texture.destroy();
         this._texture = null;
         this.shader = null;
     }
@@ -144,12 +142,12 @@ export class Bitmap extends DisplayObject
 
     protected calculateVertices():void
     {
-        if (this._transformID === this.transform._worldID && this._textureID === this._texture._updateID)
+        if (this._transformID === this.transform.worldID && this._textureID === this._texture.updateID)
         {
             return;
         }
-        this._transformID = this.transform._worldID;
-        this._textureID = this._texture._updateID;
+        this._transformID = this.transform.worldID;
+        this._textureID = this._texture.updateID;
         const texture:Texture = this._texture;
         const wt:Matrix = this.transform.worldTransform;
         const a:number = wt.a;
@@ -204,12 +202,12 @@ export class Bitmap extends DisplayObject
         {
             this.vertexTrimmedData = new Float32Array(8);
         }
-        else if (this._transformTrimmedID === this.transform._worldID && this._textureTrimmedID === this._texture._updateID)
+        else if (this._transformTrimmedID === this.transform.worldID && this._textureTrimmedID === this._texture.updateID)
         {
             return;
         }
-        this._transformTrimmedID = this.transform._worldID;
-        this._textureTrimmedID = this._texture._updateID;
+        this._transformTrimmedID = this.transform.worldID;
+        this._textureTrimmedID = this._texture.updateID;
         const texture:Texture = this._texture;
         const vertexData:Float32Array = this.vertexTrimmedData;
         const orig:Rectangle = texture.orig;

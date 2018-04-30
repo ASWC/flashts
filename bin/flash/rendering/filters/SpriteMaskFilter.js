@@ -1,4 +1,4 @@
-define(["require", "exports", "./Filter", "../../geom/Matrix", "../math/TextureMatrix", "./Shaders"], function (require, exports, Filter_1, Matrix_1, TextureMatrix_1, Shaders_1) {
+define(["require", "exports", "./Filter", "../../geom/Matrix", "flash/display3D/textures/TextureMatrix", "./Shaders"], function (require, exports, Filter_1, Matrix_1, TextureMatrix_1, Shaders_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class SpriteMaskFilter extends Filter_1.Filter {

@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/core/gl/GLBuffer", "flash/rendering/core/gl/VertexArrayObject", "./Utils", "../../geom/Matrix", "../display/Mesh"], function (require, exports, ObjectRenderer_1, GLBuffer_1, VertexArrayObject_1, Utils_1, Matrix_1, Mesh_1) {
+define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/display3D/IndexBuffer3D", "flash/display3D/VertexBuffer3D", "./Utils", "../../geom/Matrix", "../display/Mesh"], function (require, exports, ObjectRenderer_1, IndexBuffer3D_1, VertexBuffer3D_1, Utils_1, Matrix_1, Mesh_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class MeshRenderer extends ObjectRenderer_1.ObjectRenderer {
@@ -38,16 +38,16 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 renderer.bindVao(null);
                 glData = {
                     shader: this.shader,
-                    vertexBuffer: GLBuffer_1.GLBuffer.createVertexBuffer(gl, mesh.vertices, gl.STREAM_DRAW),
-                    uvBuffer: GLBuffer_1.GLBuffer.createVertexBuffer(gl, mesh.uvs, gl.STREAM_DRAW),
-                    indexBuffer: GLBuffer_1.GLBuffer.createIndexBuffer(gl, mesh.indices, gl.STATIC_DRAW),
+                    vertexBuffer: IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(gl, mesh.vertices, gl.STREAM_DRAW),
+                    uvBuffer: IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(gl, mesh.uvs, gl.STREAM_DRAW),
+                    indexBuffer: IndexBuffer3D_1.IndexBuffer3D.createIndexBuffer(gl, mesh.indices, gl.STATIC_DRAW),
                     // build the vao object that will render..
                     vao: null,
                     dirty: mesh.dirty,
                     indexDirty: mesh.indexDirty,
                 };
                 // build the vao object that will render..
-                glData.vao = new VertexArrayObject_1.VertexArrayObject(gl)
+                glData.vao = new VertexBuffer3D_1.VertexBuffer3D(gl)
                     .addIndex(glData.indexBuffer)
                     .addAttribute(glData.vertexBuffer, glData.shader.attributes.aVertexPosition, gl.FLOAT, false, 2 * 4, 0)
                     .addAttribute(glData.uvBuffer, glData.shader.attributes.aTextureCoord, gl.FLOAT, false, 2 * 4, 0);

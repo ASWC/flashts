@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/core/gl/GLTexture", "flash/display/BaseObject"], function (require, exports, GLTexture_1, BaseObject_1) {
+define(["require", "exports", "flash/display3D/textures/GLTexture", "flash/display/BaseObject"], function (require, exports, GLTexture_1, BaseObject_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GLFramebuffer extends BaseObject_1.BaseObject {

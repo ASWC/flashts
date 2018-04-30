@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/core/gl/Buffer", "flash/rendering/webgl/Utils", "flash/rendering/webgl/CreateIndicesForQuads", "flash/rendering/core/gl/GLBuffer", "flash/display/StageSettings", "flash/events/Event", "flash/display3D/types/DataTypes"], function (require, exports, ObjectRenderer_1, Buffer_1, Utils_1, CreateIndicesForQuads_1, GLBuffer_1, StageSettings_1, Event_1, DataTypes_1) {
+define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash/rendering/webgl/Utils", "flash/display3D/IndexBuffer3D", "flash/display/BaseObject", "flash/display/StageSettings", "flash/events/Event", "flash/display3D/types/DataTypes"], function (require, exports, ObjectRenderer_1, Utils_1, IndexBuffer3D_1, BaseObject_1, StageSettings_1, Event_1, DataTypes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // TYPED
@@ -10,9 +10,9 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             this.size = StageSettings_1.StageSettings.SPRITE_BATCH_SIZE;
             this.buffers = [];
             for (let i = 1; i <= Utils_1.Utils.nextPow2(this.size); i *= 2) {
-                this.buffers.push(new Buffer_1.Buffer(i * 4 * this.vertByteSize));
+                this.buffers.push(new Buffer(i * 4 * this.vertByteSize));
             }
-            this.indices = CreateIndicesForQuads_1.CreateIndicesForQuads.createIndicesForQuads(this.size);
+            this.indices = SpriteRenderer.createIndicesForQuads(this.size);
             this.shader = null;
             this.currentIndex = 0;
             this.groups = [];
@@ -40,11 +40,11 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 this.MAX_TEXTURES = Utils_1.Utils.checkMaxIfStatmentsInShader(this.MAX_TEXTURES, this.stageContext.context);
             }
             this.shader = Utils_1.Utils.generateMultiTextureShader(this.stageContext.context, this.MAX_TEXTURES);
-            this.indexBuffer = GLBuffer_1.GLBuffer.createIndexBuffer(this.stageContext.context, this.indices, this.stageContext.context.STATIC_DRAW);
+            this.indexBuffer = IndexBuffer3D_1.IndexBuffer3D.createIndexBuffer(this.stageContext.context, this.indices, this.stageContext.context.STATIC_DRAW);
             this.stageContext.bindVao(null);
             const attrs = this.shader.attributes;
             for (let i = 0; i < this.vaoMax; i++) {
-                const vertexBuffer = GLBuffer_1.GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
+                const vertexBuffer = IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
                 this.vertexBuffers[i] = vertexBuffer;
                 const vao = this.stageContext.createVao()
                     .addIndex(this.indexBuffer)
@@ -67,7 +67,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             if (this.currentIndex >= this.size) {
                 this.flush();
             }
-            if (!sprite.texture._uvs) {
+            if (!sprite.texture.uvs) {
                 return;
             }
             this.sprites[this.currentIndex++] = sprite;
@@ -86,7 +86,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             const touch = this.stageContext.textureGCCount;
             let index = 0;
             let nextTexture;
-            let currentTexture;
+            let currentTexture = null;
             let groupCount = 1;
             let textureCount = 0;
             let currentGroup = this.groups[0];
@@ -107,13 +107,13 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             let i;
             for (i = 0; i < this.MAX_TEXTURES; ++i) {
                 const bt = rendererBoundTextures[i];
-                if (bt._enabled === SpriteRenderer.TICK) {
+                if (bt.enabled === SpriteRenderer.TICK) {
                     boundTextures[i] = this.stageContext.emptyTextures[i];
                     continue;
                 }
                 boundTextures[i] = bt;
-                bt._virtalBoundId = i;
-                bt._enabled = SpriteRenderer.TICK;
+                bt.virtalBoundId = i;
+                bt.enabled = SpriteRenderer.TICK;
             }
             SpriteRenderer.TICK++;
             for (i = 0; i < this.currentIndex; ++i) {
@@ -131,7 +131,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 }
                 if (currentTexture !== nextTexture) {
                     currentTexture = nextTexture;
-                    if (nextTexture._enabled !== SpriteRenderer.TICK) {
+                    if (nextTexture.enabled !== SpriteRenderer.TICK) {
                         if (textureCount === this.MAX_TEXTURES) {
                             SpriteRenderer.TICK++;
                             currentGroup.size = i - currentGroup.start;
@@ -142,27 +142,27 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                             currentGroup.start = i;
                         }
                         nextTexture.touched = touch;
-                        if (nextTexture._virtalBoundId === -1) {
+                        if (nextTexture.virtalBoundId === -1) {
                             for (let j = 0; j < this.MAX_TEXTURES; ++j) {
                                 const tIndex = (j + SpriteRenderer.TEXTURE_TICK) % this.MAX_TEXTURES;
                                 const t = boundTextures[tIndex];
-                                if (t._enabled !== SpriteRenderer.TICK) {
+                                if (t.enabled !== SpriteRenderer.TICK) {
                                     SpriteRenderer.TEXTURE_TICK++;
-                                    t._virtalBoundId = -1;
-                                    nextTexture._virtalBoundId = tIndex;
+                                    t.virtalBoundId = -1;
+                                    nextTexture.virtalBoundId = tIndex;
                                     boundTextures[tIndex] = nextTexture;
                                     break;
                                 }
                             }
                         }
-                        nextTexture._enabled = SpriteRenderer.TICK;
+                        nextTexture.enabled = SpriteRenderer.TICK;
                         currentGroup.textureCount++;
-                        currentGroup.ids[textureCount] = nextTexture._virtalBoundId;
+                        currentGroup.ids[textureCount] = nextTexture.virtalBoundId;
                         currentGroup.textures[textureCount++] = nextTexture;
                     }
                 }
                 vertexData = sprite.vertexData;
-                uvs = sprite.texture._uvs.uvsUint32;
+                uvs = sprite.texture.uvs.uvsUint32;
                 if (this.stageContext.canvasRoundPixels) {
                     const resolution = this.stageContext.canvasResolution;
                     float32View[index] = ((vertexData[0] * resolution) | 0) / resolution;
@@ -191,7 +191,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 const alpha = Math.min(sprite.worldAlpha, 1.0);
                 const argb = alpha < 1.0 && nextTexture.premultipliedAlpha ? Utils_1.Utils.premultiplyTint(sprite.tintRGB, alpha) : sprite.tintRGB + (alpha * 255 << 24);
                 uint32View[index + 3] = uint32View[index + 8] = uint32View[index + 13] = uint32View[index + 18] = argb;
-                float32View[index + 4] = float32View[index + 9] = float32View[index + 14] = float32View[index + 19] = nextTexture._virtalBoundId;
+                float32View[index + 4] = float32View[index + 9] = float32View[index + 14] = float32View[index + 19] = nextTexture.virtalBoundId;
                 index += 20;
             }
             currentGroup.size = i - currentGroup.start;
@@ -199,7 +199,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 if (this.vaoMax <= this.vertexCount) {
                     this.vaoMax++;
                     const attrs = this.shader.attributes;
-                    const vertexBuffer = GLBuffer_1.GLBuffer.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
+                    const vertexBuffer = IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(this.stageContext.context, null, this.stageContext.context.STREAM_DRAW);
                     this.vertexBuffers[this.vertexCount] = vertexBuffer;
                     const vao = this.stageContext.createVao()
                         .addIndex(this.indexBuffer)
@@ -219,7 +219,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                 this.vertexBuffers[this.vertexCount].upload(buffer.vertices, 0, true);
             }
             for (i = 0; i < this.MAX_TEXTURES; ++i) {
-                rendererBoundTextures[i]._virtalBoundId = -1;
+                rendererBoundTextures[i].virtalBoundId = -1;
             }
             for (i = 0; i < groupCount; ++i) {
                 const group = this.groups[i];
@@ -230,7 +230,7 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
                         var bindedtex = currentTexture;
                         this.stageContext.bindTexture(currentTexture, group.ids[j], true);
                     }
-                    currentTexture._virtalBoundId = -1;
+                    currentTexture.virtalBoundId = -1;
                 }
                 this.stageContext.getRenderState().setBlendMode(group.blend);
                 this.stageContext.context.drawElements(this.stageContext.context.TRIANGLES, group.size * 6, this.stageContext.context.UNSIGNED_SHORT, group.start * 6 * 2);
@@ -250,6 +250,19 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
         }
         stop() {
             this.flush();
+        }
+        static createIndicesForQuads(size) {
+            const totalIndices = size * 6;
+            const indices = new Uint16Array(totalIndices);
+            for (let i = 0, j = 0; i < totalIndices; i += 6, j += 4) {
+                indices[i + 0] = j + 0;
+                indices[i + 1] = j + 1;
+                indices[i + 2] = j + 2;
+                indices[i + 3] = j + 0;
+                indices[i + 4] = j + 2;
+                indices[i + 5] = j + 3;
+            }
+            return indices;
         }
         destroy() {
             for (let i = 0; i < this.vaoMax; i++) {
@@ -282,8 +295,21 @@ define(["require", "exports", "flash/display3D/renderers/ObjectRenderer", "flash
             }
         }
     }
-    SpriteRenderer.TICK = 0;
+    SpriteRenderer.TICK = 1;
     SpriteRenderer.TEXTURE_TICK = 0;
     exports.SpriteRenderer = SpriteRenderer;
+    class Buffer extends BaseObject_1.BaseObject {
+        constructor(size) {
+            super();
+            this.vertices = new ArrayBuffer(size);
+            this.float32View = new Float32Array(this.vertices);
+            this.uint32View = new Uint32Array(this.vertices);
+        }
+        destroy() {
+            this.vertices = null;
+            this.float32View = null;
+            this.uint32View = null;
+        }
+    }
 });
 //# sourceMappingURL=SpriteRenderer.js.map

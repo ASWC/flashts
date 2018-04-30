@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/managers/Constants", "flash/rendering/core/shapes/BaseShape"], function (require, exports, Constants_1, BaseShape_1) {
+define(["require", "exports", "flash/rendering/managers/Constants", "flash/geom/shapes/BaseShape"], function (require, exports, Constants_1, BaseShape_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Rectangle extends BaseShape_1.BaseShape {

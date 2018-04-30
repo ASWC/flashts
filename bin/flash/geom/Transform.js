@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/math/TransformBase"], function (require, exports, TransformBase_1) {
+define(["require", "exports", "flash/geom/TransformBase"], function (require, exports, TransformBase_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Transform extends TransformBase_1.TransformBase {

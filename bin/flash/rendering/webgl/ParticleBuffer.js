@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/core/gl/VertexArrayObject", "flash/rendering/core/gl/GLBuffer", "./CreateIndicesForQuads"], function (require, exports, VertexArrayObject_1, GLBuffer_1, CreateIndicesForQuads_1) {
+define(["require", "exports", "flash/display3D/VertexBuffer3D", "flash/display3D/IndexBuffer3D"], function (require, exports, VertexBuffer3D_1, IndexBuffer3D_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class ParticleBuffer {
@@ -69,8 +69,8 @@ define(["require", "exports", "flash/rendering/core/gl/VertexArrayObject", "flas
              *
              * @member {Uint16Array}
              */
-            this.indices = CreateIndicesForQuads_1.CreateIndicesForQuads.createIndicesForQuads(this.size);
-            this.indexBuffer = GLBuffer_1.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+            this.indices = ParticleBuffer.createIndicesForQuads(this.size);
+            this.indexBuffer = IndexBuffer3D_1.IndexBuffer3D.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
             this.dynamicStride = 0;
             for (let i = 0; i < this.dynamicProperties.length; ++i) {
                 const property = this.dynamicProperties[i];
@@ -81,7 +81,7 @@ define(["require", "exports", "flash/rendering/core/gl/VertexArrayObject", "flas
             const dynBuffer = new ArrayBuffer(this.size * this.dynamicStride * 4 * 4);
             this.dynamicData = new Float32Array(dynBuffer);
             this.dynamicDataUint32 = new Uint32Array(dynBuffer);
-            this.dynamicBuffer = GLBuffer_1.GLBuffer.createVertexBuffer(gl, dynBuffer, gl.STREAM_DRAW);
+            this.dynamicBuffer = IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(gl, dynBuffer, gl.STREAM_DRAW);
             // static //
             let staticOffset = 0;
             this.staticStride = 0;
@@ -94,8 +94,8 @@ define(["require", "exports", "flash/rendering/core/gl/VertexArrayObject", "flas
             const statBuffer = new ArrayBuffer(this.size * this.staticStride * 4 * 4);
             this.staticData = new Float32Array(statBuffer);
             this.staticDataUint32 = new Uint32Array(statBuffer);
-            this.staticBuffer = GLBuffer_1.GLBuffer.createVertexBuffer(gl, statBuffer, gl.STATIC_DRAW);
-            this.vao = new VertexArrayObject_1.VertexArrayObject(gl)
+            this.staticBuffer = IndexBuffer3D_1.IndexBuffer3D.createVertexBuffer(gl, statBuffer, gl.STATIC_DRAW);
+            this.vao = new VertexBuffer3D_1.VertexBuffer3D(gl)
                 .addIndex(this.indexBuffer);
             for (let i = 0; i < this.dynamicProperties.length; ++i) {
                 const property = this.dynamicProperties[i];
@@ -145,6 +145,19 @@ define(["require", "exports", "flash/rendering/core/gl/VertexArrayObject", "flas
             this.staticBuffer = null;
             this.staticData = null;
             this.staticDataUint32 = null;
+        }
+        static createIndicesForQuads(size) {
+            const totalIndices = size * 6;
+            const indices = new Uint16Array(totalIndices);
+            for (let i = 0, j = 0; i < totalIndices; i += 6, j += 4) {
+                indices[i + 0] = j + 0;
+                indices[i + 1] = j + 1;
+                indices[i + 2] = j + 2;
+                indices[i + 3] = j + 0;
+                indices[i + 4] = j + 2;
+                indices[i + 5] = j + 3;
+            }
+            return indices;
         }
     }
     exports.ParticleBuffer = ParticleBuffer;

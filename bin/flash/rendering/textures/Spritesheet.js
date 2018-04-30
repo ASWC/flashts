@@ -1,4 +1,4 @@
-define(["require", "exports", "../webgl/Utils", "flash/geom/Rectangle", "./Texture"], function (require, exports, Utils_1, Rectangle_1, Texture_1) {
+define(["require", "exports", "../webgl/Utils", "flash/geom/Rectangle", "flash/display3D/textures/Texture"], function (require, exports, Utils_1, Rectangle_1, Texture_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Spritesheet {

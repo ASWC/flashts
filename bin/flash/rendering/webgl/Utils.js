@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/rendering/managers/Constants", "flash/rendering/core/gl/GLShader", "../../geom/Matrix", "../filters/Shaders"], function (require, exports, Constants_1, GLShader_1, Matrix_1, Shaders_1) {
+define(["require", "exports", "flash/rendering/managers/Constants", "flash/display3D/GLShader", "../../geom/Matrix", "../filters/Shaders", "../../display3D/types/DataTypes"], function (require, exports, Constants_1, GLShader_1, Matrix_1, Shaders_1, DataTypes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class Utils {
@@ -347,41 +347,24 @@ define(["require", "exports", "flash/rendering/managers/Constants", "flash/rende
             }
             return undefined;
         }
-        /**
-         * Split a data URI into components. Returns undefined if
-         * parameter `dataUri` is not a valid data URI.
-         *
-         * @memberof PIXI.utils
-         * @function decomposeDataUri
-         * @param {string} dataUri - the data URI to check
-         * @return {PIXI.utils~DecomposedDataUri|undefined} The decomposed data uri or undefined
-         */
         static decomposeDataUri(url) {
             var dataUriMatch = Constants_1.Constants.DATA_URI.exec(url);
             if (dataUriMatch) {
-                return {
-                    mediaType: dataUriMatch[1] ? dataUriMatch[1].toLowerCase() : undefined,
-                    subType: dataUriMatch[2] ? dataUriMatch[2].toLowerCase() : undefined,
-                    encoding: dataUriMatch[3] ? dataUriMatch[3].toLowerCase() : undefined,
-                    data: dataUriMatch[4]
-                };
+                var datauri = new DataTypes_1.DecomposedDataUri();
+                datauri.mediaType = dataUriMatch[1] ? dataUriMatch[1].toLowerCase() : undefined,
+                    datauri.subType = dataUriMatch[2] ? dataUriMatch[2].toLowerCase() : undefined,
+                    datauri.encoding = dataUriMatch[3] ? dataUriMatch[3].toLowerCase() : undefined,
+                    datauri.data = dataUriMatch[4];
+                return datauri;
             }
             return undefined;
         }
-        /**
-         * Get size from an svg string using regexp.
-         *
-         * @memberof PIXI.utils
-         * @function getSvgSize
-         * @param {string} svgString - a serialized svg element
-         * @return {PIXI.utils~Size|undefined} image extension
-         */
         static getSvgSize(svgString) {
             var sizeMatch = Constants_1.Constants.SVG_SIZE.exec(svgString);
-            var size = {};
+            var size = new DataTypes_1.SvgSize();
             if (sizeMatch) {
-                size[sizeMatch[1]] = Math.round(parseFloat(sizeMatch[3]));
-                size[sizeMatch[5]] = Math.round(parseFloat(sizeMatch[7]));
+                size.width = Math.round(parseFloat(sizeMatch[3]));
+                size.height = Math.round(parseFloat(sizeMatch[7]));
             }
             return size;
         }
@@ -580,8 +563,6 @@ define(["require", "exports", "flash/rendering/managers/Constants", "flash/rende
          * @return {string[]} Mapped modes.
          */
         static mapWebGLBlendModesToPixi(gl, array = []) {
-            // TODO - premultiply alpha would be different.
-            // add a boolean for that!
             array[Constants_1.Constants.BLEND_MODES.NORMAL] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.ADD] = [gl.ONE, gl.DST_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA];
@@ -599,7 +580,6 @@ define(["require", "exports", "flash/rendering/managers/Constants", "flash/rende
             array[Constants_1.Constants.BLEND_MODES.SATURATION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.COLOR] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.LUMINOSITY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-            // not-premultiplied blend modes
             array[Constants_1.Constants.BLEND_MODES.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE, gl.DST_ALPHA];
             array[Constants_1.Constants.BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_COLOR];

@@ -1,5 +1,5 @@
 import { BasePrepare } from "./BasePrepare";
-import { BaseTexture } from "../textures/BaseTexture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { Graphics } from "flash/display/Graphics";
 
 
@@ -82,7 +82,7 @@ export class WebGLPrepare extends BasePrepare
             // if the texture already has a GL texture, then the texture has been prepared or rendered
             // before now. If the texture changed, then the changer should be calling texture.update() which
             // reuploads the texture without need for preparing it again
-            if (!item._glTextures[renderer.CONTEXT_UID])
+            if (!item.glTextures[renderer.CONTEXT_UID])
             {
                 renderer.textureManager.updateTexture(item);
             }

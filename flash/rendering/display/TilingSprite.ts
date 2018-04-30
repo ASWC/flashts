@@ -1,9 +1,9 @@
 import { Bitmap } from "flash/display/Bitmap";
 import { Point } from "../../geom/Point";
-import { TransformStatic } from "../math/TransformStatic";
-import { TextureMatrix } from "../math/TextureMatrix";
-import { Texture } from "../textures/Texture";
-import { BaseTexture } from "../textures/BaseTexture";
+import { TransformStatic } from "flash/geom/TransformStatic";
+import { TextureMatrix } from "flash/display3D/textures/TextureMatrix";
+import { Texture } from "flash/display3D/textures/Texture";
+import { BaseTexture } from "flash/display3D/textures/BaseTexture";
 import { CanvasRenderTarget } from "./CanvasRenderTarget";
 import { Rectangle } from "flash/geom/Rectangle";
 import { CanvasTinter } from "../webgl/CanvasTinter";
@@ -73,7 +73,7 @@ export class TilingSprite extends Bitmap
          * @member {string}
          * @default 'tilingSprite'
          */
-        this.pluginName = 'tilingSprite';
+        //this.pluginName = 'tilingSprite';
 
         /**
          * Whether or not anchor affects uvs
@@ -190,16 +190,16 @@ export class TilingSprite extends Bitmap
         const resolution = renderer.resolution;
         const baseTexture = texture.baseTexture;
         const baseTextureResolution = baseTexture.resolution;
-        const modX = ((this.tilePosition.x / this.tileScale.x) % texture._frame.width) * baseTextureResolution;
-        const modY = ((this.tilePosition.y / this.tileScale.y) % texture._frame.height) * baseTextureResolution;
+        const modX = ((this.tilePosition.x / this.tileScale.x) % texture.frame.width) * baseTextureResolution;
+        const modY = ((this.tilePosition.y / this.tileScale.y) % texture.frame.height) * baseTextureResolution;
 
         // create a nice shiny pattern!
-        if (this._textureID !== this._texture._updateID || this.cachedTint !== this.tint)
+        if (this._textureID !== this._texture.updateID || this.cachedTint !== this.tint)
         {
-            this._textureID = this._texture._updateID;
+            this._textureID = this._texture.updateID;
             // cut an object from a spritesheet..
-            const tempCanvas = new CanvasRenderTarget(texture._frame.width,
-                                                        texture._frame.height,
+            const tempCanvas = new CanvasRenderTarget(texture.frame.width,
+                                                        texture.frame.height,
                                                         baseTextureResolution);
 
             // Tint the tiling sprite
@@ -211,7 +211,7 @@ export class TilingSprite extends Bitmap
             else
             {
                 tempCanvas.context.drawImage(baseTexture.source,
-                    -texture._frame.x * baseTextureResolution, -texture._frame.y * baseTextureResolution);
+                    -texture.frame.x * baseTextureResolution, -texture.frame.y * baseTextureResolution);
             }
             this.cachedTint = this.tint;
             this._canvasPattern = tempCanvas.context.createPattern(tempCanvas.canvas, 'repeat');

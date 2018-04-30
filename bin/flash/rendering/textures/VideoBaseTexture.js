@@ -1,4 +1,4 @@
-define(["require", "exports", "./BaseTexture", "flash/utils/Timer", "../managers/Constants", "../webgl/Utils", "flash/events/Event"], function (require, exports, BaseTexture_1, Timer_1, Constants_1, Utils_1, Event_1) {
+define(["require", "exports", "flash/display3D/textures/BaseTexture", "flash/utils/Timer", "../managers/Constants", "../webgl/Utils", "flash/events/Event"], function (require, exports, BaseTexture_1, Timer_1, Constants_1, Utils_1, Event_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class VideoBaseTexture extends BaseTexture_1.BaseTexture {

@@ -1,4 +1,4 @@
-define(["require", "exports", "flash/geom/Rectangle", "flash/rendering/core/gl/GLShader", "./Utils", "./RenderTarget", "flash/events/Event"], function (require, exports, Rectangle_1, GLShader_1, Utils_1, RenderTarget_1, Event_1) {
+define(["require", "exports", "flash/geom/Rectangle", "flash/display3D/GLShader", "./Utils", "flash/display3D/textures/RenderTarget", "flash/events/Event"], function (require, exports, Rectangle_1, GLShader_1, Utils_1, RenderTarget_1, Event_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class FilterManager // extends WebGLRenderer
@@ -379,7 +379,7 @@ define(["require", "exports", "flash/geom/Rectangle", "flash/rendering/core/gl/G
                 // internally - this will cause a texture to be bound..
                 renderTarget = new RenderTarget_1.RenderTarget(gl, minWidth, minHeight, null, 1);
                 // set the current one back
-                gl.bindTexture(gl.TEXTURE_2D, tex._glTextures[this.stageContext.getContextID()].texture);
+                gl.bindTexture(gl.TEXTURE_2D, tex.glTextures[this.stageContext.getContextID()].texture);
             }
             // manually tweak the resolution...
             // this will not modify the size of the frame buffer, just its resolution.

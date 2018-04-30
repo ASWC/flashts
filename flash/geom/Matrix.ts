@@ -1,6 +1,6 @@
 import { Point } from "flash/geom/Point";
 import { Constants } from "flash/rendering/managers/Constants";
-import { TransformBase } from "flash/rendering/math/TransformBase";
+import { TransformBase } from "flash/geom/TransformBase";
 
 export class Matrix
 {
